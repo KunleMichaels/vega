@@ -1,6 +1,9 @@
 # SocialEdge Vega <img src="https://api.travis-ci.org/socialedge/vega.svg?branch=develop">
 Vega is an electronic transit fare payment system that is intended to become a convenient, fast and reliable way to pay for transit.
 
+## Documentation
+Documentation for this project is available [here](docs/).
+
 ## Bugs and Feedback
 For bugs, questions and discussions please use the [Github Issues](https://github.com/socialedge/vega/issues).
 
