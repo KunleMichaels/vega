@@ -5,3 +5,4 @@ This section gives you a high level overview of Vega's core concepts and its arc
 ## Contents
 * [Overview](overview.md)
 * [Use Cases](usecases.md)
+* [Boarding](boarding.md)
