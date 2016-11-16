@@ -3,6 +3,7 @@ Welcome to Vega documentation! Here we explain the Vega platform, core concepts,
 
 # Contents
 * [Overview](overview/)
+* [Architecture](architecture/)
 * [Coding Conventions](coding-conventions/)
 * [Contribution](contribution/)
 * [Release Management](release-mgmt/)
