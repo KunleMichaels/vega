@@ -2,7 +2,7 @@
 Welcome to Vega documentation! Here we explain the Vega platform, core concepts, solution architecture and provide guidelines for contributors and developers.
 
 # Contents
-* [Overview](overview.md)
+* [Overview](overview/)
 * [Coding Conventions](coding-conventions/)
 * [Contribution](contribution/)
 * [Release Management](release-mgmt/)

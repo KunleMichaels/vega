@@ -32,8 +32,14 @@ Our goal is to provide **open** extendable platform and tools to make our cities
   You don't require to print any receipts. All this data is available online and each passenger can retrieve them via the website.
 
 ## How does it work?
+<p align="center">
+  <img width="512px" src="https://cloud.githubusercontent.com/assets/5632544/20359397/ed059f0e-ac2f-11e6-8ce2-81595598bcab.png"/>
+</p>
 Vega utilizes RFID and NFC contactless technologies for passenger identification and payments. The solution consists of 3 main components: boarding terminal (a RFID/NFC scanner), backend and frontend applications. 
 
 Boarding terminals are directly responsible for identifying passenger and payment process. When a regular passenger wants to board with Vega, he taps the terminal with his payment card (PayPass or VisaWave) and purchases a transit. 
+<p align="center">
+  <img width="580px" src="https://cloud.githubusercontent.com/assets/5632544/20359144/d72cf73c-ac2e-11e6-9baa-9dd346c36ac4.png"/>
+</p>
 
 A regular passenger can register an account online in Vega via the website to access more features. The Contactless Payment Card of a registered passenger becomes not only his payment option but his account's identifier too. That allows buying different transit passes (city cards), review the transaction history, add new Payment Cards or any other Contactless Smart Card and tie them with different passes.
