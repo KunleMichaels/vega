@@ -48,6 +48,8 @@ $RECYCLE.BIN/
 gradle-app.setting
 !gradle-wrapper.jar
 .gradletasknamecache
+gradle/
+gradlew*
 
 # Application
 *.log

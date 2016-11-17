@@ -1,0 +1,11 @@
+ext {
+    versions = [
+            junit: '4.12',
+            mockito: '2.0.2-beta'
+    ]
+
+    libraries = [
+            junit: "junit:junit:${versions.junit}",
+            mockito: "org.mockito:mockito-all:jar:${versions.mockito}"
+    ]
+}
