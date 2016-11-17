@@ -10,7 +10,7 @@ The following use case diagrams introduce the actors and the high-level use case
 ### Terminal
 
 #### UC1: Board with contactless smart card
-The Passenger uses his contactless smart(/payment) card as an identifier to his registered account. When Passenger touch Boarding Terminal (BT) with a card, BT extracts card details and sends them to the backend for processing. If backend found a valid transit pass, it will send the signal to pass Passenger immediately (extension point 1) otherwise, BT will offer to pay for a transit using any payment card available in account's wallet.
+Passenger uses his contactless smart(/payment) card as an identifier to his registered account. When Passenger touch Boarding Terminal (BT) with a card, BT extracts card details and sends them to the backend for processing. If backend found a valid transit pass, it will send the signal to pass Passenger immediately (extension point 1) otherwise, BT will offer to pay for a transit using any payment card available in account's wallet.
 
 #### UC2: Board with contactless ticket
 Passenger can also use contactless tickets. Each ticket's RFID/NFC tag id is tired with "headless" transit pass that isn't assigned to any user.
@@ -25,3 +25,15 @@ Pass (Subscription, Travel Card etc) are is a ticket that allows a passenger of 
 
 #### UC6: View transaction
 All Passenger's transaction are recorded into Vega's database. Passenger can trace each transaction ever made with any card that was associated with his account's wallet anytime (even if a card was deleted from wallet, transaction history for this cards must be present).
+
+## Guest
+<p align="center">
+  <img width="650px" src="https://cloud.githubusercontent.com/assets/5632544/20388015/322e90de-acc3-11e6-9cc4-4c120e847570.png"/>
+</p>
+**Guest** is a mass transit operator's customer that has **not** registered an account.
+
+#### UC7: Board with contactless ticket
+Guest can use contactless tickets to board. Each ticket's RFID/NFC tag id is tired with "headless" transit pass that isn't assigned to any account.
+
+#### UC8: Pay with contactless payment card
+Since Guest has no account, contactless payment card isn't used as an identifier (see UC1). In that case, Guest's Contactless Payment Card is used the same way you pay in store: touch, pay & board.
