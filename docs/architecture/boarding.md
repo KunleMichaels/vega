@@ -2,7 +2,7 @@
 Boarding process starts when Passenger touches the Boarding Terminal with his Contactless Smart Card or Ticket. The interaction between different components in boarding scenario is described in the following diagrams:  
 
 <p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20387633/56aaa670-acc1-11e6-9d72-27546fbc0fc8.png"/>
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20408129/76a54ffe-ad14-11e6-8c97-46168c186360.png"/>
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@ Boarding process starts when Passenger touches the Boarding Terminal with his Co
 </p>
 
 <p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20387655/743f5d34-acc1-11e6-9784-4d698bc3505f.png"/>
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20408176/96e5e7a6-ad14-11e6-983a-103483762c26.png"/>
 </p>
 
 <p align="center">
