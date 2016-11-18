@@ -1,4 +1,4 @@
-# Vega Architecture Overview
+# Vega Architecture
 
 This section gives you a high level overview of Vega's core concepts and its architecture.
 

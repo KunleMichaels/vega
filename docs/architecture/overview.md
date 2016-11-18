@@ -4,7 +4,7 @@ Transit fare systems like Vega must be robust, scalable, fault-tolerant and high
 A running Vega system contains backend platform, frontend application and boarding terminal device. This diagram shows very hight level components, though we're still working on a few things.
 
 <p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20363924/718aae34-ac41-11e6-83f4-9e38f8154420.png"/>
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20445226/7a3f05d6-add4-11e6-935b-c97d19d6b4c6.png"/>
 </p>
 
 The Vega’s heart is backend platform that is responsible for fare and customer management, payments and boarding process. Communication between backend components is fully asynchronically and message-driven.
