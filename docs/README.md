@@ -1,99 +1,181 @@
 # SocialEdge Vega Documentation
 Welcome to Vega documentation! Here we explain the Vega platform, core concepts, solution architecture and provide guidelines for contributors and developers.
 
+## Help to improve this documentation
+The Vega documentation is hosted on GitHub, and we welcome your feedback.
+Click the Edit this page on GitHub link at the top of a documentation page to open the file in our GitHub repository, where you are invited to suggest changes by creating pull requests or open a discussion by creating an issue.
+
+## Contact us
+Feel free to contact the documentation team directly at <a href="mailto:vega.docs@socialedge.eu">vega.docs@socialedge.eu</a>
+
 # Contents
-* [Overview](#overview)
-* [Architecture](#architecture)
+* [Vision Statement](#vision-statement)
+* [Definitions](#definitions)
+* [Software Requirements Specification](#software-requirements-specification)
+  * [Overview](#overview)
+  * [Goals and Objectives](#goals-and-objectives)
+  * [Scope](#scope)
+  * [General Design Constraints](#general-design-constraints)
+  * [Nonfunctional Requirements](#nonfunctional-requirements)
+  * [System Features](#system-features)
+* [Architecture Design](#architecture-design)
 * [Coding Conventions](#coding-conventions)
 * [Contribution](#contribution)
 * [Release Management](#release-management)
 
-# Overview
-Vega is an electronic transit fare payment system that is intended to become a convenient, fast and reliable way to pay for transit that was inspired by Chicago’s [Venta](https://www.youtube.com/watch?v=Onlt0WEems4) project. It allows customers to pay or utilize transit passes (mostly) in one tap.
+# Vision Statement
+Vega is a Chicago Venta-inspired electronic transit fare system designed for passengers of mass transit operators, that is intended to become a convenient, fast and reliable way to pay for transit. Unlike most fare systems in Europe, Vega is a contactless in mind system, that focuses on reusing of existing customer’s contactless devices such as contactless credit cards and mobile NFC-enabled devices but with keeping compatibility with old card infrastructure (e.g. Mirfare City Cards) and traditional ticketing by RFID technology utilization.
 
-Our goal is to provide **open** extendable platform and tools to make our cities smarter with affordable fare payment system.
+Our goal is to provide open extendable platform and tools to make cities smarter with affordable fare payment system.
 
-## Features
-* **Contactless in mind**
+# Definitions
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this documentation are to be interpreted as described in RFC 2119.
 
-  Vega's main goal is to simplify transit payments and minimize customer actions, therefore it relies heavily on contactless smart cards and devices.
+- **Use case** – describes a goal-oriented interaction between the system and an actor. A use case may define several variants called scenarios that result in different paths through the use case and usually different outcomes.
+- **Product** or **Application** or **System** – what is being described in this documentation; the software system specified in this documentation.
+- **Operator** – an operator of mass transit.
+- **Payment credit card record** or **Payment credit card**  – a record in the system that contains all information about a credit card that allows charging a passenger bank account.
+- **Transit value** - money “stored” on a deattached contactless device that’s used to pay for regular fares.
+- **Contactless device** – any item that contains RFID or NFC tag which is used to identify a passenger.
+- **Transit account** – a virtual account in the system that has a passenger’s payment credit card record and a set of contactless devices attached to it.
+- **Shadow transit account** – a transit account of unregistered passenger. Such account has no payment credit card record, transit value for payment operations is used instead.
+- **Attached contactless device** – any contactless devices attached to transit account.
+- **Deattached contactless device** – any contactless devices, that are not attached to a transit account (contactless tickets mostly) or attached to a shadow transit account
+- **Check-in** – a passenger boarding process that includes transit pass purchasing or utilization
+- **Check-out** – time when passenger registers his leaving a public transport vehicle.
+- **Frontend** – the user interface application.
+- **Backend** – the business and computing layer of the Vega system.
+- **Registered passenger** – a passenger, which uses attached contactless device for check-in and check-out.
+- **Unregistered passenger** – a passenger, which uses deattached contactless device for check-in and check-out.
+- **Transit pass**, **pass** – a ticket that allows a passenger of the service to take either a certain number of pre-purchased trips or unlimited trips within a fixed period.
 
-* **Reusing of existing Smart Card infrastructure**
+# Software Requirements Specification
+## Overview
+Vega is a system designed to be an electronic transit fare system that simplifies transit payments and minimize customer actions, therefore it relies heavily on contactless smart cards and devices. Vega handles passenger check-in and check-out, logging, payment transaction processing and transit pass utilization. Once passenger registered in Vega system, he can attach multiple contactless devices, buy and assign transit passes to them, view transaction via web-interface and use them to pay for transit.
+
+The purpose of the software requirement specification section is to list the application’s requirements in a manner that can be easily understood and verified by the operators, yet provide enough details so that the SocialEdge team and contributors can build the application using the details contained herein. It does not address any project issues such as schedule, development methods, development phases, deliverables or testing procedures.
+
+## Goals and Objectives
+The main goals of this application are to develop open and extendable transit fare platform and tools that will provide the following:
+
+1. Simple transit payments with fewer customer actions by utilization contactless technologies;
+2. Reusing of existing contactless devices such as contactless credit cards, RFID-enabled tickets, and mobile NFC-enabled devices;
+3. Paperless accounting;
+4. Full logging of payments and transit pass utilization;
+5. Tools for settlement with operators based on logging statistics.
+
+## Scope
+The Vega platform covers the entire fare handling flow: from transit pass handling and fare inspection tools to means of a settlement with operators. Nevertheless, it takes part in neither transit tariffs calculations nor payment processing which is delegated to third-party payment gateways.
+
+## General Design Constraints
+### Product Environment
+The product may operate in the environment, where many different operators are present and each of them has their own set of defined tariffs. Therefore, Vega should provide fluent migration process. During the migration, Vega should support old contactless devices such as Mirfare City Cards.
+
+The Vega system consists of three main components: backend, frontend and boarding terminal. Each of them has their own environment boundaries.
+
+<p align="center">
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20643938/58cb76a2-b426-11e6-903b-20deed0bd2da.png"/>
+</p>
+
+The backend resides on IaaS/CaaS/SaaS cloud and utilizes such its components as a load balancer, virtualization tools, network tools and firewalls. Moreover, backend requires external RDBMS that resides on the same cloud.
+
+The frontend application shares the same environment with the backend, except RDBMS. In addition, it requires a web server, where it’s deployed.
+
+The boarding terminal resides in public transport vehicles and requires stable connection to the backend application via the Internet. It may also require connection to a vehicle’s cockpit to receive data about the vehicle position and generate terminal installation details, required for transaction processing.
+
+### User Characteristics
+The following categories of users can be distinguished for this application:
+
+1. **Passengers**, primary, secondary students and adults with varying computer technology proficiencies, who are the primary users of the user interface and boarding terminals.
+2. **Administrative assistants**, who manage mass transit operators’ accounts and mediate settlements with mass transit operators.  The administrative assistants are probably the least technically trained of all the users.
+3. Mass transit operators’ **management staff**, who maintains any operator related data such as available transit passes, tariffs etc. Management staff is probably the most technically trained users.
+
+### Mandated Constraints
+1. The application must not use any proprietary software: libraries, database management system, programming language, operating system etc.
+
+## Nonfunctional Requirements
+### Usability Requirements
+1. Boarding terminal’s interface elements (e.g. menus) should be big enough to be easy to hit for people with poor vision: min font size - 0.26º (visual arc), padding = font size.
+2. The interface actions and elements should be consistent.
+3. Error messages should explain how to recover from the error.
+4. Actions which cannot be undone should ask for confirmation.
+5. The system may be customizable to meet specific operators’ needs.
+
+### Operational Requirements
+1. The users’ environment is noisy so the system shouldn’t depend on the user hearing the audible output.
+2. A boarding terminal shall be used by a passenger, standing up in a place with limited room for movements.
+3. The frontend application must be able to interface with any modern HTML browser.
+
+### Performance Requirements
+1. The operations carried out in the system on a passenger request using a boarding terminal must respond within 4 seconds.
+2. The system must support up to the half area’s population operatable by system concurrent users.
+3. The system must meet or exceed 99% uptime.
+4. The system must not be unavailable more than 1 hour per 1000 hours of operation.
+
+### Security Requirements
+1. The application shall identify all its client applications before allowing them to use its capabilities.
+2. Classified data (confidential or strictly confidential such as credit card details) must be encrypted while data transmission or storing and provide end-to-end encryption.
+
+### Legal Requirements
+1. Each payment operation carried out in the system must be followed with a printable receipt.
+2. The passenger’s credit card details must be visible to this passenger only.
+3. For shared transit pass definitions, a settlement with operators must consider the pass usage statistics.
+
+### External: User Interface
+The boarding terminal’s home screen may offer nothing but a hint to use the passenger’s contactless device (registered on his account) to board the vehicle. The buy screen (which appears in the case of lack of eligible transit pass) should offer a very short list of clickable buttons with transit passes to purchase.
+
+The frontend application’s interface should follow the Google Material Design Style Guide. It must be clear for passengers and not overloaded with text or web elements.
+
+## System Features
+### Feature: Board the public transit vehicle (registered passenger)
+<p align="center">
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20643968/1fad9412-b427-11e6-8b71-ca53e5630ea7.png"/>
+</p>
+A registered passenger may use his attached contactless device to check-in a public transit vehicle. During the check-in, the passenger utilizes available transit pass or purchases new one.
  
-  There is no need to pack customers’ wallets with new cards, use theirs existing contactless cards instead. This allows to get rid of overpriced vending machines and achieve a huge cost cut.
+In the case of purchasing new transit pass, the registered passenger will be charged using primary payment credit card record.
+
+Check-out is an optional feature which may be forced by an operator.
+
+- **Cost:** high
+- **Risk:** high
+- **Value:** high
+
+### Feature: Board the public transit vehicle (unregistered user)
+<p align="center">
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20643998/8bfbefe2-b427-11e6-9e79-36c28bb8cfec.png"/>
+</p>
+
+When an unregistered passenger’s contactless device interacts with the system to purchase a pass for the first time, the system creates a shadow transit account and attaches used contactless device to it. The system skips creating a payment credit card record and creates transit value record instead. The passenger can top-up the transit value then and buy a pass.
+
+It comes in handy for migration and backward compatibility with the old fare systems, because it allows the passengers to use their old cards in the same way they used them before the Vega system even without registration.
+
+This feature also covers deattached contactless tickets processing and any other contactless device that a passenger may not want to register.
+
+The check-in and check-out processes are conducted in the same way as described in the previous feature, except purchasing a pass case, where transit value is used instead of charging account using a payment credit card record.
+
+- **Cost:** high
+- **Risk:** high
+- **Value:** medium
+
+### Feature: Account Management System (registered user)
+<p align="center">
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20644010/d35f6710-b427-11e6-86a1-1efcd48f8c99.png"/>
+</p>
+A registered passenger has an access to Account Management System via the frontend application’s user interface, where he can manage contactless devices used to identify his account, manage payment credit cards records, buy a transit pass, assign passes to contactless devices and view payment transaction.
+
+### Feature: Account Management System (unregistered user)
+<p align="center">
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20644019/ec92d154-b427-11e6-9931-914f214cd3c2.png"/>
+</p>
+
+In the context of account management system use case, an unregistered passenger can sign-in and sign-up to the system.
+
+If the unregistered passenger has no any deattached contactless devices with transit value, he registers new, greenfield account.
  
-  The primary option for Vega is to use contactless **payment** cards but it's perfectly ok to allow customers to pin almost (ePassports, ISO 14443-4, MRTD, are not supported) every  NFC/RFID device or card. It comes in handy when you want to keep backward compatibility with old solutions, such as prepaid Mifare Classic cards that are widely used in Europe. Legacy vending machines that can read NFC/RFID tags also can be kept. The only thing needed is the Internet connection.
+An unregistered passenger may also want to register a regular transit account and attach deattached contactless device to it. In this case, transit value will be used as a primary payment method. Once transit value becomes empty, the system will destroy it and a payment credit card record is used instead.
 
-* **Different business models**
-  
-  Besides traditional pay for transit in place model, Vega supports transit passes - a ticket that allows a passenger of the service to take either a certain number of pre-purchased trips or unlimited trips within a fixed period of time. Customers can buy and assign them in their web account.
-
-* **Multiple contactless devices for one account**
-
-  Vega doesn't force a customer to create a separate account for each payment card or smart device. It's allowed to have multiple enabled passes that are assigned to different cards under the same account.  
-  
-* **Loggable**
-
-  Every transaction and boarding are loggable and provides the information when, where and by whom they were fulfilled. This makes an accounting with subcontractors simple and allows to perform advanced analytics. 
-  
-* **Paperless**
-
-  You don't require to print any receipts. All this data is available online and each passenger can retrieve them via the website.
-
-## How does it work?
-<p align="center">
-  <img width="512px" src="https://cloud.githubusercontent.com/assets/5632544/20359397/ed059f0e-ac2f-11e6-8ce2-81595598bcab.png"/>
-</p>
-Vega utilizes RFID and NFC contactless technologies for passenger identification and payments. The solution consists of 3 main components: boarding terminal (a RFID/NFC scanner), backend and frontend applications. 
-
-Boarding terminals are directly responsible for identifying passenger and payment process. When a regular passenger wants to board with Vega, he taps the terminal with his payment card (PayPass or VisaWave) and purchases a transit. 
-<p align="center">
-  <img width="580px" src="https://cloud.githubusercontent.com/assets/5632544/20359144/d72cf73c-ac2e-11e6-9baa-9dd346c36ac4.png"/>
-</p>
-
-A regular passenger can register an account online in Vega via the website to access more features. The Contactless Payment Card of a registered passenger becomes not only his payment option but his account's identifier too. That allows buying different transit passes (city cards), review the transaction history, add new Payment Cards or any other Contactless Smart Card and tie them with different passes.
-
-## Use Cases
-The following use case diagrams introduce the actors and the high-level use cases they can perform.
-
-### Passenger
-<p align="center">
-  <img width="650px" src="https://cloud.githubusercontent.com/assets/5632544/20366994/da476474-ac4d-11e6-9f42-c65c62b7e4f9.png"/>
-</p>
-**Passenger** is a mass transit operator's customer that has a registered account.
-
-#### Terminal
-
-##### UC1: Board with contactless smart card
-Passenger uses his contactless smart(/payment) card as an identifier to his registered account. When Passenger touch Boarding Terminal (BT) with a card, BT extracts card details and sends them to the backend for processing. If backend found a valid transit pass, it will send the signal to pass Passenger immediately (extension point 1) otherwise, BT will offer to pay for a transit using any payment card available in account's wallet.
-
-##### UC2: Board with contactless ticket
-Passenger can also use contactless tickets. Each ticket's RFID/NFC tag id is tired with "headless" transit pass that isn't assigned to any user.
-
-#### Account Management System
-
-##### UC4: Manage cards
-Each account has its own wallet, where all Passenger's cards live. These cards are used to buy a transit pass, to pay for a transit and to identify Passenger. Each card that handles identifying function, can by connected with a transit pass. It's allowed to use even non-contactless, but in this case, such card cannot be used as an identifier, therefore it's allowed to assign passes to such cards. 
-
-##### UC5: Buy and assign pass
-Pass (Subscription, Travel Card etc) are is a ticket that allows a passenger of the service to take either a certain number of pre-purchased trips or unlimited trips within a fixed period of time. Passenger can buy a pass with any card buy it can be assigned to exactly one **contactless** card and **only once**. Each contactless card can have 0 or more passes assigned.
-
-##### UC6: View transaction
-All Passenger's transaction are recorded into Vega's database. Passenger can trace each transaction ever made with any card that was associated with his account's wallet anytime (even if a card was deleted from wallet, transaction history for this cards must be present).
-
-### Guest
-<p align="center">
-  <img width="650px" src="https://cloud.githubusercontent.com/assets/5632544/20388015/322e90de-acc3-11e6-9cc4-4c120e847570.png"/>
-</p>
-**Guest** is a mass transit operator's customer that has **not** registered an account.
-
-##### UC7: Board with contactless ticket
-Guest can use contactless tickets to board. Each ticket's RFID/NFC tag id is tired with "headless" transit pass that isn't assigned to any account.
-
-##### UC8: Pay with contactless payment card
-Since Guest has no account, contactless payment card isn't used as an identifier (see UC1). In that case, Guest's Contactless Payment Card is used the same way you pay in store: touch, pay & board.
-
-# Architecture
+# Architecture Design
 
 This section gives you a high level overview of Vega's core concepts and its architecture.
 
@@ -149,11 +231,6 @@ We are adhering to Google's [Style Guide](https://google.github.io/styleguide/) 
  * [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
  * [Google AngularJS Style Guide](https://google.github.io/styleguide/angularjs-google-style.html)
 
-###Some reasons for following conventions
-* 80% of the lifetime cost of a piece of software goes to maintenance.
-* Hardly any software is maintained for its whole life by the original author.
-* Code conventions improve the readability of the software, allowing engineers to understand new code more quickly and thoroughly.
-
 # Contribution
 
 This section provides detailed instructions on the contribution workflow. Please follow these guidelines to keep the  project management quality consistent.
@@ -205,7 +282,9 @@ The only branch where developers can contribute their regular changes is `develo
 
 #### Feature Branches
 Each new feature should reside in its own branch, which can be pushed to the central repository for backup/collaboration. But, instead of branching off of `master`, feature branches use `develop` as their parent branch. When a feature is complete, it gets merged back into `develop`. Features should never interact directly with `master`.
-![](https://www.atlassian.com/git/images/tutorials/collaborating/comparing-workflows/gitflow-workflow/03.svg)
+<p align="center">
+  <img width="600px" src="https://www.atlassian.com/git/images/tutorials/collaborating/comparing-workflows/gitflow-workflow/03.svg"/>
+</p>
 
 **Conventions:**
 * branch off: `develop`
@@ -216,7 +295,9 @@ Each new feature should reside in its own branch, which can be pushed to the cen
 Hotfix branches are used to quickly patch production releases. This is the only branch that should fork directly off of `master`. As soon as the fix is complete, it should be merged into both `master` and `develop` (or the current release branch), and `master` should be tagged with an updated version number.
 
 Having a dedicated line of development for bug fixes lets EdgePay team address issues without interrupting the rest of the workflow or waiting for the next release cycle. You can think of maintenance branches as ad-hoc release branches that work directly with master.
-![](https://www.atlassian.com/git/images/tutorials/collaborating/comparing-workflows/gitflow-workflow/05.svg)
+<p align="center">
+  <img width="600px" src="https://www.atlassian.com/git/images/tutorials/collaborating/comparing-workflows/gitflow-workflow/05.svg"/>
+</p>
 
 **Conventions:**
 * branch off: `master`
@@ -320,7 +401,9 @@ When submitting pull requests, please provide:
 ## GitFlow Release
 
 Once `develop` has acquired enough features for a release (or a predetermined release date is approaching), a release branch will be forked off of `develop`. Creating this branch starts the next release cycle, so no new features can be added after this point—only bug fixes, documentation generation, and other release-oriented tasks should go in this branch. Once it's ready to ship, the release gets merged into `master` and tagged with a version number. In addition, it should be merged back into `develop`, which may have progressed since the release was initiated.
-![](https://www.atlassian.com/git/images/tutorials/collaborating/comparing-workflows/gitflow-workflow/04.svg)
+<p align="center">
+  <img width="600px" src="https://www.atlassian.com/git/images/tutorials/collaborating/comparing-workflows/gitflow-workflow/04.svg"/>
+</p>
 
 **Conventions:**
 * branch off: `develop`
@@ -341,11 +424,3 @@ Given a version number MAJOR.MINOR.PATCH, increment the:
 Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
 
 More info [http://semver.org/spec/v2.0.0.html](on semver.org).
-
-# Help to improve this documentation
-The Vega documentation is hosted on GitHub, and we welcome your feedback.
-
-Click the Edit this page on GitHub link at the top of a documentation page to open the file in our GitHub repository, where you are invited to suggest changes by creating pull requests or open a discussion by creating an issue.
-
-## Contact us
-Feel free to contact the documentation team directly at <a href="mailto:vega-docs@socialedge.eu">vega-docs@socialedge.eu</a>
