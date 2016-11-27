@@ -19,6 +19,12 @@ Feel free to contact the documentation team directly at <a href="mailto:vega.doc
   * [Nonfunctional Requirements](#nonfunctional-requirements)
   * [System Features](#system-features)
 * [Architecture Design](#architecture-design)
+  * [Logical View](#logical-view)
+    * [High-Level Design](#high-level-design)
+    * [Mid-Level Design](#mid-level-design)
+  * Data View
+  * User Interface View
+  * [Deployment View](#deployment-view)
 * [Coding Conventions](#coding-conventions)
 * [Contribution](#contribution)
 * [Release Management](#release-management)
@@ -180,42 +186,79 @@ An unregistered passenger may also want to register a regular transit account an
 This section gives you a high level overview of Vega's core concepts and its architecture.
 
 ## Architecture Overview
+The purpose of this document is to describe the architecture and design of the Vega application in a way that addresses the interests and concerns of developers, DevOps and UX/UI developers.
+
+This document provides a comprehensive architectural overview of the system, using a number of different architectural views to depict different aspects of the system:
+
+1.	**Logical View** includes major components, their attributes and operations. This view also includes relationships between components and their interactions;
+2.	**Data View** describes how and where application’s data is persisted; 
+3.	**User Interface View** includes UI prototypes; 
+4.	**Deployment View** describes how system components will be physically deployed.
+
+It is intended to capture and convey the significant architectural decisions which have been made on the system.
+
+### Logical View
+The Vega application is divided into layers based on the 3-tier architecture:
+
+<p align="center">
+  <img width="300px" src="https://cloud.githubusercontent.com/assets/5632544/20664567/0fd07d26-b55c-11e6-98ee-1f77aec4322b.png"/>
+</p>
+
+The layering model of the online catering application is based on a responsibility layering strategy that associates each layer with a particular responsibility. 
+
+This strategy has been chosen because it isolates various system responsibilities from one another, so that it improves both system development and maintenance.
+
+#### High-Level Design
+The high-level view or architecture consists of three major components:
+
+<p align="center">
+  <img width="400px" src="https://cloud.githubusercontent.com/assets/5632544/20665258/30a5ab5e-b55f-11e6-8cc2-3a5416da471d.png"/>
+</p>
+
+* The **frontend application** provides UI for managing a passenger’s account (passenger’s wallet, transit passes, transit value) and provides a dashboard for administrative assistants and management staff.
+* The **boarding terminal** is a device that resides in public transport vehicles that a passenger uses to check-in and check-out.
+* The **backend application** contains business logic and serves the frontend application and the boarding terminal.
+
+#### Mid-Level Design
 Transit fare systems like Vega must be robust, scalable, fault-tolerant and highly available. That's why we've chosen a **stateless**, **event-driven** **microservice** architecture. 
 
 A running Vega system contains backend platform, frontend application and boarding terminal device. This diagram shows very hight level components, though we're still working on a few things.
 
 <p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20445226/7a3f05d6-add4-11e6-935b-c97d19d6b4c6.png"/>
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20664656/6543303c-b55c-11e6-8e93-0f4395bae085.png"/>
 </p>
 
-The Vega’s heart is backend platform that is responsible for fare and customer management, payments and boarding process. Communication between backend components is fully asynchronically and message-driven.
+* The **Customer Microservice** is responsible for handling all customer-related activities: passenger and operator registration, passenger wallet managing.
+* The **Fare Microservice** manages fare tariffs and transit passes.
+* The **Boarding Microservice** is responsible for passengers’ boarding: check-in and check-out. Makes a decision whether the passenger is eligible to board or not.
+* The **Payment Microservice** handles all payment-related activities such as settlement with operators, and transit purchasing.
+* The **Boarding Terminal Firmware** provides high-level API for a boarding terminal device.
+* The **API Gateway** manages all microservices’ API and proxy request from the outside world (a boarding terminal or the frontend application) directly to particular microservice.
 
-API Gateway provides a centralized proxy for external calls to backend component from fronted and terminal. Frontend is a standalone JS application, while Boarding Terminal is operated by its firmware. Both, Frontend and Boarding Terminal consume REST Gateway's API. 
+##### Boarding
+Boarding process starts when a passenger touches the boarding terminal with his contactless device. The interaction between different components in boarding scenario is described in the following diagrams:
 
 <p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20384102/c7d20816-acb2-11e6-8a10-e888adfcc4d8.png"/>
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20664976/f44c1d88-b55d-11e6-9719-e14255657c31.png"/>
+</p>
+<p align="center">
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20664994/06ab2aaa-b55e-11e6-9a91-cd1ee8662d47.png"/>
+</p>
+<p align="center">
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20665005/14498e72-b55e-11e6-9e20-ab25844161ae.png"/>
 </p>
 
-Each service, gateway and frontend application are deployed in theirs own Docker container on Google Kubernets CaaS that provides infrastructure, Service Registry, Service Discovery and Load Balancing features (to simplify the diagram, Docker containers and many K8s internal thighs, like Service Registry, were omitted).
-
-## Vega Boarding
-Boarding process starts when Passenger touches the Boarding Terminal with his Contactless Smart Card or Ticket. The interaction between different components in boarding scenario is described in the following diagrams:  
+### Deployment View
+The Frontend application and backend’s components are deployed inside Docker container on a Kubernetes-enabled cloud provider that provides infrastructure, Service Registry, Service Discovery and Load Balancing features.
 
 <p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20408129/76a54ffe-ad14-11e6-8c97-46168c186360.png"/>
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20665031/352857e0-b55e-11e6-928e-64f8747ba792.png"/>
 </p>
 
-<p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20387647/64cee4a0-acc1-11e6-9642-092c3d6bdc89.png"/>
-</p>
-
-<p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20408176/96e5e7a6-ad14-11e6-983a-103483762c26.png"/>
-</p>
-
-<p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20387662/7a9adde8-acc1-11e6-90f8-1a032e32c1b1.png"/>
-</p>
+* **Docker** allows backend’s microservices to be isolated into containers with instructions for exactly what they need to survive that can be easily ported from machine to machine.
+* A K8s **Pod** (as in a pod of whales or pea pod) is a group of one or more containers (such as Docker containers), the shared storage for those containers, and options about how to run the containers. Pods are always co-located and co-scheduled, and run in a shared context.
+* K8s **Services** provide load balancing capabilities for K8S pods (containers) where Docker images reside.
+* A K8s **Ingress** is a collection of rules that allow inbound connections to reach the cluster services. It makes the frontend application and an API Gateway to be available outside the cluster.
 
 # Coding Conventions
 
