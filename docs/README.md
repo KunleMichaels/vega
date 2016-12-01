@@ -225,11 +225,11 @@ Transit fare systems like Vega must be robust, scalable, fault-tolerant and high
 A running Vega system contains backend platform, frontend application and boarding terminal device. This diagram shows very hight level components, though we're still working on a few things.
 
 <p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20664656/6543303c-b55c-11e6-8e93-0f4395bae085.png"/>
+  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20786980/cafea0ec-b7a9-11e6-9ff2-2203277ee9ca.png"/>
 </p>
 
-* The **Customer Microservice** is responsible for handling all customer-related activities: passenger and operator registration, passenger wallet managing.
-* The **Fare Microservice** manages fare tariffs and transit passes.
+* The **Passenger Microservice** is responsible for handling all passenger-related activities: registration, passenger wallet managing, transit pass assignments etc.
+* The **Operator Microservice** manages operators and fares.
 * The **Boarding Microservice** is responsible for passengers’ boarding: check-in and check-out. Makes a decision whether the passenger is eligible to board or not.
 * The **Payment Microservice** handles all payment-related activities such as settlement with operators, and transit purchasing.
 * The **Boarding Terminal Firmware** provides high-level API for a boarding terminal device.
