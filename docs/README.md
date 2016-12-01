@@ -235,6 +235,10 @@ A running Vega system contains backend platform, frontend application and boardi
 * The **Boarding Terminal Firmware** provides high-level API for a boarding terminal device.
 * The **API Gateway** manages all microservices’ API and proxy request from the outside world (a boarding terminal or the frontend application) directly to particular microservice.
 
+<p align="center">
+  <img width="800px" src="https://cloud.githubusercontent.com/assets/5632544/20787100/53878a0a-b7aa-11e6-99b0-36e0a239bbee.png"/>
+</p>
+
 ##### Boarding
 Boarding process starts when a passenger touches the boarding terminal with his contactless device. The interaction between different components in boarding scenario is described in the following diagrams:
 
