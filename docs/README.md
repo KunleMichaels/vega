@@ -30,7 +30,7 @@ Feel free to contact the documentation team directly at <a href="mailto:vega.doc
 * [Release Management](#release-management)
 
 # Vision Statement
-Vega is a Chicago Venta-inspired electronic transit fare system designed for passengers of mass transit operators, that is intended to become a convenient, fast and reliable way to pay for transit. Unlike most fare systems in Europe, Vega is a contactless in mind system, that focuses on reusing of existing customer’s contactless devices such as contactless credit cards and mobile NFC-enabled devices but with keeping compatibility with old card infrastructure (e.g. Mirfare City Cards) and traditional ticketing by RFID technology utilization.
+Vega is a Chicago Venta-inspired electronic transit fare system designed for passengers of mass transit operators, that is intended to become a convenient, fast and reliable way to pay for transit. Unlike most fare systems in Europe, Vega is a contactless in mind system, that focuses on reusing of existing customer’s contactless devices such as contactless credit cards and mobile NFC-enabled devices but with keeping compatibility with old card infrastructure (e.g. Mifare City Cards) and traditional ticketing by RFID technology utilization.
 
 Our goal is to provide open extendable platform and tools to make cities smarter with affordable fare payment system.
 
