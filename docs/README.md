@@ -225,18 +225,18 @@ Transit fare systems like Vega must be robust, scalable, fault-tolerant and high
 A running Vega system contains backend platform, frontend application and boarding terminal device. This diagram shows very hight level components, though we're still working on a few things.
 
 <p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20786980/cafea0ec-b7a9-11e6-9ff2-2203277ee9ca.png"/>
+  <img width="630px" src="https://cloud.githubusercontent.com/assets/5632544/21049867/8da4e282-be17-11e6-92a7-730e52186940.png"/>
 </p>
 
 * The **Passenger Microservice** is responsible for handling all passenger-related activities: registration, passenger wallet managing, transit pass assignments etc.
 * The **Operator Microservice** manages operators and fares.
-* The **Boarding Microservice** is responsible for passengers’ boarding: check-in and check-out. Makes a decision whether the passenger is eligible to board or not.
+* The **Transit Microservice** is responsible for passengers’ boarding: check-in and check-out. Makes a decision whether the passenger is eligible to board or not.
 * The **Payment Microservice** handles all payment-related activities such as settlement with operators, and transit purchasing.
 * The **Boarding Terminal Firmware** provides high-level API for a boarding terminal device.
 * The **API Gateway** manages all microservices’ API and proxy request from the outside world (a boarding terminal or the frontend application) directly to particular microservice.
 
 <p align="center">
-  <img width="750px" src="https://cloud.githubusercontent.com/assets/5632544/20826468/6a9cbf28-b86b-11e6-9992-2d10905bcaed.png"/>
+  <img width="850px" src="https://cloud.githubusercontent.com/assets/5632544/21049759/ff7a6cfc-be16-11e6-96b7-0dd5bf910ed1.png"/>
 </p>
 
 ##### Boarding
@@ -256,7 +256,7 @@ Boarding process starts when a passenger touches the boarding terminal with his 
 The Frontend application and backend’s components are deployed inside Docker container on a Kubernetes-enabled cloud provider that provides infrastructure, Service Registry, Service Discovery and Load Balancing features.
 
 <p align="center">
-  <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20665031/352857e0-b55e-11e6-928e-64f8747ba792.png"/>
+  <img width="650px" src="https://cloud.githubusercontent.com/assets/5632544/21050026/a5b0513a-be18-11e6-8ada-69bba1c9ccc3.png"/>
 </p>
 
 * **Docker** allows backend’s microservices to be isolated into containers with instructions for exactly what they need to survive that can be easily ported from machine to machine.
