@@ -25,6 +25,8 @@ Feel free to contact the documentation team directly at <a href="mailto:vega.doc
   * Data View
   * User Interface View
   * [Deployment View](#deployment-view)
+* [Development Phases](#development-phases)
+  * [Concept Phase](#concept-phase)
 * [Coding Conventions](#coding-conventions)
 * [Contribution](#contribution)
 * [Release Management](#release-management)
@@ -137,6 +139,11 @@ The frontend application’s interface should follow the Google Material Design 
 <p align="center">
   <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20643968/1fad9412-b427-11e6-8b71-ca53e5630ea7.png"/>
 </p>
+
+* **UC1**: Check-in with attached contactless device and purchase a transit pass
+* **UC2**: Check-in with attached contactless device and utilize a pass
+* **UC3**: Check-out with attached contactless device
+
 A registered passenger may use his attached contactless device to check-in a public transit vehicle. During the check-in, the passenger utilizes available transit pass or purchases new one.
  
 In the case of purchasing new transit pass, the registered passenger will be charged using primary payment credit card record.
@@ -151,6 +158,10 @@ Check-out is an optional feature which may be forced by an operator.
 <p align="center">
   <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20643998/8bfbefe2-b427-11e6-9e79-36c28bb8cfec.png"/>
 </p>
+
+* **UC4**: Check-in with deattached contactless device and purchase a transit pass
+* **UC5**: Check-in with deattached contactless device and utilize a pass
+* **UC6**: Check-out with deattached contactless device
 
 When an unregistered passenger’s contactless device interacts with the system to purchase a pass for the first time, the system creates a shadow transit account and attaches used contactless device to it. The system skips creating a payment credit card record and creates transit value record instead. The passenger can top-up the transit value then and buy a pass.
 
@@ -168,12 +179,28 @@ The check-in and check-out processes are conducted in the same way as described 
 <p align="center">
   <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20644010/d35f6710-b427-11e6-86a1-1efcd48f8c99.png"/>
 </p>
+
+* **UC7**: Attach contactless device
+* **UC8**: Remove contactless device
+* **UC9**: Add payment card
+* **UC10**: Remove payment card
+* **UC11**: Set primary payment card
+* **UC12**: Assign pass to contactless device
+* **UC13**: View all available passes
+* **UC14**: Buy a Pass
+* **UC15**: View all my payment transactions
+* **UC16**: View my payment transaction
+
 A registered passenger has an access to Account Management System via the frontend application’s user interface, where he can manage contactless devices used to identify his account, manage payment credit cards records, buy a transit pass, assign passes to contactless devices and view payment transaction.
 
 ### Feature: Account Management System (unregistered user)
 <p align="center">
   <img width="600px" src="https://cloud.githubusercontent.com/assets/5632544/20644019/ec92d154-b427-11e6-9931-914f214cd3c2.png"/>
 </p>
+
+* **UC17**: Register new transit account
+* **UC18**: Unshadow a transit account
+* **UC19**: Login into account management system
 
 In the context of account management system use case, an unregistered passenger can sign-in and sign-up to the system.
 
@@ -263,6 +290,33 @@ The Frontend application and backend’s components are deployed inside Docker c
 * A K8s **Pod** (as in a pod of whales or pea pod) is a group of one or more containers (such as Docker containers), the shared storage for those containers, and options about how to run the containers. Pods are always co-located and co-scheduled, and run in a shared context.
 * K8s **Services** provide load balancing capabilities for K8S pods (containers) where Docker images reside.
 * A K8s **Ingress** is a collection of rules that allow inbound connections to reach the cluster services. It makes the frontend application and an API Gateway to be available outside the cluster.
+
+# Development Phases
+A development phase defines the activities that will be performed during a development phase, objectives and use cases that define the functionality being implemented during this phase.
+
+## Concept Phase
+
+### Objectives
+The purpose of this iteration is to create a working skeleton of the system. At the end of this iteration, passengers should be able to:
+* Register a new account with Payment credit
+* Add contactless device to their accounts
+* Buy a Pass and assign it to the contactless device
+* Board a transit vehicle with the contactless device
+* Utilize the Pass
+
+### Use Cases
+The following use cases are involved in this iteration:
+* **UC2**: Check-in with attached contactless device and utilize a pass
+* **UC7**: Attach contactless device
+* **UC8**: Remove contactless device
+* **UC9**: Add payment card
+* **UC10**: Remove payment card
+* **UC11**: Set primary payment card
+* **UC12**: Assign pass to contactless device
+* **UC13**: View all available passes
+* **UC14**: Buy a Pass
+* **UC17**: Register new transit account
+* **UC19**: Login into account management system
 
 # Coding Conventions
 
