@@ -1,6 +1,22 @@
-apply from: "$rootDir/dependencies.gradle"
-
 allprojects {
     group 'eu.socialedge.vega'
     version = "0.1"
+
+    apply from: "$rootDir/dependencies.gradle"
+}
+
+configure(subprojects.findAll {it.name.startsWith('backend')}) {
+    apply plugin: 'java'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        compileOnly libraries.gen.lombok
+        testCompile libraries.test.junit
+        testCompile libraries.test.mockito
+    }
 }

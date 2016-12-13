@@ -1,11 +1,35 @@
 ext {
     versions = [
-            junit: '4.12',
-            mockito: '2.0.2-beta'
+            commons: [
+                    moneta: '1.1',
+                    apachelang3: '3.5',
+                    apachevalidator: '1.5.+'
+            ],
+            gen: [
+                    lombok: '1.16.+'
+            ],
+            test: [
+                    junit  : '4.12',
+                    assertj: '3.6.+',
+                    mockito: '2.2.29'
+            ]
     ]
 
     libraries = [
-            junit: "junit:junit:${versions.junit}",
-            mockito: "org.mockito:mockito-all:jar:${versions.mockito}"
+            commons: [
+                    moneta: "org.javamoney:moneta:${versions.commons.moneta}",
+                    apachelang3: "org.apache.commons:commons-lang3:${versions.commons.apachelang3}",
+                    apachevalidator: "commons-validator:commons-validator:${versions.commons.apachevalidator}"
+            ],
+            gen: [
+                    lombok: "org.projectlombok:lombok:${versions.gen.lombok}"
+            ],
+            test: [
+                    junit: [
+                            "junit:junit:${versions.test.junit}",
+                            "org.assertj:assertj-core:${versions.test.assertj}"
+                    ],
+                    mockito: "org.mockito:mockito-core:${versions.test.mockito}"
+            ]
     ]
 }
