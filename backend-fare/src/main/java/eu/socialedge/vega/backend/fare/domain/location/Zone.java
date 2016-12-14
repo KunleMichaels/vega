@@ -14,7 +14,7 @@
  */
 package eu.socialedge.vega.backend.fare.domain.location;
 
-import org.apache.commons.lang3.Validate;
+import eu.socialedge.vega.backend.ddd.ValueObject;
 
 import java.awt.geom.Path2D;
 import java.util.Arrays;
@@ -25,22 +25,22 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import static org.apache.commons.lang3.Validate.notBlank;
+import static org.apache.commons.lang3.Validate.notEmpty;
+
 @Getter
 @ToString
-@EqualsAndHashCode
 @Accessors(fluent = true)
-public class Zone {
+@EqualsAndHashCode(callSuper = false)
+public class Zone extends ValueObject {
 
     private final String name;
 
     private final Path2D polyPath;
 
     public Zone(String name, List<Location> vertices) {
-        Validate.notBlank(name);
-        Validate.notEmpty(vertices);
-
-        this.name = name;
-        this.polyPath = createPolygonPath(vertices);
+        this.name = notBlank(name);
+        this.polyPath = createPolygonPath(notEmpty(vertices));
     }
 
     public Zone(String name, Location... vertices) {

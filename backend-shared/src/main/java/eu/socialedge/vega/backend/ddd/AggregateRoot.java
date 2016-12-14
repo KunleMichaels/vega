@@ -12,38 +12,29 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.fare.domain;
+package eu.socialedge.vega.backend.ddd;
 
-import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.shared.OperatorId;
-
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import static org.apache.commons.lang3.Validate.notBlank;
-
-@ToString
+/**
+ * Represents a DDD Aggregate Root - a cluster of domain
+ * objects that can be treated as a single unit.
+ *
+ * <p>An aggregate will have one of its component objects be the
+ * aggregate root. Any references from outside the aggregate should
+ * only go to the aggregate root. The root can thus ensure the integrity
+ * of the aggregate as a whole.</p>
+ *
+ * @see <a href="https://martinfowler.com/bliki/DDD_Aggregate.html">
+ *     DDD_Aggregate - Martin Fowler</a>
+ */
 @Getter @Setter
 @Accessors(fluent = true)
-@EqualsAndHashCode(callSuper = false)
-public class Operator extends AggregateRoot<OperatorId> {
+public abstract class AggregateRoot<T extends Identifier<?>> extends Entity<T> {
 
-    private String name;
-
-    private String description;
-
-    public Operator(OperatorId id, String name, String description) {
+    protected AggregateRoot(T id) {
         super(id);
-
-        this.name = notBlank(name);
-        this.description = description;
-    }
-
-    public void name(String name) {
-        this.name = notBlank(name);
     }
 }
-

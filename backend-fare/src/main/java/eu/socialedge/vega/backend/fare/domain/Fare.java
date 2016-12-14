@@ -14,8 +14,11 @@
  */
 package eu.socialedge.vega.backend.fare.domain;
 
+import eu.socialedge.vega.backend.ddd.AggregateRoot;
 import eu.socialedge.vega.backend.fare.domain.location.Location;
 import eu.socialedge.vega.backend.fare.domain.location.Zone;
+import eu.socialedge.vega.backend.shared.FareId;
+import eu.socialedge.vega.backend.shared.OperatorId;
 
 import org.apache.commons.lang3.Validate;
 
@@ -30,13 +33,13 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import static org.apache.commons.lang3.Validate.notNull;
+
 @Getter
 @ToString
-@EqualsAndHashCode
 @Accessors(fluent = true)
-public class Fare {
-
-    private final FareId fareId;
+@EqualsAndHashCode(callSuper = false)
+public class Fare extends AggregateRoot<FareId> {
 
     private final MonetaryAmount price;
     private final Set<Deduction> deductions;
@@ -51,22 +54,17 @@ public class Fare {
 
     public Fare(FareId fareId, MonetaryAmount price, Set<Deduction> deductions, Period validity,
                 Set<VehicleType> vehicleTypes, Set<Zone> zones, Set<OperatorId> operatorIds) {
-        Validate.notNull(fareId);
-        Validate.notNull(price);
-        Validate.notNull(deductions);
-        Validate.notNull(validity);
+        super(fareId);
+
         Validate.isTrue(!validity.isNegative() && !validity.isZero(),
                 "Validity period must be longer than 0");
-        Validate.notNull(vehicleTypes);
-        Validate.notNull(operatorIds);
 
-        this.fareId = fareId;
-        this.price = price;
-        this.deductions = deductions;
-        this.validity = validity;
-        this.vehicleTypes = vehicleTypes;
-        this.zones = zones;
-        this.operatorIds = operatorIds;
+        this.price = notNull(price);
+        this.deductions = notNull(deductions);
+        this.validity = notNull(validity);
+        this.vehicleTypes = notNull(vehicleTypes);
+        this.zones = notNull(zones);
+        this.operatorIds = notNull(operatorIds);
     }
 
     public Fare(FareId fareId, MonetaryAmount price, Period validity, Set<OperatorId> operatorIds) {

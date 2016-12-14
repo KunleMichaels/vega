@@ -12,24 +12,16 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.shared;
+package eu.socialedge.vega.backend.ddd;
 
-import java.io.Serializable;
+/**
+ * Represents a subscriber to a {@link DomainEvent}
+ *
+ * @param <T> event type
+ */
+public interface DomainEventSubscriber<T extends DomainEvent> {
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
+    void handleEvent(T aDomainEvent);
 
-@Getter
-@ToString
-@EqualsAndHashCode
-@Accessors(fluent = true)
-public class Identifier<T extends Serializable> {
-
-    private final T value;
-
-    public Identifier(T value) {
-        this.value = value;
-    }
+    boolean canHandleEventType(Class<? extends DomainEvent> eventType);
 }

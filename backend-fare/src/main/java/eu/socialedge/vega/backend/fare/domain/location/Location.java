@@ -14,6 +14,8 @@
  */
 package eu.socialedge.vega.backend.fare.domain.location;
 
+import eu.socialedge.vega.backend.ddd.ValueObject;
+
 import org.apache.commons.lang3.Validate;
 
 import lombok.EqualsAndHashCode;
@@ -23,9 +25,9 @@ import lombok.experimental.Accessors;
 
 @Getter
 @ToString
-@EqualsAndHashCode
 @Accessors(fluent = true)
-public class Location {
+@EqualsAndHashCode(callSuper = false)
+public class Location extends ValueObject {
 
     private static final double LATITUDE_AMPLITUDE = 90;
     private static final double LONGITUDE_AMPLITUDE = 180;

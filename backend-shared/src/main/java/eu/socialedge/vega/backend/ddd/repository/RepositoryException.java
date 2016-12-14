@@ -12,13 +12,21 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.fare.domain;
+package eu.socialedge.vega.backend.ddd.repository;
 
-import eu.socialedge.vega.backend.shared.Identifier;
+/**
+ * Represents exceptions in {@link Repository} layer
+ */
+public class RepositoryException extends RuntimeException {
+    public RepositoryException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-public class OperatorId extends Identifier<Long> {
+    public RepositoryException(Throwable cause) {
+        super(cause);
+    }
 
-    public OperatorId(Long value) {
-        super(value);
+    public RepositoryException(String message) {
+        super(message);
     }
 }

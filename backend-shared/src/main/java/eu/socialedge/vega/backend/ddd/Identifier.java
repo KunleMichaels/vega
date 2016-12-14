@@ -12,38 +12,29 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.fare.domain;
+package eu.socialedge.vega.backend.ddd;
 
-import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.shared.OperatorId;
+import java.io.Serializable;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import static org.apache.commons.lang3.Validate.notBlank;
-
+/**
+ * Represents abstract identity of {@link Entity} objects
+ *
+ * @param <T> internal identifier's type
+ */
+@Getter
 @ToString
-@Getter @Setter
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
-public class Operator extends AggregateRoot<OperatorId> {
+public abstract class Identifier<T extends Serializable> extends ValueObject {
 
-    private String name;
+    protected final T value;
 
-    private String description;
-
-    public Operator(OperatorId id, String name, String description) {
-        super(id);
-
-        this.name = notBlank(name);
-        this.description = description;
-    }
-
-    public void name(String name) {
-        this.name = notBlank(name);
+    public Identifier(T value) {
+        this.value = value;
     }
 }
-

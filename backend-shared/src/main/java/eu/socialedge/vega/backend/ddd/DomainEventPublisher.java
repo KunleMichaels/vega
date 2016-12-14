@@ -12,13 +12,19 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.fare.domain;
+package eu.socialedge.vega.backend.ddd;
 
-import eu.socialedge.vega.backend.shared.Identifier;
+import java.util.Collection;
 
-public class FareId extends Identifier<Long> {
+/**
+ * Emits {@link DomainEvent}
+ */
+public interface DomainEventPublisher {
 
-    public FareId(Long value) {
-        super(value);
+    void publish(DomainEvent event);
+
+    default void publishAll(Collection<DomainEvent> event) {
+        event.forEach(this::publish);
     }
+
 }
