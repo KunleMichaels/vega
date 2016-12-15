@@ -33,6 +33,7 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Getter
@@ -52,8 +53,11 @@ public class Fare extends AggregateRoot<FareId> {
 
     private final Set<OperatorId> operatorIds;
 
-    public Fare(FareId fareId, MonetaryAmount price, Set<Deduction> deductions, Period validity,
-                Set<VehicleType> vehicleTypes, Set<Zone> zones, Set<OperatorId> operatorIds) {
+    private final Set<Pass> passes;
+
+    public Fare(FareId fareId, MonetaryAmount price, Set<Deduction> deductions,
+                Period validity, Set<VehicleType> vehicleTypes, Set<Zone> zones,
+                Set<OperatorId> operatorIds, Set<Pass> passes) {
         super(fareId);
 
         Validate.isTrue(!validity.isNegative() && !validity.isZero(),
@@ -62,14 +66,16 @@ public class Fare extends AggregateRoot<FareId> {
         this.price = notNull(price);
         this.deductions = notNull(deductions);
         this.validity = notNull(validity);
-        this.vehicleTypes = notNull(vehicleTypes);
-        this.zones = notNull(zones);
-        this.operatorIds = notNull(operatorIds);
+        this.vehicleTypes = notEmpty(vehicleTypes);
+        this.zones = notEmpty(zones);
+        this.operatorIds = notEmpty(operatorIds);
+        this.passes = notNull(passes);
     }
 
-    public Fare(FareId fareId, MonetaryAmount price, Period validity, Set<OperatorId> operatorIds) {
-        this(fareId, price, new HashSet<>(), validity,
-                new HashSet<>(), new HashSet<>(), operatorIds);
+    public Fare(FareId fareId, MonetaryAmount price, Period validity,
+                Set<VehicleType> vehicleTypes, Set<Zone> zones, Set<OperatorId> operatorIds) {
+        this(fareId, price, new HashSet<>(), validity, vehicleTypes,
+                zones, operatorIds, new HashSet<>());
     }
 
     public boolean handles(VehicleType vehicleType) {

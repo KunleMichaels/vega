@@ -263,7 +263,7 @@ A running Vega system contains backend platform, frontend application and boardi
 * The **API Gateway** manages all microservices’ API and proxy request from the outside world (a boarding terminal or the frontend application) directly to particular microservice.
 
 <p align="center">
-  <img width="850px" src="https://cloud.githubusercontent.com/assets/5632544/21093384/bf658790-c051-11e6-8f88-d3bd05c9629f.png"/>
+  <img width="850px" src="https://cloud.githubusercontent.com/assets/5632544/21189733/f01dfb2c-c21f-11e6-9808-2bb47870dd97.png"/>
 </p>
 
 ##### Boarding

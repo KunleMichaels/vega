@@ -1,3 +1,4 @@
 include 'backend-shared',
-        'backend-fare'
+        'backend-fare',
+        'backend-account'
 

@@ -12,32 +12,32 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.ddd;
+package eu.socialedge.vega.backend.fare.domain;
 
-import java.io.Serializable;
+import eu.socialedge.vega.backend.ddd.ValueObject;
+import eu.socialedge.vega.backend.shared.PassengerId;
+
+import java.time.LocalDateTime;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
-/**
- * Represents abstract identity of {@link Entity} objects
- *
- * @param <T> internal identifier's type
- */
+import static org.apache.commons.lang3.Validate.notNull;
+
 @Getter
+@ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
-public abstract class Identifier<T extends Serializable> extends ValueObject {
+public class Pass extends ValueObject {
 
-    protected final T value;
+    private final PassengerId passengerId;
 
-    public Identifier(T value) {
-        this.value = value;
-    }
+    private final LocalDateTime activation;
 
-    @Override
-    public String toString() {
-        return String.valueOf(value);
+    public Pass(PassengerId passengerId, LocalDateTime activation) {
+        this.passengerId = notNull(passengerId);
+        this.activation = notNull(activation);
     }
 }

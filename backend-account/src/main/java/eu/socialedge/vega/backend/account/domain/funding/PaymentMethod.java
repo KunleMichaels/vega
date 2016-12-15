@@ -12,32 +12,28 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.ddd;
+package eu.socialedge.vega.backend.account.domain.funding;
 
-import java.io.Serializable;
+import eu.socialedge.vega.backend.ddd.ValueObject;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
-/**
- * Represents abstract identity of {@link Entity} objects
- *
- * @param <T> internal identifier's type
- */
-@Getter
+@ToString
+@Getter @Setter
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
-public abstract class Identifier<T extends Serializable> extends ValueObject {
+public abstract class PaymentMethod extends ValueObject {
 
-    protected final T value;
+    private boolean isPrimary;
 
-    public Identifier(T value) {
-        this.value = value;
-    }
+    private String description;
 
-    @Override
-    public String toString() {
-        return String.valueOf(value);
+    protected PaymentMethod(String description, boolean isPrimary) {
+        this.description = description;
+        this.isPrimary = isPrimary;
     }
 }
