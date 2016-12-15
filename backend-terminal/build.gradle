@@ -1,0 +1,4 @@
+dependencies {
+    compile project(":backend-shared")
+    compile libraries.commons.apachelang3
+}

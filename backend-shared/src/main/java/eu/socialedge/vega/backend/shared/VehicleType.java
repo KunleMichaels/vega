@@ -12,10 +12,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.fare.domain;
+package eu.socialedge.vega.backend.shared;
 
 /**
- * Describes the type of transportation the {@link Fare} services
+ * Describes the type of transportation the Fare services and
+ * Terminal's installation vehicle type
  *
  * @see <a href="https://goo.gl/XiMs19">
  *     Google Maps API - Directions Service - Vehicle Type</a>

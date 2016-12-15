@@ -19,6 +19,7 @@ import eu.socialedge.vega.backend.fare.domain.location.Location;
 import eu.socialedge.vega.backend.fare.domain.location.Zone;
 import eu.socialedge.vega.backend.shared.FareId;
 import eu.socialedge.vega.backend.shared.OperatorId;
+import eu.socialedge.vega.backend.shared.VehicleType;
 
 import org.apache.commons.lang3.Validate;
 
