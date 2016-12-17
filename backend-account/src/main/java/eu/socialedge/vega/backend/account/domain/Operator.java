@@ -12,32 +12,38 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.fare.domain;
+package eu.socialedge.vega.backend.account.domain;
 
-import eu.socialedge.vega.backend.ddd.ValueObject;
-import eu.socialedge.vega.backend.shared.PassengerId;
-
-import java.time.LocalDateTime;
+import eu.socialedge.vega.backend.ddd.AggregateRoot;
+import eu.socialedge.vega.backend.shared.OperatorId;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import static org.apache.commons.lang3.Validate.notNull;
+import static org.apache.commons.lang3.Validate.notBlank;
 
-@Getter
 @ToString
+@Getter @Setter
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
-public class Pass extends ValueObject {
+public class Operator extends AggregateRoot<OperatorId> {
 
-    private final PassengerId passengerId;
+    private String name;
 
-    private final LocalDateTime activation;
+    private String description;
 
-    public Pass(PassengerId passengerId, LocalDateTime activation) {
-        this.passengerId = notNull(passengerId);
-        this.activation = notNull(activation);
+    public Operator(OperatorId id, String name, String description) {
+        super(id);
+
+        this.name = notBlank(name);
+        this.description = description;
+    }
+
+    public void name(String name) {
+        this.name = notBlank(name);
     }
 }
+

@@ -15,38 +15,33 @@
 package eu.socialedge.vega.backend.fare.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.fare.domain.location.Location;
 import eu.socialedge.vega.backend.fare.domain.location.Zone;
 import eu.socialedge.vega.backend.shared.FareId;
 import eu.socialedge.vega.backend.shared.OperatorId;
 import eu.socialedge.vega.backend.shared.VehicleType;
-
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.Validate;
 
+import javax.money.MonetaryAmount;
 import java.time.Period;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.money.MonetaryAmount;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
 
-@Getter
 @ToString
+@Getter @Setter
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
 public class Fare extends AggregateRoot<FareId> {
 
-    private final MonetaryAmount price;
-    private final Set<Deduction> deductions;
+    private @NonNull MonetaryAmount price;
 
-    private final Period validity;
+    private @NonNull Period validity;
+
+    private final Set<Deduction> deductions;
 
     private final Set<VehicleType> vehicleTypes;
 
@@ -54,11 +49,9 @@ public class Fare extends AggregateRoot<FareId> {
 
     private final Set<OperatorId> operatorIds;
 
-    private final Set<Pass> passes;
-
     public Fare(FareId fareId, MonetaryAmount price, Set<Deduction> deductions,
                 Period validity, Set<VehicleType> vehicleTypes, Set<Zone> zones,
-                Set<OperatorId> operatorIds, Set<Pass> passes) {
+                Set<OperatorId> operatorIds) {
         super(fareId);
 
         Validate.isTrue(!validity.isNegative() && !validity.isZero(),
@@ -70,32 +63,11 @@ public class Fare extends AggregateRoot<FareId> {
         this.vehicleTypes = notEmpty(vehicleTypes);
         this.zones = notEmpty(zones);
         this.operatorIds = notEmpty(operatorIds);
-        this.passes = notNull(passes);
     }
 
     public Fare(FareId fareId, MonetaryAmount price, Period validity,
                 Set<VehicleType> vehicleTypes, Set<Zone> zones, Set<OperatorId> operatorIds) {
         this(fareId, price, new HashSet<>(), validity, vehicleTypes,
-                zones, operatorIds, new HashSet<>());
-    }
-
-    public boolean handles(VehicleType vehicleType) {
-        return vehicleTypes.contains(vehicleType);
-    }
-
-    public boolean handles(Zone zone) {
-        return zones.contains(zone);
-    }
-
-    public boolean handles(Location location) {
-        return zones.stream().anyMatch(zone -> zone.contains(location));
-    }
-
-    public boolean handles(OperatorId operatorId) {
-        return operatorIds.contains(operatorId);
-    }
-
-    public boolean handles(Operator operator) {
-        return handles(operator.id());
+                zones, operatorIds);
     }
 }

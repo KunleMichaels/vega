@@ -12,17 +12,17 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.account.domain;
+package eu.socialedge.vega.backend.fare.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
 import eu.socialedge.vega.backend.shared.TokenId;
-
-import java.time.LocalDateTime;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -35,16 +35,16 @@ public class Token extends AggregateRoot<TokenId> {
 
     private final String body;
 
-    private final LocalDateTime activation;
+    private final Set<Pass> passes;
 
-    public Token(TokenId id, String body, LocalDateTime activation) {
+    public Token(TokenId id, String body, Set<Pass> passes) {
         super(id);
 
         this.body = notBlank(body);
-        this.activation = notNull(activation);
+        this.passes = notNull(passes);
     }
 
     public Token(TokenId id, String body) {
-        this(id, body, LocalDateTime.now());
+        this(id, body, new HashSet<>());
     }
 }
