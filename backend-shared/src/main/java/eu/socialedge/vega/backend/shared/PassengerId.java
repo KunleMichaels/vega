@@ -16,6 +16,13 @@ package eu.socialedge.vega.backend.shared;
 
 import eu.socialedge.vega.backend.ddd.Identifier;
 
+import javax.persistence.Embeddable;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@Embeddable
+@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class PassengerId extends Identifier<Long> {
 
     public PassengerId(Long value) {

@@ -16,8 +16,12 @@ package eu.socialedge.vega.backend.ddd;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -28,8 +32,11 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
+@MappedSuperclass
+@NoArgsConstructor(force = true)
 public abstract class Identifier<T extends Serializable> extends ValueObject {
 
+    @Column(name = "id", nullable = false)
     protected final T value;
 
     public Identifier(T value) {

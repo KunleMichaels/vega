@@ -14,8 +14,13 @@
  */
 package eu.socialedge.vega.backend.ddd;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.MappedSuperclass;
+
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -49,8 +54,11 @@ import static java.util.Objects.requireNonNull;
 @ToString
 @EqualsAndHashCode
 @Accessors(fluent = true)
+@MappedSuperclass
+@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public abstract class Entity<T extends Identifier<?>> {
 
+    @EmbeddedId
     private final T id;
 
     protected Entity(T id) {

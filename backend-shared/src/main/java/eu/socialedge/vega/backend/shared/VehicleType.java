@@ -14,6 +14,8 @@
  */
 package eu.socialedge.vega.backend.shared;
 
+import javax.persistence.Embeddable;
+
 /**
  * Describes the type of transportation the Fare services and
  * Terminal's installation vehicle type
@@ -21,6 +23,7 @@ package eu.socialedge.vega.backend.shared;
  * @see <a href="https://goo.gl/XiMs19">
  *     Google Maps API - Directions Service - Vehicle Type</a>
  */
+@Embeddable
 public enum VehicleType {
 
     RAIL,

@@ -14,11 +14,14 @@
  */
 package eu.socialedge.vega.backend.account.domain.funding;
 
+import javax.persistence.Embeddable;
+
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
 @Getter
 @Accessors(fluent = true)
+@Embeddable
 public enum CreditCardType {
     /**
      * Option specifying that American Express cards are allowed.

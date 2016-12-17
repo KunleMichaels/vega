@@ -2,8 +2,11 @@ ext {
     versions = [
             commons: [
                     moneta: '1.1',
-                    apachelang3: '3.5',
-                    apachevalidator: '1.5.+'
+                    apacheLang3: '3.5',
+                    apacheValidator: '1.5.+'
+            ],
+            persistence: [
+                    jpaApi: '1.0.0.Final'
             ],
             gen: [
                     lombok: '1.16.+'
@@ -18,8 +21,11 @@ ext {
     libraries = [
             commons: [
                     moneta: "org.javamoney:moneta:${versions.commons.moneta}",
-                    apachelang3: "org.apache.commons:commons-lang3:${versions.commons.apachelang3}",
-                    apachevalidator: "commons-validator:commons-validator:${versions.commons.apachevalidator}"
+                    apacheLang3: "org.apache.commons:commons-lang3:${versions.commons.apacheLang3}",
+                    apacheValidator: "commons-validator:commons-validator:${versions.commons.apacheValidator}"
+            ],
+            persistence: [
+                    jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.persistence.jpaApi}"
             ],
             gen: [
                     lombok: "org.projectlombok:lombok:${versions.gen.lombok}"

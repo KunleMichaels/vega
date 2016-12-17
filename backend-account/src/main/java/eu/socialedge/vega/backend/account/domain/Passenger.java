@@ -23,8 +23,16 @@ import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -35,16 +43,25 @@ import static org.apache.commons.lang3.Validate.notEmpty;
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
+@Entity
+@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Passenger extends AggregateRoot<PassengerId> {
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
+    @ElementCollection
+    @CollectionTable(name = "passenger_token", joinColumns = @JoinColumn(name = "passenger_id"))
     private final Set<TokenId> tokenIds;
 
+    @ElementCollection
+    @CollectionTable(name = "passenger_pmethods", joinColumns = @JoinColumn(name = "passenger_id"))
     private final Set<PaymentMethod> paymentMethods;
 
     public Passenger(PassengerId id, String name, String email, String password,

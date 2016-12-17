@@ -18,8 +18,13 @@ import eu.socialedge.vega.backend.ddd.ValueObject;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.val;
@@ -31,6 +36,8 @@ import static org.apache.commons.lang3.Validate.notNull;
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
+@Embeddable
+@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class ExpirationDate extends ValueObject {
 
     private static final Integer DEFAULT_EXPIRATION_DATE = 1;
@@ -39,6 +46,7 @@ public class ExpirationDate extends ValueObject {
     public static final ExpirationDate MAX = new ExpirationDate(LocalDate.MAX);
     public static final ExpirationDate MIN = new ExpirationDate(LocalDate.MIN);
 
+    @Column(nullable = false)
     private final LocalDate localDate;
 
     public ExpirationDate(LocalDate localDate) {

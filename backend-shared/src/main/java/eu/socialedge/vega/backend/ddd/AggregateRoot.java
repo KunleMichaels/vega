@@ -15,6 +15,7 @@
 package eu.socialedge.vega.backend.ddd;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -32,6 +33,7 @@ import lombok.experimental.Accessors;
  */
 @Getter @Setter
 @Accessors(fluent = true)
+@NoArgsConstructor(force = true)
 public abstract class AggregateRoot<T extends Identifier<?>> extends Entity<T> {
 
     protected AggregateRoot(T id) {

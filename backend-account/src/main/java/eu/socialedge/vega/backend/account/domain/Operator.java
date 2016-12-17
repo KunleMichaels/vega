@@ -17,8 +17,13 @@ package eu.socialedge.vega.backend.account.domain;
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
 import eu.socialedge.vega.backend.shared.OperatorId;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -29,10 +34,14 @@ import static org.apache.commons.lang3.Validate.notBlank;
 @Getter @Setter
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
+@Entity
+@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Operator extends AggregateRoot<OperatorId> {
 
+    @Column(nullable = false)
     private String name;
 
+    @Column
     private String description;
 
     public Operator(OperatorId id, String name, String description) {
