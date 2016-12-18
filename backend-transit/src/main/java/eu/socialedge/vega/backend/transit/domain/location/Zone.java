@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.fare.domain.location;
+package eu.socialedge.vega.backend.transit.domain.location;
 
 import eu.socialedge.vega.backend.ddd.ValueObject;
 
@@ -28,19 +28,22 @@ import lombok.experimental.Accessors;
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notEmpty;
 
-@Getter
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
 public class Zone extends ValueObject {
 
+    @Getter
     private final String name;
 
-    private final Path2D polyPath;
+    @Getter
+    private final List<Location> vertices;
+
+    private transient Path2D polyPath;
 
     public Zone(String name, List<Location> vertices) {
         this.name = notBlank(name);
-        this.polyPath = createPolygonPath(notEmpty(vertices));
+        this.vertices = notEmpty(vertices);
     }
 
     public Zone(String name, Location... vertices) {
@@ -48,10 +51,15 @@ public class Zone extends ValueObject {
     }
 
     public boolean contains(Location point) {
+        if (polyPath == null) {
+            synchronized (this) {
+                polyPath = createPolygonPath(vertices);
+            }
+        }
         return polyPath.contains(point.latitude(), point.longitude());
     }
 
-    private Path2D.Double createPolygonPath(List<Location> vertices) {
+    private static Path2D.Double createPolygonPath(List<Location> vertices) {
         Path2D.Double polyPath = new Path2D.Double();
         Location pathOrigin = vertices.get(0);
 

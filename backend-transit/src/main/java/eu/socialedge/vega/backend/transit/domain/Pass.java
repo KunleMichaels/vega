@@ -12,11 +12,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.fare.domain;
+package eu.socialedge.vega.backend.transit.domain;
 
 import eu.socialedge.vega.backend.ddd.ValueObject;
-import eu.socialedge.vega.backend.fare.domain.location.Location;
-import eu.socialedge.vega.backend.fare.domain.location.Zone;
+import eu.socialedge.vega.backend.transit.domain.location.Location;
+import eu.socialedge.vega.backend.transit.domain.location.Zone;
 import eu.socialedge.vega.backend.shared.FareId;
 import eu.socialedge.vega.backend.shared.OperatorId;
 import eu.socialedge.vega.backend.shared.PassengerId;

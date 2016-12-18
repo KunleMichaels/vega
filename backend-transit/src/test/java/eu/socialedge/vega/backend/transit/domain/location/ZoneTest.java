@@ -12,13 +12,14 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.fare.domain.location;
+package eu.socialedge.vega.backend.transit.domain.location;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -26,12 +27,14 @@ import static org.junit.Assert.assertTrue;
  * @see <a href="https://goo.gl/bak05V">Zone Shape Render used for tests</a>
  */
 public class ZoneTest {
-    private static final Zone zone = new Zone("zoneTest", new ArrayList<Location>() {{
+    private static final List<Location> zoneVertices = new ArrayList<Location>() {{
         add(new Location(1, 2));
         add(new Location(6, 6));
         add(new Location(10, 1));
         add(new Location(6, 3));
-    }});
+    }};
+
+    private static final Zone zone = new Zone("zoneTest", zoneVertices);
 
     private static final List<Location> goodCoords = new ArrayList<Location>() {{
         add(new Location(5, 3));
@@ -64,5 +67,10 @@ public class ZoneTest {
         badCoords.forEach(location -> {
             assertFalse(zone.contains(location));
         });
+    }
+
+    @Test
+    public void shouldTestFieldsNotReferencesInEqualsAndHashCode() throws Exception {
+        assertEquals(zone, new Zone("zoneTest", zoneVertices));
     }
 }

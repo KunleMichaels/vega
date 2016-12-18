@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.fare.domain;
+package eu.socialedge.vega.backend.transit.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
 import eu.socialedge.vega.backend.shared.TokenId;
