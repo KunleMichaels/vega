@@ -24,6 +24,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import static org.apache.commons.lang3.Validate.notNull;
+
 /**
  * Represents abstract identity of {@link Entity} objects
  *
@@ -40,7 +42,7 @@ public abstract class Identifier<T extends Serializable> extends ValueObject {
     protected final T value;
 
     public Identifier(T value) {
-        this.value = value;
+        this.value = notNull(value);
     }
 
     @Override

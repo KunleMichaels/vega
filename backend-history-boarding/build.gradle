@@ -1,0 +1,5 @@
+dependencies {
+    compile project(":backend-shared")
+    compile libraries.commons.apacheLang3
+    compile libraries.persistence.jpaApi
+}

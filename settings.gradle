@@ -1,5 +1,6 @@
 include 'backend-shared',
         'backend-transit',
         'backend-account',
-        'backend-terminal'
+        'backend-terminal',
+        'backend-history-boarding'
 

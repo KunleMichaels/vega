@@ -15,18 +15,25 @@
 package eu.socialedge.vega.backend.transit.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.transit.domain.location.Zone;
 import eu.socialedge.vega.backend.shared.FareId;
 import eu.socialedge.vega.backend.shared.OperatorId;
 import eu.socialedge.vega.backend.shared.VehicleType;
-import lombok.*;
-import lombok.experimental.Accessors;
+import eu.socialedge.vega.backend.shared.location.Zone;
+
 import org.apache.commons.lang3.Validate;
 
-import javax.money.MonetaryAmount;
 import java.time.Period;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.money.MonetaryAmount;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;

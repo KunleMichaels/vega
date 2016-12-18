@@ -15,20 +15,22 @@
 package eu.socialedge.vega.backend.transit.domain;
 
 import eu.socialedge.vega.backend.ddd.ValueObject;
-import eu.socialedge.vega.backend.transit.domain.location.Location;
-import eu.socialedge.vega.backend.transit.domain.location.Zone;
 import eu.socialedge.vega.backend.shared.FareId;
 import eu.socialedge.vega.backend.shared.OperatorId;
 import eu.socialedge.vega.backend.shared.PassengerId;
 import eu.socialedge.vega.backend.shared.VehicleType;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
+import eu.socialedge.vega.backend.shared.location.Location;
+import eu.socialedge.vega.backend.shared.location.Zone;
+
 import org.apache.commons.lang3.Validate;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;

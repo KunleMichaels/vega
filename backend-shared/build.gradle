@@ -1,3 +1,4 @@
 dependencies {
+    compile libraries.commons.apacheLang3
     compileOnly libraries.persistence.jpaApi
 }
