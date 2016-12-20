@@ -1,8 +1,8 @@
 package eu.socialedge.vega.backend.account.domain;
 
-import eu.socialedge.vega.backend.account.domain.funding.PaymentMethod;
-import eu.socialedge.vega.backend.shared.PassengerId;
-import eu.socialedge.vega.backend.shared.TokenId;
+import eu.socialedge.vega.backend.shared.account.PassengerId;
+import eu.socialedge.vega.backend.shared.transit.TagId;
+import eu.socialedge.vega.backend.shared.payment.Token;
 
 import org.junit.Test;
 
@@ -17,16 +17,16 @@ import static org.mockito.Mockito.when;
 public class PassengerTest {
 
     @SuppressWarnings("unchecked")
-    private static HashSet<TokenId> notEmptyTokenIdSet =
-            (HashSet<TokenId>) mock(HashSet.class);
+    private static HashSet<TagId> notEmptyTagIdSet =
+            (HashSet<TagId>) mock(HashSet.class);
 
     @SuppressWarnings("unchecked")
-    private static HashSet<PaymentMethod> notEmptyPaymentMethodSet =
-            (HashSet<PaymentMethod>) mock(HashSet.class);
+    private static HashSet<Token> notEmptyPaymentTokenSet =
+            (HashSet<Token>) mock(HashSet.class);
 
     static {
-        when(notEmptyTokenIdSet.isEmpty()).thenReturn(false);
-        when(notEmptyPaymentMethodSet.isEmpty()).thenReturn(false);
+        when(notEmptyTagIdSet.isEmpty()).thenReturn(false);
+        when(notEmptyPaymentTokenSet.isEmpty()).thenReturn(false);
     }
 
     private static final List<String> INVALID_EMAIL_ADDRESSES =
@@ -54,13 +54,11 @@ public class PassengerTest {
     public void shouldThrowExceptionForInvalidEmailAddress() {
         INVALID_EMAIL_ADDRESSES.forEach(email -> {
             assertThatThrownBy(() ->
-                    new Passenger(new PassengerId(1L), "test", email, "12",
-                            notEmptyTokenIdSet, notEmptyPaymentMethodSet))
+                    new Passenger(new PassengerId(1L), "test", email, "12", notEmptyTagIdSet, notEmptyPaymentTokenSet))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("email address");
             assertThatThrownBy(() ->
-                    new Passenger(new PassengerId(1L), "test", email, "12",
-                            notEmptyTokenIdSet, notEmptyPaymentMethodSet)
+                    new Passenger(new PassengerId(1L), "test", email, "12", notEmptyTagIdSet, notEmptyPaymentTokenSet)
                                 .email(email))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("email address");
@@ -69,8 +67,7 @@ public class PassengerTest {
     @Test
     public void shouldNotThrowExceptionForValidEmailAddress() {
         VALID_EMAIL_ADDRESSES.forEach(email -> {
-            new Passenger(new PassengerId(1L), "test", email, "12",
-                    notEmptyTokenIdSet, notEmptyPaymentMethodSet)
+            new Passenger(new PassengerId(1L), "test", email, "12", notEmptyTagIdSet, notEmptyPaymentTokenSet)
                         .email(email);
         });
     }

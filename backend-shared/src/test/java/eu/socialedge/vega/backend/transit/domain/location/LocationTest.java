@@ -14,7 +14,7 @@
  */
 package eu.socialedge.vega.backend.transit.domain.location;
 
-import eu.socialedge.vega.backend.shared.location.Location;
+import eu.socialedge.vega.backend.shared.transit.location.Location;
 
 import org.junit.Test;
 

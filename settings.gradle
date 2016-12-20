@@ -2,5 +2,6 @@ include 'backend-shared',
         'backend-transit',
         'backend-account',
         'backend-terminal',
+        'backend-payment',
         'backend-history-boarding'
 

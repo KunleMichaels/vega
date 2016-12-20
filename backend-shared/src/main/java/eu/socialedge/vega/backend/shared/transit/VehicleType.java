@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.shared;
+package eu.socialedge.vega.backend.shared.transit;
 
 import javax.persistence.Embeddable;
 

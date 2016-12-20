@@ -15,14 +15,15 @@
 package eu.socialedge.vega.backend.transit.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.shared.TokenId;
+import eu.socialedge.vega.backend.shared.transit.TagId;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -31,20 +32,20 @@ import static org.apache.commons.lang3.Validate.notNull;
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
-public class Token extends AggregateRoot<TokenId> {
+public class Tag extends AggregateRoot<TagId> {
 
     private final String body;
 
     private final Set<Pass> passes;
 
-    public Token(TokenId id, String body, Set<Pass> passes) {
+    public Tag(TagId id, String body, Set<Pass> passes) {
         super(id);
 
         this.body = notBlank(body);
         this.passes = notNull(passes);
     }
 
-    public Token(TokenId id, String body) {
+    public Tag(TagId id, String body) {
         this(id, body, new HashSet<>());
     }
 }

@@ -1,4 +1,6 @@
-package eu.socialedge.vega.backend.account.domain.funding;
+package eu.socialedge.vega.backend.payment.domain.funding.funding;
+
+import eu.socialedge.vega.backend.payment.domain.funding.ExpirationDate;
 
 import org.junit.Test;
 

@@ -15,10 +15,10 @@
 package eu.socialedge.vega.backend.history.boarding.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.shared.BoardingId;
-import eu.socialedge.vega.backend.shared.PassengerId;
-import eu.socialedge.vega.backend.shared.TerminalId;
-import eu.socialedge.vega.backend.shared.location.Location;
+import eu.socialedge.vega.backend.shared.history.boarding.BoardingId;
+import eu.socialedge.vega.backend.shared.account.PassengerId;
+import eu.socialedge.vega.backend.shared.terminal.TerminalId;
+import eu.socialedge.vega.backend.shared.transit.location.Location;
 
 import java.time.LocalDateTime;
 

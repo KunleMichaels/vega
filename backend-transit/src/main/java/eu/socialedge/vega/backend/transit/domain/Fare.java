@@ -15,10 +15,10 @@
 package eu.socialedge.vega.backend.transit.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.shared.FareId;
-import eu.socialedge.vega.backend.shared.OperatorId;
-import eu.socialedge.vega.backend.shared.VehicleType;
-import eu.socialedge.vega.backend.shared.location.Zone;
+import eu.socialedge.vega.backend.shared.transit.FareId;
+import eu.socialedge.vega.backend.shared.account.OperatorId;
+import eu.socialedge.vega.backend.shared.transit.VehicleType;
+import eu.socialedge.vega.backend.shared.transit.location.Zone;
 
 import org.apache.commons.lang3.Validate;
 

@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.account.domain.funding;
+package eu.socialedge.vega.backend.payment.domain.funding;
 
 import org.apache.commons.validator.routines.CreditCardValidator;
 
@@ -69,8 +69,8 @@ public class CreditCard extends PaymentMethod {
 
     public CreditCard(CreditCardType cardType, Long number, String cardholder,
                       ExpirationDate expirationDate, Integer cvc,
-                      String description, boolean isPrimary) {
-        super(description, isPrimary);
+                      String description) {
+        super(description);
 
         this.cardType = notNull(cardType);
         this.cardholder = notBlank(cardholder);
@@ -91,6 +91,6 @@ public class CreditCard extends PaymentMethod {
     public CreditCard(CreditCardType cardType, Long number, String cardholder,
                       ExpirationDate expirationDate, Integer cvc) {
         this(cardType, number, cardholder, expirationDate, cvc,
-                String.format(DEFAULT_CARD_DESCR_FORMAT, cardType.name(), number), false);
+                String.format(DEFAULT_CARD_DESCR_FORMAT, cardType.name(), number));
     }
 }

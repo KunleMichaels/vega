@@ -12,37 +12,20 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.account.domain.funding;
+package eu.socialedge.vega.backend.shared.terminal;
 
-import eu.socialedge.vega.backend.ddd.ValueObject;
+import eu.socialedge.vega.backend.ddd.Identifier;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Embeddable;
 
 import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
-@ToString
-@Getter @Setter
-@Accessors(fluent = true)
-@EqualsAndHashCode(callSuper = false)
-@MappedSuperclass
+@Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
-public abstract class PaymentMethod extends ValueObject {
+public class TerminalId extends Identifier<Long> {
 
-    @Column(nullable = false)
-    private boolean isPrimary;
-
-    @Column
-    private String description;
-
-    protected PaymentMethod(String description, boolean isPrimary) {
-        this.description = description;
-        this.isPrimary = isPrimary;
+    public TerminalId(Long value) {
+        super(value);
     }
 }

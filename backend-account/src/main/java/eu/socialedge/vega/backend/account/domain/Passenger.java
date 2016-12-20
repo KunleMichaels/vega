@@ -14,10 +14,10 @@
  */
 package eu.socialedge.vega.backend.account.domain;
 
-import eu.socialedge.vega.backend.account.domain.funding.PaymentMethod;
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.shared.PassengerId;
-import eu.socialedge.vega.backend.shared.TokenId;
+import eu.socialedge.vega.backend.shared.account.PassengerId;
+import eu.socialedge.vega.backend.shared.transit.TagId;
+import eu.socialedge.vega.backend.shared.payment.Token;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -58,20 +58,20 @@ public class Passenger extends AggregateRoot<PassengerId> {
 
     @ElementCollection
     @CollectionTable(name = "passenger_token", joinColumns = @JoinColumn(name = "passenger_id"))
-    private final Set<TokenId> tokenIds;
+    private final Set<TagId> tagIds;
 
     @ElementCollection
     @CollectionTable(name = "passenger_pmethods", joinColumns = @JoinColumn(name = "passenger_id"))
-    private final Set<PaymentMethod> paymentMethods;
+    private final Set<Token> paymentTokens;
 
     public Passenger(PassengerId id, String name, String email, String password,
-                     Set<TokenId> tokenIds, Set<PaymentMethod> paymentMethods) {
+                     Set<TagId> tagIds, Set<Token> paymentTokens) {
         super(id);
 
         this.name = notBlank(name);
         this.password = notBlank(password);
-        this.tokenIds = notEmpty(tokenIds);
-        this.paymentMethods = notEmpty(paymentMethods);
+        this.tagIds = notEmpty(tagIds);
+        this.paymentTokens = notEmpty(paymentTokens);
 
         if (!EmailValidator.getInstance().isValid(email))
             throw new IllegalArgumentException(email + " is not a valid email address");

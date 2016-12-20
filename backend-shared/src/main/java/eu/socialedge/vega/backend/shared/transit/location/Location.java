@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.shared.location;
+package eu.socialedge.vega.backend.shared.transit.location;
 
 import eu.socialedge.vega.backend.ddd.ValueObject;
 

@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.shared;
+package eu.socialedge.vega.backend.shared.transit;
 
 import eu.socialedge.vega.backend.ddd.Identifier;
 
@@ -23,9 +23,9 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
-public class TokenId extends Identifier<Long> {
+public class FareId extends Identifier<Long> {
 
-    public TokenId(Long value) {
+    public FareId(Long value) {
         super(value);
     }
 }
