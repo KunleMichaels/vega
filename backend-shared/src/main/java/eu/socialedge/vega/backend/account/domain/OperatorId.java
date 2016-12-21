@@ -16,6 +16,8 @@ package eu.socialedge.vega.backend.account.domain;
 
 import eu.socialedge.vega.backend.ddd.Identifier;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import lombok.AccessLevel;
@@ -23,6 +25,7 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
+@AttributeOverride(name = "value", column = @Column(name = "operator_id"))
 public class OperatorId extends Identifier<Long> {
 
     public OperatorId(Long value) {

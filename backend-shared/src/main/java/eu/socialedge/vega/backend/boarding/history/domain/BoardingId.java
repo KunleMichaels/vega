@@ -16,6 +16,8 @@ package eu.socialedge.vega.backend.boarding.history.domain;
 
 import eu.socialedge.vega.backend.ddd.Identifier;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import lombok.AccessLevel;
@@ -23,6 +25,7 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
+@AttributeOverride(name = "value", column = @Column(name = "boarding_id"))
 public class BoardingId extends Identifier<Long> {
 
     public BoardingId(Long value) {

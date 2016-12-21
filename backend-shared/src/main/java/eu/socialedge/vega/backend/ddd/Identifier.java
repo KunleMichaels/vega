@@ -16,7 +16,8 @@ package eu.socialedge.vega.backend.ddd;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.MappedSuperclass;
 
 import lombok.EqualsAndHashCode;
@@ -35,10 +36,10 @@ import static org.apache.commons.lang3.Validate.notNull;
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
 @MappedSuperclass
+@Access(AccessType.FIELD)
 @NoArgsConstructor(force = true)
 public abstract class Identifier<T extends Serializable> extends ValueObject {
 
-    @Column(name = "id", nullable = false)
     protected final T value;
 
     public Identifier(T value) {
