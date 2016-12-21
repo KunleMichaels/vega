@@ -15,11 +15,12 @@
 package eu.socialedge.vega.backend.ddd;
 
 /**
- * Represents a subscriber to a {@link DomainEvent}
- *
- * @param <T> event type
+ * Manages domain event subscribers' registrations
  */
-public interface DomainEventSubscriber<T extends DomainEvent> {
+public interface DomainEventRegistrar {
 
-    void handleEvent(T aDomainEvent);
+    <T extends DomainEvent> void registerEventSubscriber(DomainEventSubscriber<T> eventSubscriber,
+                                                         Class<T> eventType);
+
+    void deregisterEventSubscriber(Class<?> eventType);
 }

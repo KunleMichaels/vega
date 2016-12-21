@@ -14,17 +14,10 @@
  */
 package eu.socialedge.vega.backend.ddd;
 
-import java.util.Collection;
-
 /**
- * Emits {@link DomainEvent}
+ * Emits {@link DomainEvent}s
  */
 public interface DomainEventPublisher {
 
-    void publish(DomainEvent event);
-
-    default void publishAll(Collection<DomainEvent> event) {
-        event.forEach(this::publish);
-    }
-
+    <T extends DomainEvent> void publish(T event);
 }
