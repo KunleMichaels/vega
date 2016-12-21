@@ -15,13 +15,19 @@
 package eu.socialedge.vega.backend.transit.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.shared.transit.TagId;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -32,10 +38,15 @@ import static org.apache.commons.lang3.Validate.notNull;
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
+@Entity
+@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Tag extends AggregateRoot<TagId> {
 
+    @Column(nullable = false)
     private final String body;
 
+    @OneToMany
+    @JoinColumn(name="tag_id", referencedColumnName="id")
     private final Set<Pass> passes;
 
     public Tag(TagId id, String body, Set<Pass> passes) {

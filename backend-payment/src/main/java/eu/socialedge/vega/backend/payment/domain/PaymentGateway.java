@@ -1,7 +1,6 @@
 package eu.socialedge.vega.backend.payment.domain;
 
 import eu.socialedge.vega.backend.payment.domain.funding.PaymentMethod;
-import eu.socialedge.vega.backend.shared.payment.Token;
 
 import javax.money.MonetaryAmount;
 

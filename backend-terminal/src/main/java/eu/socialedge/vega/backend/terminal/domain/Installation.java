@@ -15,8 +15,8 @@
 package eu.socialedge.vega.backend.terminal.domain;
 
 import eu.socialedge.vega.backend.ddd.ValueObject;
-import eu.socialedge.vega.backend.shared.account.OperatorId;
-import eu.socialedge.vega.backend.shared.transit.VehicleType;
+import eu.socialedge.vega.backend.account.domain.OperatorId;
+import eu.socialedge.vega.backend.transit.domain.VehicleType;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

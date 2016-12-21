@@ -12,16 +12,24 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.shared.transit.location;
+package eu.socialedge.vega.backend.transit.domain.location;
 
-import eu.socialedge.vega.backend.ddd.ValueObject;
+import eu.socialedge.vega.backend.ddd.AggregateRoot;
 
 import java.awt.geom.Path2D;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -31,12 +39,17 @@ import static org.apache.commons.lang3.Validate.notEmpty;
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
-public class Zone extends ValueObject {
+@Entity
+@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
+public class Zone extends AggregateRoot<ZoneId> {
 
     @Getter
+    @Column(nullable = false)
     private final String name;
 
     @Getter
+    @ElementCollection
+    @CollectionTable(name = "zone_vertex", joinColumns = @JoinColumn(name = "zone_id"))
     private final List<Location> vertices;
 
     private transient Path2D polyPath;

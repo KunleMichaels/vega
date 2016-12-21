@@ -14,11 +14,11 @@
  */
 package eu.socialedge.vega.backend.transit.domain;
 
+import eu.socialedge.vega.backend.account.domain.OperatorId;
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.shared.transit.FareId;
-import eu.socialedge.vega.backend.shared.account.OperatorId;
-import eu.socialedge.vega.backend.shared.transit.VehicleType;
-import eu.socialedge.vega.backend.shared.transit.location.Zone;
+import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.DeductionSerializer;
+import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.MonetaryAmountSerializer;
+import eu.socialedge.vega.backend.transit.domain.location.ZoneId;
 
 import org.apache.commons.lang3.Validate;
 
@@ -27,9 +27,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.money.MonetaryAmount;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
@@ -42,22 +50,36 @@ import static org.apache.commons.lang3.Validate.notNull;
 @Getter @Setter
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
+@Entity
+@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Fare extends AggregateRoot<FareId> {
 
+    @Column(nullable = false)
+    @Convert(converter = MonetaryAmountSerializer.class)
     private @NonNull MonetaryAmount price;
 
-    private @NonNull Period validity;
+    @Column(nullable = false)
+    private Period validity;
 
+    @ElementCollection
+    @CollectionTable(name = "fare_deduction", joinColumns = @JoinColumn(name = "fare_id"))
+    @Convert(converter = DeductionSerializer.class)
     private final Set<Deduction> deductions;
 
+    @ElementCollection
+    @CollectionTable(name = "fare_vehicle_type", joinColumns = @JoinColumn(name = "fare_id"))
     private final Set<VehicleType> vehicleTypes;
 
-    private final Set<Zone> zones;
+    @ElementCollection
+    @CollectionTable(name = "fare_zone", joinColumns = @JoinColumn(name = "fare_id"))
+    private final Set<ZoneId> zoneIds;
 
+    @ElementCollection
+    @CollectionTable(name = "fare_operator", joinColumns = @JoinColumn(name = "fare_id"))
     private final Set<OperatorId> operatorIds;
 
     public Fare(FareId fareId, MonetaryAmount price, Set<Deduction> deductions,
-                Period validity, Set<VehicleType> vehicleTypes, Set<Zone> zones,
+                Period validity, Set<VehicleType> vehicleTypes, Set<ZoneId> zoneIds,
                 Set<OperatorId> operatorIds) {
         super(fareId);
 
@@ -68,13 +90,13 @@ public class Fare extends AggregateRoot<FareId> {
         this.deductions = notNull(deductions);
         this.validity = notNull(validity);
         this.vehicleTypes = notEmpty(vehicleTypes);
-        this.zones = notEmpty(zones);
+        this.zoneIds = notEmpty(zoneIds);
         this.operatorIds = notEmpty(operatorIds);
     }
 
     public Fare(FareId fareId, MonetaryAmount price, Period validity,
-                Set<VehicleType> vehicleTypes, Set<Zone> zones, Set<OperatorId> operatorIds) {
+                Set<VehicleType> vehicleTypes, Set<ZoneId> zoneIds, Set<OperatorId> operatorIds) {
         this(fareId, price, new HashSet<>(), validity, vehicleTypes,
-                zones, operatorIds);
+                zoneIds, operatorIds);
     }
 }

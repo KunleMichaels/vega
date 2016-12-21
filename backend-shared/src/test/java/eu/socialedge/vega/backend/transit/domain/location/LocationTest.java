@@ -14,8 +14,6 @@
  */
 package eu.socialedge.vega.backend.transit.domain.location;
 
-import eu.socialedge.vega.backend.shared.transit.location.Location;
-
 import org.junit.Test;
 
 import java.util.HashSet;

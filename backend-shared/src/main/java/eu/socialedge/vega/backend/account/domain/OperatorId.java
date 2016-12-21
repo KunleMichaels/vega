@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.shared.terminal;
+package eu.socialedge.vega.backend.account.domain;
 
 import eu.socialedge.vega.backend.ddd.Identifier;
 
@@ -23,9 +23,9 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
-public class TerminalId extends Identifier<Long> {
+public class OperatorId extends Identifier<Long> {
 
-    public TerminalId(Long value) {
+    public OperatorId(Long value) {
         super(value);
     }
 }

@@ -1,4 +1,4 @@
-package eu.socialedge.vega.backend.shared.payment;
+package eu.socialedge.vega.backend.payment.domain;
 
 import javax.persistence.Embeddable;
 

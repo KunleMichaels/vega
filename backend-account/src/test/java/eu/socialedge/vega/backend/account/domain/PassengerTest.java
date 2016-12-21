@@ -1,8 +1,7 @@
 package eu.socialedge.vega.backend.account.domain;
 
-import eu.socialedge.vega.backend.shared.account.PassengerId;
-import eu.socialedge.vega.backend.shared.transit.TagId;
-import eu.socialedge.vega.backend.shared.payment.Token;
+import eu.socialedge.vega.backend.transit.domain.TagId;
+import eu.socialedge.vega.backend.payment.domain.Token;
 
 import org.junit.Test;
 

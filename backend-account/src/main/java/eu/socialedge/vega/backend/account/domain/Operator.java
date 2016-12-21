@@ -15,7 +15,6 @@
 package eu.socialedge.vega.backend.account.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.shared.account.OperatorId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

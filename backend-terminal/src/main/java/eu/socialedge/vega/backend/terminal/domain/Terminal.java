@@ -15,7 +15,6 @@
 package eu.socialedge.vega.backend.terminal.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.shared.terminal.TerminalId;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

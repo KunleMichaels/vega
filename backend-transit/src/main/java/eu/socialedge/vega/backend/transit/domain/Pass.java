@@ -14,21 +14,27 @@
  */
 package eu.socialedge.vega.backend.transit.domain;
 
+import eu.socialedge.vega.backend.account.domain.OperatorId;
+import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.vega.backend.ddd.ValueObject;
-import eu.socialedge.vega.backend.shared.transit.FareId;
-import eu.socialedge.vega.backend.shared.account.OperatorId;
-import eu.socialedge.vega.backend.shared.account.PassengerId;
-import eu.socialedge.vega.backend.shared.transit.VehicleType;
-import eu.socialedge.vega.backend.shared.transit.location.Location;
-import eu.socialedge.vega.backend.shared.transit.location.Zone;
+import eu.socialedge.vega.backend.transit.domain.location.ZoneId;
 
 import org.apache.commons.lang3.Validate;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -38,34 +44,50 @@ import static org.apache.commons.lang3.Validate.notNull;
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
+@Entity // Treat it as an Entity from the persistence perspective to avoid JSR338 Chp 2.6 constraint
+@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Pass extends ValueObject {
 
+    @Id
     @Getter
+    @Column(nullable = false)
     private final PassengerId passengerId;
 
+    @Id
     @Getter
+    @Column(nullable = false)
     private final FareId fareId;
 
+    @Id
     @Getter
+    @Column(nullable = false)
     private final LocalDateTime activation;
 
+    @Id
     @Getter
+    @Column(nullable = false)
     private final LocalDateTime expiration;
 
+    @ElementCollection
+    @CollectionTable(name = "pass_vehicle_type", joinColumns = @JoinColumn(name = "pass_id"))
     private final Set<VehicleType> vehicleTypes;
 
-    private final Set<Zone> zones;
+    @ElementCollection
+    @CollectionTable(name = "pass_zone", joinColumns = @JoinColumn(name = "pass_id"))
+    private final Set<ZoneId> zoneIds;
 
+    @ElementCollection
+    @CollectionTable(name = "pass_operator", joinColumns = @JoinColumn(name = "pass_id"))
     private final Set<OperatorId> operatorIds;
 
     public Pass(PassengerId passengerId, FareId fareId,
                 LocalDateTime activation, LocalDateTime expiration,
-                Set<VehicleType> vehicleTypes, Set<Zone> zones,
+                Set<VehicleType> vehicleTypes, Set<ZoneId> zoneIds,
                 Set<OperatorId> operatorIds) {
         this.passengerId = notNull(passengerId);
         this.fareId = notNull(fareId);
         this.vehicleTypes = notEmpty(vehicleTypes);
-        this.zones = notEmpty(zones);
+        this.zoneIds = notEmpty(zoneIds);
         this.operatorIds = notEmpty(operatorIds);
 
         Validate.isTrue(notNull(expiration).isBefore(notNull(activation)),
@@ -82,12 +104,8 @@ public class Pass extends ValueObject {
         return vehicleTypes.contains(vehicleType);
     }
 
-    public boolean complies(Zone zone) {
-        return zones.contains(zone);
-    }
-
-    public boolean complies(Location location) {
-        return zones.stream().anyMatch(zone -> zone.contains(location));
+    public boolean complies(ZoneId zoneId) {
+        return zoneIds.contains(zoneId);
     }
 
     public boolean complies(OperatorId operatorId) {
