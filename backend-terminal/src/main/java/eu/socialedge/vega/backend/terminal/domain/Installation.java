@@ -14,12 +14,20 @@
  */
 package eu.socialedge.vega.backend.terminal.domain;
 
-import eu.socialedge.vega.backend.ddd.ValueObject;
 import eu.socialedge.vega.backend.account.domain.OperatorId;
+import eu.socialedge.vega.backend.ddd.ValueObject;
 import eu.socialedge.vega.backend.transit.domain.VehicleType;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -30,12 +38,18 @@ import static org.apache.commons.lang3.Validate.notNull;
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
+@Embeddable
+@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Installation extends ValueObject {
 
+    @Embedded
     private final OperatorId operatorId;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private final VehicleType vehicleType;
 
+    @Column(nullable = false)
     private final String vehicleIdentifier;
 
     public Installation(OperatorId operatorId, VehicleType vehicleType, String vehicleIdentifier) {

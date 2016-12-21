@@ -16,8 +16,13 @@ package eu.socialedge.vega.backend.terminal.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -26,10 +31,14 @@ import static org.apache.commons.lang3.Validate.notNull;
 @ToString
 @Getter @Setter
 @EqualsAndHashCode(callSuper = false)
+@Entity
+@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Terminal extends AggregateRoot<TerminalId> {
 
+    @Embedded
     private Build build;
 
+    @Embedded
     private Installation installation;
 
     public Terminal(TerminalId id, Build build, Installation installation) {
