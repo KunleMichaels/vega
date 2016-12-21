@@ -16,13 +16,8 @@ package eu.socialedge.vega.backend.payment.domain.funding;
 
 import eu.socialedge.vega.backend.ddd.ValueObject;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -31,11 +26,8 @@ import lombok.experimental.Accessors;
 @Getter @Setter
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
-@MappedSuperclass
-@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public abstract class PaymentMethod extends ValueObject {
 
-    @Column
     private String description;
 
     protected PaymentMethod(String description) {

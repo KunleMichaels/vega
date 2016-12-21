@@ -3,5 +3,4 @@ dependencies {
     compile libraries.commons.moneta
     compile libraries.commons.apacheLang3
     compile libraries.commons.apacheValidator
-    compile libraries.persistence.jpaApi
 }

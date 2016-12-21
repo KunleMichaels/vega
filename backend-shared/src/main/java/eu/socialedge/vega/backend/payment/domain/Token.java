@@ -14,12 +14,15 @@
  */
 package eu.socialedge.vega.backend.payment.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -33,7 +36,12 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Token {
 
-    private final String tokenId;
+    @Column(name = "token_id", nullable = false)
+    private final @NonNull String tokenId;
 
+    @Embedded
+    private final @NonNull ExpirationDate expirationDate;
+
+    @Column
     private final String description;
 }

@@ -16,7 +16,7 @@ package eu.socialedge.vega.backend.payment.domain.funding.funding;
 
 import eu.socialedge.vega.backend.payment.domain.funding.CreditCard;
 import eu.socialedge.vega.backend.payment.domain.funding.CreditCardType;
-import eu.socialedge.vega.backend.payment.domain.funding.ExpirationDate;
+import eu.socialedge.vega.backend.payment.domain.ExpirationDate;
 
 import org.junit.Test;
 

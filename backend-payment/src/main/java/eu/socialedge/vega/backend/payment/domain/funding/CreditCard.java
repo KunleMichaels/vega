@@ -14,20 +14,14 @@
  */
 package eu.socialedge.vega.backend.payment.domain.funding;
 
+import eu.socialedge.vega.backend.payment.domain.ExpirationDate;
+
 import org.apache.commons.validator.routines.CreditCardValidator;
 
 import java.util.regex.Pattern;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -38,25 +32,18 @@ import static org.apache.commons.lang3.Validate.notNull;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(fluent = true)
-@Embeddable
-@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class CreditCard extends PaymentMethod {
 
     private static final String DEFAULT_CARD_DESCR_FORMAT = "%s-%.4s*";
 
     private static final Pattern VALID_CVC_CODE_PATTERN = Pattern.compile("^[0-9]{3,4}$");
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private final CreditCardType cardType;
 
-    @Column(nullable = false)
     private final Long number;
 
-    @Column(nullable = false)
     private final String cardholder;
 
-    @Embedded
     private final ExpirationDate expirationDate;
 
     /**
