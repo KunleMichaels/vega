@@ -27,6 +27,7 @@ import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -48,23 +49,23 @@ import static org.apache.commons.lang3.Validate.notNull;
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Pass extends ValueObject {
 
-    @Id
     @Getter
+    @Id @Embedded
     @Column(nullable = false)
     private final PassengerId passengerId;
 
-    @Id
     @Getter
+    @Id @Embedded
     @Column(nullable = false)
     private final FareId fareId;
 
-    @Id
     @Getter
+    @Id
     @Column(nullable = false)
     private final LocalDateTime activation;
 
-    @Id
     @Getter
+    @Id
     @Column(nullable = false)
     private final LocalDateTime expiration;
 
