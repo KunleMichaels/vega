@@ -29,6 +29,8 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 
@@ -71,6 +73,7 @@ public class Pass extends ValueObject {
 
     @ElementCollection
     @CollectionTable(name = "pass_vehicle_type", joinColumns = @JoinColumn(name = "pass_id"))
+    @Enumerated(EnumType.STRING)
     private final Set<VehicleType> vehicleTypes;
 
     @ElementCollection

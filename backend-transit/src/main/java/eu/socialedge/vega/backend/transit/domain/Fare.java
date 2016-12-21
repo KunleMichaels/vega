@@ -32,6 +32,8 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 
 import lombok.AccessLevel;
@@ -68,6 +70,7 @@ public class Fare extends AggregateRoot<FareId> {
 
     @ElementCollection
     @CollectionTable(name = "fare_vehicle_type", joinColumns = @JoinColumn(name = "fare_id"))
+    @Enumerated(EnumType.STRING)
     private final Set<VehicleType> vehicleTypes;
 
     @ElementCollection

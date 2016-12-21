@@ -21,6 +21,8 @@ import java.util.regex.Pattern;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -44,6 +46,7 @@ public class CreditCard extends PaymentMethod {
 
     private static final Pattern VALID_CVC_CODE_PATTERN = Pattern.compile("^[0-9]{3,4}$");
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private final CreditCardType cardType;
 

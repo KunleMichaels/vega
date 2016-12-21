@@ -25,6 +25,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -41,6 +43,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Boarding extends AggregateRoot<BoardingId> {
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private final BoardingType boardingType;
 
