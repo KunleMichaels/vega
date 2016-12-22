@@ -443,6 +443,7 @@ Further paragraphs come after blank lines.
 * **You live the second line blank**
 * Each line in commit body is less then 72
 * **Commit message is meaningful. It says what the change includes and why.**
+* **Commit message uses the imperative, present tense: "change", not "changed" or "changes"**
 * **The summary starts with a verb in the present tense** (e.g. Add, change, fix etc.).
 
 Why good commit messages matter? See [this article](http://chris.beams.io/posts/git-commit/).
