@@ -8,6 +8,7 @@ import { ActivityComponent } from './activity/activity.component';
 import { AboutComponent } from './about/about.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PassesComponent } from './passes/passes.component';
+import { IdentifiersComponent } from "./identifiers/identifiers.component";
 import { ApiService } from './shared';
 import { routing } from './app.routing';
 
@@ -25,7 +26,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     ActivityComponent,
     AboutComponent,
     DashboardComponent,
-    PassesComponent
+    PassesComponent,
+    IdentifiersComponent
   ],
   providers: [
     ApiService
