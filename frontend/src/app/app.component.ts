@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { ApiService } from './shared';
-
 import '../style/app.scss';
 
 @Component({
@@ -12,7 +10,7 @@ import '../style/app.scss';
 export class AppComponent {
   url = 'https://github.com/socialedge/vega';
 
-  constructor(private api: ApiService) {
-    // Do something with api
+  toggleDrawer(drawer): void {
+    drawer.toggle();
   }
 }

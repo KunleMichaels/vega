@@ -1,7 +1,8 @@
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule, ApplicationRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { PolymerElement } from '@vaadin/angular2-polymer';
 
 import { AppComponent } from './app.component';
 import { ActivityComponent } from './activity/activity.component';
@@ -23,16 +24,23 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   ],
   declarations: [
     AppComponent,
+    PolymerElement('app-drawer'),
+    PolymerElement('app-drawer-layout'),
+    PolymerElement('app-toolbar'),
+    PolymerElement('paper-input'),
+    PolymerElement('iron-icon'),
+    PolymerElement('paper-icon-button'),
+    PolymerElement('paper-item'),
+    PolymerElement('paper-icon-item'),
     ActivityComponent,
     AboutComponent,
     DashboardComponent,
     PassesComponent,
     IdentifiersComponent
   ],
-  providers: [
-    ApiService
-  ],
-  bootstrap: [AppComponent]
+  providers: [ ApiService ],
+  bootstrap: [ AppComponent ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule {
   constructor(public appRef: ApplicationRef) {}

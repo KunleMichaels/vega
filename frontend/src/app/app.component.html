@@ -1,19 +1,53 @@
-<header>
-  <nav>
-    <a [routerLink]="['']">Dashboard</a>
-    <a [routerLink]="['passes']">Passes</a>
-    <a [routerLink]="['identifiers']">Identifiers</a>
-    <a [routerLink]="['activity']">Your Activity</a>
-    <a [routerLink]="['about']">How it works?</a>
-  </nav>
-</header>
-<main>
-  <h1>Hello, this is {{api.title}}!</h1>
+<app-drawer-layout>
+  <app-drawer #drawer swipe-open>
+    <div class="drawer-contents">
+      <div role="listbox">
+        <a class="vg-paper-item-link" [routerLink]="['']" tabindex="-1">
+          <paper-icon-item>
+            <iron-icon icon="dashboard" item-icon></iron-icon>
+            Dashboard
+          </paper-icon-item>
+        </a>
+        <a class="vg-paper-item-link" [routerLink]="['passes']" tabindex="-1">
+          <paper-icon-item>
+            <iron-icon icon="card-membership" item-icon></iron-icon>
+            Passes
+          </paper-icon-item>
+        </a>
+        <a class="vg-paper-item-link" [routerLink]="['identifiers']" tabindex="-1">
+          <paper-icon-item>
+            <iron-icon icon="credit-card" item-icon></iron-icon>
+            Identifiers
+          </paper-icon-item>
+        </a>
+        <a class="vg-paper-item-link" [routerLink]="['activity']" tabindex="-1">
+          <paper-icon-item>
+            <iron-icon icon="history" item-icon></iron-icon>
+            Your Activity
+          </paper-icon-item>
+        </a>
+        <a class="vg-paper-item-link" [routerLink]="['about']" tabindex="-1">
+          <paper-icon-item>
+            <iron-icon icon="help" item-icon></iron-icon>
+            How it works?
+          </paper-icon-item>
+        </a>
+      </div>
+    </div>
+  </app-drawer>
 
-  <img width="560px" src="/img/vega-transit.png">
+  <app-toolbar>
+    <paper-icon-button (click)="toggleDrawer(drawer)" icon="menu"></paper-icon-button>
+    <div main-title>Vega Transit</div>
+    <paper-icon-button icon="more-vert"></paper-icon-button>
+  </app-toolbar>
 
-  <router-outlet></router-outlet>
-</main>
-<footer>
-  <a [href]="url"> SocialEdge Vega</a>
-</footer>
+  <main>
+    <router-outlet class="vg-content-panel"></router-outlet>
+  </main>
+
+  <footer>
+    View on GitHub: <a [href]="url"> SocialEdge Vega</a>
+  </footer>
+
+</app-drawer-layout>

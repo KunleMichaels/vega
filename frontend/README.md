@@ -13,9 +13,10 @@ We use:
 * Angular 2 code is being tested with [Jasmine](http://jasmine.github.io/) and [Karma](http://karma-runner.github.io/).
 * coverage with [Istanbul](https://github.com/gotwarlost/istanbul)
 * End-to-end Angular 2 code using [Protractor](https://angular.github.io/protractor/).
+* [Polymer](https://www.polymer-project.org/1.0/) based [Web Components](http://webcomponents.org/),
 * Stylesheets with [SASS](http://sass-lang.com/) (not required, it supports regular css too).
 * Error reported with [TSLint](http://palantir.github.io/tslint/) and [Codelyzer](https://github.com/mgechev/codelyzer).
-* Documentation with [TypeDoc](http://typedoc.org/).
+* Documentation with [TypeDoc](http://typedoc.org/)
 
 >Warning: Make sure you're using the latest version of Node.js and NPM
 
@@ -32,8 +33,8 @@ $ git clone https://github.com/socialedge/vega.git vega
 # change directory to
 $ cd vega/frontend
 
-# install the dependencies with npm
-$ npm install
+# install the dependencies
+$ npm install && bower install
 
 # start the server
 $ npm start

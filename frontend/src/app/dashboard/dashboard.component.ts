@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from './../shared';
 
 @Component({
   selector: 'my-dashboard',
@@ -7,8 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() {
-    // Do stuff
+  constructor(private api: ApiService) {
   }
 
   ngOnInit() {

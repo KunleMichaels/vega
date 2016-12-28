@@ -1,0 +1,28 @@
+<style is="custom-style">
+  body {
+    @apply(--layout-fullbleed);
+    @apply(--paper-font-body1);
+    background: var(--primary-background-color);
+    color: var(--secondary-text-color);
+  }
+  .paper-font-title {
+    @apply(--paper-font-title);
+  }
+  .paper-font-body2 {
+    @apply(--paper-font-body2);
+  }
+  app-drawer {
+    --app-drawer-content-container: {
+      background: var(--paper-indigo-50);
+    }
+  }
+  app-toolbar {
+    background: var(--default-primary-color);
+    color: var(--text-primary-color);
+  }
+  footer {
+    background: var(--paper-grey-50);
+    text-align: center;
+    /*@apply(--paper-font-caption);*/
+  }
+</style>
