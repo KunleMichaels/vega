@@ -6,10 +6,19 @@ ext {
                     apacheValidator: '1.5.+'
             ],
             persistence: [
-                    jpaApi: '1.0.0.Final'
+                    jpaApi: '1.0.0.Final',
+                    springOrm: '4.3.5.RELEASE',
+                    springDataJpa: '1.10.6.RELEASE'
+            ],
+            application: [
+                    springBoot: '',
+                    jsr330: '1',
+
             ],
             gen: [
-                    lombok: '1.16.+'
+                    lombok: '1.16.+',
+                    jpaModelPlg: '1.1.1',
+                    hibernateJpaModel: '5.2.5.Final'
             ],
             test: [
                     junit  : '4.12',
@@ -25,10 +34,17 @@ ext {
                     apacheValidator: "commons-validator:commons-validator:${versions.commons.apacheValidator}"
             ],
             persistence: [
-                    jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.persistence.jpaApi}"
+                    jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.persistence.jpaApi}",
+                    springData: ["org.springframework:spring-orm:${versions.persistence.springOrm}",
+                                 "org.springframework.data:spring-data-jpa:${versions.persistence.springDataJpa}"]
+            ],
+            application: [
+                    springBoot: ["org.springframework.boot:spring-boot-starter:${versions.application.springBoot}",
+                                 "javax.inject:javax.inject:${versions.application.jsr330}"]
             ],
             gen: [
-                    lombok: "org.projectlombok:lombok:${versions.gen.lombok}"
+                    lombok: "org.projectlombok:lombok:${versions.gen.lombok}",
+                    jpaModel: "org.hibernate:hibernate-jpamodelgen:${versions.gen.hibernateJpaModel}"
             ],
             test: [
                     junit: [

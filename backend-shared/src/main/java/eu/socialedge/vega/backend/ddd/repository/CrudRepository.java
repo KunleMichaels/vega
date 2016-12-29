@@ -18,6 +18,7 @@ import eu.socialedge.vega.backend.ddd.AggregateRoot;
 import eu.socialedge.vega.backend.ddd.Identifier;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * CRUD - Create Read Update Delete {@link Repository}
@@ -30,13 +31,15 @@ public interface CrudRepository <ID extends Identifier<?>, T extends AggregateRo
 
     boolean remove(ID id);
 
-    void remove(T object);
-
-    default void remove(Iterable<ID> entityIds) {
-        entityIds.forEach(this::remove);
+    default boolean remove(T entity) {
+        return remove(entity.id());
     }
+
+    void remove(Iterable<ID> entityIds);
 
     default void remove(Collection<T> entities) {
-        entities.forEach(this::remove);
+        remove(entities.stream().map(T::id).collect(Collectors.toList()));
     }
+
+    void clear();
 }

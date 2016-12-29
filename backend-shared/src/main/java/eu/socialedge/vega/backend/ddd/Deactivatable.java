@@ -12,9 +12,13 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.account.domain;
+package eu.socialedge.vega.backend.ddd;
 
-import eu.socialedge.vega.backend.ddd.repository.CruaRepository;
+public interface Deactivatable {
 
-public interface PassengerRepository extends CruaRepository<PassengerId, Passenger> {
+    boolean isActive();
+
+    void activate();
+
+    void deactivate();
 }

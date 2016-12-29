@@ -12,9 +12,15 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.account.domain;
+package eu.socialedge.vega.backend.terminal.infrastructure.persistence.jpa;
 
-import eu.socialedge.vega.backend.ddd.repository.CruaRepository;
+import eu.socialedge.vega.backend.ddd.repository.CrudRepository;
+import eu.socialedge.vega.backend.terminal.domain.Terminal;
+import eu.socialedge.vega.backend.terminal.domain.TerminalId;
+import eu.socialedge.vega.backend.terminal.domain.TerminalRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PassengerRepository extends CruaRepository<PassengerId, Passenger> {
+@Repository
+public interface SpringTerminalRepository extends TerminalRepository, CrudRepository<TerminalId, Terminal> {
+
 }

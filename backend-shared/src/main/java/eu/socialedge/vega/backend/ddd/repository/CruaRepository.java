@@ -15,9 +15,12 @@
 package eu.socialedge.vega.backend.ddd.repository;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
+import eu.socialedge.vega.backend.ddd.Deactivatable;
 import eu.socialedge.vega.backend.ddd.Identifier;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * CRUA - Create Read Update Activate/Deactivate {@link Repository}
@@ -25,34 +28,40 @@ import java.util.Collection;
  * @param <ID> concrete {@link Identifier} type implementation
  * @param <T> {@link AggregateRoot} type implementation
  */
-public interface CruaRepository<ID extends Identifier<?>, T extends AggregateRoot<ID>> extends
-        CruRepository<ID, T> {
+public interface CruaRepository<ID extends Identifier<?>, T extends AggregateRoot<ID> & Deactivatable>
+        extends CruRepository<ID, T> {
 
     boolean isActive(ID id);
 
-    boolean isActive(T object);
+    default boolean isActive(T entity) {
+        return isActive(entity.id());
+    }
 
     void activate(ID id);
 
-    void activate(T object);
-
-    default void activate(Iterable<ID> entityIds) {
-        entityIds.forEach(this::activate);
+    default void activate(T entity) {
+        activate(entity.id());
     }
 
-    default void activate(Collection<T> objects) {
-        objects.forEach(this::activate);
+    void activate(Iterable<ID> entityIds);
+
+    default void activate(Collection<T> entities) {
+        activate(entities.stream().map(T::id).collect(Collectors.toList()));
     }
 
     void deactivate(ID id);
 
-    void deactivate(T object);
-
-    default void deactivate(Iterable<ID> entityIds) {
-        entityIds.forEach(this::deactivate);
+    default void deactivate(T entity) {
+        deactivate(entity.id());
     }
 
-    default void deactivate(Collection<T> objects) {
-        objects.forEach(this::deactivate);
+    void deactivate(Iterable<ID> entityIds);
+
+    default void deactivate(Collection<T> entities) {
+        deactivate(entities.stream().map(T::id).collect(Collectors.toList()));
     }
+
+    Optional<T> getActive(ID id);
+
+    Collection<T> listActive();
 }

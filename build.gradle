@@ -14,9 +14,37 @@ configure(subprojects.findAll {it.name.startsWith('backend')}) {
         jcenter()
     }
 
+    configurations {
+        jpaMetamodel
+    }
+
     dependencies {
+        jpaMetamodel libraries.gen.jpaModel
         compileOnly libraries.gen.lombok
         testCompile libraries.test.junit
         testCompile libraries.test.mockito
+    }
+
+    sourceSets {
+        generated {
+            java {
+                srcDirs= ['src/main/generated']
+            }
+        }
+    }
+
+    sourceSets.main.java.srcDirs += sourceSets.generated.java.srcDirs.iterator().next()
+
+    task generatedJpaClasses(type: JavaCompile, group: 'build', description: 'metamodel generate') {
+        source = sourceSets.main.java
+        classpath = sourceSets.main.compileClasspath + configurations.jpaMetamodel
+        options.compilerArgs = ["-proc:only"]
+        destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+    }
+
+    compileJava.dependsOn generatedJpaClasses
+
+    clean{
+        delete sourceSets.generated.java.srcDirs
     }
 }

@@ -12,9 +12,14 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.account.domain;
+package eu.socialedge.vega.backend.history.boarding.infrastructure.persistence.jpa;
 
-import eu.socialedge.vega.backend.ddd.repository.CruaRepository;
+import eu.socialedge.vega.backend.boarding.history.domain.BoardingId;
+import eu.socialedge.vega.backend.history.boarding.domain.Boarding;
+import eu.socialedge.vega.backend.history.boarding.domain.BoardingRepository;
+import eu.socialedge.vega.backend.infrastructure.persistence.jpa.repository.SpringCrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PassengerRepository extends CruaRepository<PassengerId, Passenger> {
+@Repository
+public interface SpringBoardingRepository extends BoardingRepository, SpringCrudRepository<BoardingId, Boarding> {
 }

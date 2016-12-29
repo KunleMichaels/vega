@@ -35,8 +35,6 @@ public interface Repository<ID extends Identifier<?>, T extends AggregateRoot<ID
 
     boolean contains(ID id);
 
-    void clear();
-
     long size();
 
     boolean isEmpty();

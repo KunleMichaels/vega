@@ -14,26 +14,15 @@
  */
 package eu.socialedge.vega.backend.account.domain;
 
-import eu.socialedge.vega.backend.ddd.AggregateRoot;
-import eu.socialedge.vega.backend.transit.domain.TagId;
+import eu.socialedge.vega.backend.ddd.DeactivatableAggregateRoot;
 import eu.socialedge.vega.backend.payment.domain.Token;
-
+import eu.socialedge.vega.backend.transit.domain.TagId;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.apache.commons.validator.routines.EmailValidator;
 
+import javax.persistence.*;
 import java.util.Set;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notEmpty;
@@ -44,7 +33,7 @@ import static org.apache.commons.lang3.Validate.notEmpty;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
-public class Passenger extends AggregateRoot<PassengerId> {
+public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
 
     @Column(nullable = false)
     private String name;
@@ -55,6 +44,9 @@ public class Passenger extends AggregateRoot<PassengerId> {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "is_shadow", nullable = false)
+    private boolean isShadow;
+
     @ElementCollection
     @CollectionTable(name = "passenger_token", joinColumns = @JoinColumn(name = "passenger_id"))
     private final Set<TagId> tagIds;
@@ -64,18 +56,24 @@ public class Passenger extends AggregateRoot<PassengerId> {
     private final Set<Token> paymentTokens;
 
     public Passenger(PassengerId id, String name, String email, String password,
-                     Set<TagId> tagIds, Set<Token> paymentTokens) {
+                     Set<TagId> tagIds, Set<Token> paymentTokens, boolean isShadow) {
         super(id);
 
         this.name = notBlank(name);
         this.password = notBlank(password);
         this.tagIds = notEmpty(tagIds);
         this.paymentTokens = notEmpty(paymentTokens);
+        this.isShadow = isShadow;
 
         if (!EmailValidator.getInstance().isValid(email))
             throw new IllegalArgumentException(email + " is not a valid email address");
 
         this.email = email;
+    }
+
+    public Passenger(PassengerId id, String name, String email, String password,
+                     Set<TagId> tagIds, Set<Token> paymentTokens) {
+        this(id, name, email, password, tagIds, paymentTokens, false);
     }
 
     public void name(String name) {
