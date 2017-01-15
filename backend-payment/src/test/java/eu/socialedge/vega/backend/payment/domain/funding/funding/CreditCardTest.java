@@ -14,24 +14,15 @@
  */
 package eu.socialedge.vega.backend.payment.domain.funding.funding;
 
+import eu.socialedge.vega.backend.payment.domain.ExpirationDate;
 import eu.socialedge.vega.backend.payment.domain.funding.CreditCard;
 import eu.socialedge.vega.backend.payment.domain.funding.CreditCardType;
-import eu.socialedge.vega.backend.payment.domain.ExpirationDate;
-
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static eu.socialedge.vega.backend.payment.domain.funding.CreditCardType.AMEX;
-import static eu.socialedge.vega.backend.payment.domain.funding.CreditCardType.DINERS;
-import static eu.socialedge.vega.backend.payment.domain.funding.CreditCardType.MASTERCARD;
-import static eu.socialedge.vega.backend.payment.domain.funding.CreditCardType.VISA;
-import static eu.socialedge.vega.backend.payment.domain.funding.CreditCardType.VPAY;
+import static eu.socialedge.vega.backend.payment.domain.funding.CreditCardType.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class CreditCardTest {

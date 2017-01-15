@@ -15,15 +15,12 @@
 package eu.socialedge.vega.backend.account.domain;
 
 import eu.socialedge.vega.backend.ddd.Identifier;
-
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-@Embeddable
+import javax.persistence.*;
+
+@Embeddable @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 @AttributeOverride(name = "value", column = @Column(name = "passenger_id"))
 public class PassengerId extends Identifier<Long> {

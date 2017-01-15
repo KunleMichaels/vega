@@ -15,13 +15,11 @@
 package eu.socialedge.vega.backend.transit.domain.location;
 
 import eu.socialedge.vega.backend.ddd.ValueObject;
-
-import org.apache.commons.lang3.Validate;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.apache.commons.lang3.Validate;
 
 @Getter
 @ToString

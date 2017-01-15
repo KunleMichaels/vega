@@ -1,6 +1,15 @@
 dependencies {
     compile project(":backend-shared")
+
     compile libraries.commons.apacheLang3
     compile libraries.commons.apacheValidator
+
     compile libraries.persistence.jpaApi
+    compile libraries.persistence.hibernateCore
+    compile libraries.persistence.postgresDriver
+    compile libraries.persistence.springData
+
+    compile libraries.application.springBoot
+    compile libraries.application.springBootWeb
+    compile libraries.application.springDataRest
 }

@@ -1,0 +1,34 @@
+spring:
+  profiles.active: dev
+
+server:
+  contextPath: /api
+
+logging:
+  file: vega-account.log
+  level:
+    org.springframework: INFO
+
+---
+
+spring:
+  profiles: dev
+
+logging:
+  level:
+    org.apache.catalina: WARN
+    org.springframework.security: DEBUG
+    org.springframework.boot.test: DEBUG
+    org.springframework.test: DEBUG
+    org.hibernate.validator: WARN
+    eu.socialedge.vega: DEBUG
+
+---
+
+spring:
+    profiles: production
+
+logging:
+  level:
+    eu.socialedge.vega: ERROR
+    org.glassfish.jersey: ERROR

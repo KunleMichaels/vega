@@ -14,9 +14,8 @@
  */
 package eu.socialedge.vega.backend.account.domain;
 
-import eu.socialedge.vega.backend.transit.domain.TagId;
 import eu.socialedge.vega.backend.payment.domain.Token;
-
+import eu.socialedge.vega.backend.transit.domain.TagId;
 import org.junit.Test;
 
 import java.util.ArrayList;

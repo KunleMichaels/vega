@@ -1,6 +1,12 @@
 dependencies {
-    compile libraries.commons.apacheLang3
-    compile libraries.commons.moneta
-    compile libraries.persistence.jpaApi
-    compile libraries.persistence.springData
+    compileOnly libraries.commons.apacheLang3
+    compileOnly libraries.commons.moneta
+    compileOnly libraries.persistence.jpaApi
+    compileOnly libraries.persistence.springData
+    compileOnly libraries.application.springDataRest
+
+    testCompile libraries.commons.apacheLang3
+    testCompile libraries.commons.moneta
+    testCompile libraries.commons.apacheLang3
+    testCompile libraries.persistence.jpaApi
 }

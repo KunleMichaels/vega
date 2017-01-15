@@ -1,0 +1,28 @@
+spring:
+  profiles.active: dev
+
+---
+
+spring:
+  profiles: dev
+
+database:
+  driverName: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5432/vega-account
+  username: postgres
+  password:
+  hibernateDialect: org.hibernate.dialect.PostgreSQL94Dialect
+  hibernateShowSql: true
+  hibernateHbm2ddl: update
+
+---
+
+spring:
+    profiles: production
+
+database:
+  url: jdbc:postgresql://myprod:5432/vega-account
+  username: hermes
+  password:
+  hibernateShowSql: false
+  hibernateHbm2ddl: validate

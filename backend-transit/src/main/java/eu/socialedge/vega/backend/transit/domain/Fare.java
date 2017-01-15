@@ -19,31 +19,15 @@ import eu.socialedge.vega.backend.ddd.AggregateRoot;
 import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.DeductionSerializer;
 import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.MonetaryAmountSerializer;
 import eu.socialedge.vega.backend.transit.domain.location.ZoneId;
-
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.Validate;
 
+import javax.money.MonetaryAmount;
+import javax.persistence.*;
 import java.time.Period;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.money.MonetaryAmount;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -52,7 +36,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 @Getter @Setter
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
-@Entity
+@Entity @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Fare extends AggregateRoot<FareId> {
 

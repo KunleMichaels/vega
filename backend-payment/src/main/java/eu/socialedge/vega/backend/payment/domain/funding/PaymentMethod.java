@@ -15,7 +15,6 @@
 package eu.socialedge.vega.backend.payment.domain.funding;
 
 import eu.socialedge.vega.backend.ddd.ValueObject;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

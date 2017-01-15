@@ -15,19 +15,14 @@
 package eu.socialedge.vega.backend.payment.domain;
 
 import eu.socialedge.vega.backend.ddd.ValueObject;
+import lombok.*;
+import lombok.experimental.Accessors;
 
-import java.time.LocalDate;
-
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-import lombok.val;
+import java.time.LocalDate;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -36,7 +31,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
-@Embeddable
+@Embeddable @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class ExpirationDate extends ValueObject {
 

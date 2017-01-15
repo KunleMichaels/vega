@@ -18,6 +18,8 @@ import eu.socialedge.vega.backend.ddd.DeactivatableAggregateRoot;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -27,7 +29,7 @@ import static org.apache.commons.lang3.Validate.notBlank;
 @Getter @Setter
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
-@Entity
+@Entity @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Operator extends DeactivatableAggregateRoot<OperatorId> {
 

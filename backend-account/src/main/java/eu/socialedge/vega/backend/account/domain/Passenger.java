@@ -31,7 +31,7 @@ import static org.apache.commons.lang3.Validate.notEmpty;
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
-@Entity
+@Entity @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
 

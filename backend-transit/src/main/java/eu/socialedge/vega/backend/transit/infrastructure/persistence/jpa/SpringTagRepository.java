@@ -15,7 +15,9 @@
 package eu.socialedge.vega.backend.transit.infrastructure.persistence.jpa;
 
 import eu.socialedge.vega.backend.infrastructure.persistence.jpa.repository.SpringCrudRepository;
-import eu.socialedge.vega.backend.transit.domain.*;
+import eu.socialedge.vega.backend.transit.domain.Tag;
+import eu.socialedge.vega.backend.transit.domain.TagId;
+import eu.socialedge.vega.backend.transit.domain.TagRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -14,16 +14,15 @@
  */
 package eu.socialedge.vega.backend.ddd;
 
-import java.io.Serializable;
-
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.MappedSuperclass;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 
 import static org.apache.commons.lang3.Validate.notNull;
 

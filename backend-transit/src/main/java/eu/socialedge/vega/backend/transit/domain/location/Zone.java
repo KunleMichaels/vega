@@ -15,23 +15,13 @@
 package eu.socialedge.vega.backend.transit.domain.location;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
+import lombok.*;
+import lombok.experimental.Accessors;
 
+import javax.persistence.*;
 import java.awt.geom.Path2D;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notEmpty;

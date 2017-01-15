@@ -15,15 +15,13 @@
 package eu.socialedge.vega.backend.payment.domain.funding;
 
 import eu.socialedge.vega.backend.payment.domain.ExpirationDate;
-
-import org.apache.commons.validator.routines.CreditCardValidator;
-
-import java.util.regex.Pattern;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.apache.commons.validator.routines.CreditCardValidator;
+
+import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;

@@ -14,12 +14,11 @@
  */
 package eu.socialedge.vega.backend.transit.domain.location;
 
+import javafx.util.Pair;
 import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import javafx.util.Pair;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

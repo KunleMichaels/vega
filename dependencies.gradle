@@ -7,13 +7,14 @@ ext {
             ],
             persistence: [
                     jpaApi: '1.0.0.Final',
-                    springOrm: '4.3.5.RELEASE',
+                    hibernateCore: '5.2.6.Final',
+                    postgresDriver: '9.4.1212.jre7',
                     springDataJpa: '1.10.6.RELEASE'
             ],
             application: [
-                    springBoot: '',
+                    springBoot: '1.4.3.RELEASE',
                     jsr330: '1',
-
+                    springDataRest: '2.5.6.RELEASE'
             ],
             gen: [
                     lombok: '1.16.+',
@@ -35,12 +36,15 @@ ext {
             ],
             persistence: [
                     jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.persistence.jpaApi}",
-                    springData: ["org.springframework:spring-orm:${versions.persistence.springOrm}",
-                                 "org.springframework.data:spring-data-jpa:${versions.persistence.springDataJpa}"]
+                    hibernateCore: "org.hibernate:hibernate-core:${versions.persistence.hibernateCore}",
+                    postgresDriver: "org.postgresql:postgresql:${versions.persistence.postgresDriver}",
+                    springData: "org.springframework.data:spring-data-jpa:${versions.persistence.springDataJpa}"
             ],
             application: [
                     springBoot: ["org.springframework.boot:spring-boot-starter:${versions.application.springBoot}",
-                                 "javax.inject:javax.inject:${versions.application.jsr330}"]
+                                 "javax.inject:javax.inject:${versions.application.jsr330}"],
+                    springBootWeb: "org.springframework.boot:spring-boot-starter-web:${versions.application.springBoot}",
+                    springDataRest: "org.springframework.data:spring-data-rest-webmvc:${versions.application.springDataRest}"
             ],
             gen: [
                     lombok: "org.projectlombok:lombok:${versions.gen.lombok}",

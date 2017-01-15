@@ -14,11 +14,11 @@
  */
 package eu.socialedge.vega.backend.ddd;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import lombok.Getter;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * Domain Event is a type of message that describes something that

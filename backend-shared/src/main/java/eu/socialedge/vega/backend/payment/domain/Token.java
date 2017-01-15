@@ -14,25 +14,17 @@
  */
 package eu.socialedge.vega.backend.payment.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
+
+import javax.persistence.*;
 
 @Getter
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
 @Accessors(fluent = true)
-@Embeddable
+@Embeddable @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Token {
 

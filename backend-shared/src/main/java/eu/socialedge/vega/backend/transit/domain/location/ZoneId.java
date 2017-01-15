@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.terminal.domain;
+package eu.socialedge.vega.backend.transit.domain.location;
 
 import eu.socialedge.vega.backend.ddd.Identifier;
 import lombok.AccessLevel;
@@ -22,10 +22,10 @@ import javax.persistence.*;
 
 @Embeddable @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
-@AttributeOverride(name = "value", column = @Column(name = "terminal_id"))
-public class TerminalId extends Identifier<Long> {
+@AttributeOverride(name = "value", column = @Column(name = "zone_id"))
+public class ZoneId extends Identifier<Long> {
 
-    public TerminalId(Long value) {
+    public ZoneId(Long value) {
         super(value);
     }
 }

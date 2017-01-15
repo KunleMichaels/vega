@@ -12,23 +12,14 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.transit.domain.location;
+package eu.socialedge.vega.backend.account.application.config;
 
-import eu.socialedge.vega.backend.ddd.Identifier;
+import eu.socialedge.vega.backend.application.converter.id.config.EntityIdConversionRepositoryRestConfiguration;
+import eu.socialedge.vega.backend.application.serialization.ObjectMapperRepositoryRestConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
-@Embeddable
-@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
-@AttributeOverride(name = "value", column = @Column(name = "zone_id"))
-public class ZoneId extends Identifier<Long> {
-
-    public ZoneId(Long value) {
-        super(value);
-    }
+@Configuration
+@Import({EntityIdConversionRepositoryRestConfiguration.class, ObjectMapperRepositoryRestConfiguration.class})
+public class RepositoryRestConfiguration {
 }

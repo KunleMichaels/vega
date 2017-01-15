@@ -19,27 +19,17 @@ import eu.socialedge.vega.backend.boarding.history.domain.BoardingId;
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
 import eu.socialedge.vega.backend.terminal.domain.TerminalId;
 import eu.socialedge.vega.backend.transit.domain.location.Location;
+import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = false)
-@Entity
+@Entity @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Boarding extends AggregateRoot<BoardingId> {
 

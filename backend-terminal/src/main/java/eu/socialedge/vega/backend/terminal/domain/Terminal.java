@@ -15,23 +15,19 @@
 package eu.socialedge.vega.backend.terminal.domain;
 
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
+import lombok.*;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
 @ToString
 @Getter @Setter
 @EqualsAndHashCode(callSuper = false)
-@Entity
+@Entity @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Terminal extends AggregateRoot<TerminalId> {
 

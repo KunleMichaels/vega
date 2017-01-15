@@ -18,28 +18,13 @@ import eu.socialedge.vega.backend.account.domain.OperatorId;
 import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.vega.backend.ddd.ValueObject;
 import eu.socialedge.vega.backend.transit.domain.location.ZoneId;
-
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.Validate;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -48,6 +33,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
 @Entity // Treat it as an Entity from the persistence perspective to avoid JSR338 Chp 2.6 constraint
+@Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Pass extends ValueObject {
 

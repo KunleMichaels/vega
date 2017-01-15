@@ -14,15 +14,11 @@
  */
 package eu.socialedge.vega.backend.ddd;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.MappedSuperclass;
-
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import static java.util.Objects.requireNonNull;
 

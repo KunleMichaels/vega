@@ -15,7 +15,6 @@
 package eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert;
 
 import eu.socialedge.vega.backend.transit.domain.Deduction;
-
 import org.junit.Test;
 
 import javax.money.MonetaryAmount;

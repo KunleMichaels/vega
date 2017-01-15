@@ -12,20 +12,19 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.terminal.domain;
+package eu.socialedge.vega.backend.application.converter.id;
 
-import eu.socialedge.vega.backend.ddd.Identifier;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import eu.socialedge.vega.backend.boarding.history.domain.BoardingId;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
+import java.io.Serializable;
 
-@Embeddable @Access(AccessType.FIELD)
-@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
-@AttributeOverride(name = "value", column = @Column(name = "terminal_id"))
-public class TerminalId extends Identifier<Long> {
+@Component
+public class BoardingIdConverter implements Converter<Serializable, BoardingId> {
 
-    public TerminalId(Long value) {
-        super(value);
+    @Override
+    public BoardingId convert(Serializable source) {
+        return new BoardingId(Long.valueOf(source.toString()));
     }
 }
