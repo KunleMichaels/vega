@@ -1,4 +1,6 @@
-include 'backend-shared',
+include 'backend-shared-domain',
+        'backend-shared-infrastructure',
+        'backend-shared-application',
         'backend-transit',
         'backend-account',
         'backend-terminal',

@@ -1,0 +1,5 @@
+dependencies {
+    compile libraries.commons.apacheLang3
+    compile libraries.commons.moneta
+    compile libraries.persistence.jpaApi
+}

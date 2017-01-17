@@ -1,0 +1,5 @@
+dependencies {
+    compile project(":backend-shared-domain")
+
+    compile libraries.application.springDataRest
+}

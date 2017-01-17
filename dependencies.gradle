@@ -9,7 +9,8 @@ ext {
                     jpaApi: '1.0.0.Final',
                     hibernateCore: '5.2.6.Final',
                     postgresDriver: '9.4.1212.jre7',
-                    springDataJpa: '1.10.6.RELEASE'
+                    springDataJpa: '1.10.6.RELEASE',
+                    springOrm: '4.3.5.RELEASE'
             ],
             application: [
                     springBoot: '1.4.3.RELEASE',
@@ -38,7 +39,8 @@ ext {
                     jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.persistence.jpaApi}",
                     hibernateCore: "org.hibernate:hibernate-core:${versions.persistence.hibernateCore}",
                     postgresDriver: "org.postgresql:postgresql:${versions.persistence.postgresDriver}",
-                    springData: "org.springframework.data:spring-data-jpa:${versions.persistence.springDataJpa}"
+                    springData: ["org.springframework:spring-orm:${versions.persistence.springOrm}",
+                                 "org.springframework.data:spring-data-jpa:${versions.persistence.springDataJpa}"]
             ],
             application: [
                     springBoot: ["org.springframework.boot:spring-boot-starter:${versions.application.springBoot}",

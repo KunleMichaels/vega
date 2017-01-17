@@ -1,5 +1,7 @@
 dependencies {
-    compile project(":backend-shared")
+    compile project(":backend-shared-domain")
+    compile project(":backend-shared-infrastructure")
+
     compile libraries.commons.moneta
     compile libraries.commons.apacheLang3
     compile libraries.commons.apacheValidator

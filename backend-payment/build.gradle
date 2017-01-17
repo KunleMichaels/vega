@@ -1,5 +1,6 @@
 dependencies {
-    compile project(":backend-shared")
+    compile project(":backend-shared-domain")
+
     compile libraries.commons.moneta
     compile libraries.persistence.jpaApi
     compile libraries.commons.apacheLang3
