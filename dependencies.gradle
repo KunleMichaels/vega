@@ -12,6 +12,9 @@ ext {
                     springDataJpa: '1.10.6.RELEASE',
                     springOrm: '4.3.5.RELEASE'
             ],
+            bus: [
+                    springCloudStreamKafka: '1.1.1.RELEASE'
+            ],
             application: [
                     springBoot: '1.4.3.RELEASE',
                     jsr330: '1',
@@ -41,6 +44,9 @@ ext {
                     postgresDriver: "org.postgresql:postgresql:${versions.persistence.postgresDriver}",
                     springData: ["org.springframework:spring-orm:${versions.persistence.springOrm}",
                                  "org.springframework.data:spring-data-jpa:${versions.persistence.springDataJpa}"]
+            ],
+            bus: [
+                    springCloudStreamKafka: "org.springframework.cloud:spring-cloud-starter-stream-kafka:${versions.bus.springCloudStreamKafka}"
             ],
             application: [
                     springBoot: ["org.springframework.boot:spring-boot-starter:${versions.application.springBoot}",

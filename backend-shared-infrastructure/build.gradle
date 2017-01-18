@@ -2,4 +2,5 @@ dependencies {
     compile project(":backend-shared-domain")
 
     compile libraries.persistence.springData
+    compile libraries.bus.springCloudStreamKafka
 }

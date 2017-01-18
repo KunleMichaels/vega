@@ -16,13 +16,17 @@ package eu.socialedge.vega.backend.account.application;
 
 import eu.socialedge.vega.backend.account.application.config.JpaInfrastructureConfig;
 import eu.socialedge.vega.backend.account.application.config.RepositoryRestConfiguration;
+import eu.socialedge.vega.backend.infrastructure.eventbus.kafka.SpringEventBusConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@Configuration @Import({JpaInfrastructureConfig.class, RepositoryRestConfiguration.class})
+@Configuration
+@Import({JpaInfrastructureConfig.class,
+        RepositoryRestConfiguration.class,
+        SpringEventBusConfig.class})
 public class VegaAccountMicroservice {
 
     public static void main(String[] args) {
