@@ -14,7 +14,6 @@
  */
 package eu.socialedge.vega.backend.history.boarding.domain;
 
-import eu.socialedge.vega.backend.boarding.history.domain.BoardingId;
 import eu.socialedge.vega.backend.ddd.repository.CrudRepository;
 
 public interface BoardingRepository extends CrudRepository<BoardingId, Boarding> {

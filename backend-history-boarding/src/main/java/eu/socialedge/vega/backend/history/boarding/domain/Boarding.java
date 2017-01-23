@@ -15,10 +15,9 @@
 package eu.socialedge.vega.backend.history.boarding.domain;
 
 import eu.socialedge.vega.backend.account.domain.PassengerId;
-import eu.socialedge.vega.backend.boarding.history.domain.BoardingId;
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
 import eu.socialedge.vega.backend.terminal.domain.TerminalId;
-import eu.socialedge.vega.backend.transit.domain.location.Location;
+import eu.socialedge.vega.backend.geo.domain.Location;
 import lombok.*;
 
 import javax.persistence.*;

@@ -15,7 +15,7 @@
 package eu.socialedge.vega.backend.account.domain;
 
 import eu.socialedge.vega.backend.payment.domain.Token;
-import eu.socialedge.vega.backend.transit.domain.TagId;
+import eu.socialedge.vega.backend.boarding.domain.TagId;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -28,18 +28,14 @@ import static org.mockito.Mockito.when;
 
 public class PassengerTest {
 
-    @SuppressWarnings("unchecked")
-    private static HashSet<TagId> notEmptyTagIdSet =
-            (HashSet<TagId>) mock(HashSet.class);
+    private static HashSet<TagId> notEmptyTagIdSet = new HashSet<TagId>() {{
+        add(new TagId(1L));
+    }};
 
-    @SuppressWarnings("unchecked")
-    private static HashSet<Token> notEmptyPaymentTokenSet =
-            (HashSet<Token>) mock(HashSet.class);
-
-    static {
-        when(notEmptyTagIdSet.isEmpty()).thenReturn(false);
-        when(notEmptyPaymentTokenSet.isEmpty()).thenReturn(false);
-    }
+    private static HashSet<Token> validPaymentTokenSet = new HashSet<Token>() {{
+        add(createPrimaryPaymentTokenMock());
+        add(createNotPrimaryPaymentTokenMock());
+    }};
 
     private static final List<String> INVALID_EMAIL_ADDRESSES =
             new ArrayList<String>() {{
@@ -63,24 +59,66 @@ public class PassengerTest {
             }};
 
     @Test
+    public void shouldThrowExceptionFor2OrMorePrimaryTokens() {
+        HashSet<Token> invalidTokenSet = new HashSet<Token>() {{
+            add(createPrimaryPaymentTokenMock());
+            add(createPrimaryPaymentTokenMock());
+        }};
+
+        assertThatThrownBy(() ->
+                new Passenger(new PassengerId(1L), "test", VALID_EMAIL_ADDRESSES.get(0),
+                        "12", notEmptyTagIdSet, invalidTokenSet))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void shouldThrowExceptionForPrimaryTokensSetWithoutPrimaryOne() {
+        HashSet<Token> invalidTokenSet = new HashSet<Token>() {{
+            add(createNotPrimaryPaymentTokenMock());
+            add(createNotPrimaryPaymentTokenMock());
+        }};
+
+        assertThatThrownBy(() ->
+                new Passenger(new PassengerId(1L), "test", VALID_EMAIL_ADDRESSES.get(0),
+                        "12", notEmptyTagIdSet, invalidTokenSet))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     public void shouldThrowExceptionForInvalidEmailAddress() {
         INVALID_EMAIL_ADDRESSES.forEach(email -> {
             assertThatThrownBy(() ->
-                    new Passenger(new PassengerId(1L), "test", email, "12", notEmptyTagIdSet, notEmptyPaymentTokenSet))
+                    new Passenger(new PassengerId(1L), "test", email, "12",
+                            notEmptyTagIdSet, validPaymentTokenSet))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("email address");
             assertThatThrownBy(() ->
-                    new Passenger(new PassengerId(1L), "test", email, "12", notEmptyTagIdSet, notEmptyPaymentTokenSet)
+                    new Passenger(new PassengerId(1L), "test", email, "12",
+                            notEmptyTagIdSet, validPaymentTokenSet)
                                 .email(email))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("email address");
         });
     }
+
     @Test
-    public void shouldNotThrowExceptionForValidEmailAddress() {
+    public void shouldNotThrowExceptionForValidEmailAddressAndPaymentTokensSet() {
         VALID_EMAIL_ADDRESSES.forEach(email -> {
-            new Passenger(new PassengerId(1L), "test", email, "12", notEmptyTagIdSet, notEmptyPaymentTokenSet)
+            new Passenger(new PassengerId(1L), "test", email, "12",
+                    notEmptyTagIdSet, validPaymentTokenSet)
                         .email(email);
         });
+    }
+
+    private static Token createPrimaryPaymentTokenMock() {
+        Token tokenMock = mock(Token.class);
+        when(tokenMock.isPrimary()).thenReturn(true);
+        return tokenMock;
+    }
+
+    private static Token createNotPrimaryPaymentTokenMock() {
+        Token tokenMock = mock(Token.class);
+        when(tokenMock.isPrimary()).thenReturn(false);
+        return tokenMock;
     }
 }

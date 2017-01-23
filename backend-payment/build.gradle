@@ -1,8 +1,3 @@
 dependencies {
-    compile project(":backend-shared-domain")
-
-    compile libraries.commons.moneta
-    compile libraries.persistence.jpaApi
-    compile libraries.commons.apacheLang3
-    compile libraries.commons.apacheValidator
+    compile project(":backend-shared")
 }

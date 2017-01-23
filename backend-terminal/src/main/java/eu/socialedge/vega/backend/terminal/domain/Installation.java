@@ -16,7 +16,7 @@ package eu.socialedge.vega.backend.terminal.domain;
 
 import eu.socialedge.vega.backend.account.domain.OperatorId;
 import eu.socialedge.vega.backend.ddd.ValueObject;
-import eu.socialedge.vega.backend.transit.domain.VehicleType;
+import eu.socialedge.vega.backend.fare.domain.VehicleType;
 import lombok.*;
 import lombok.experimental.Accessors;
 

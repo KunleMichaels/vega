@@ -16,13 +16,16 @@ package eu.socialedge.vega.backend.account.domain;
 
 import eu.socialedge.vega.backend.ddd.DeactivatableAggregateRoot;
 import eu.socialedge.vega.backend.payment.domain.Token;
-import eu.socialedge.vega.backend.transit.domain.TagId;
+import eu.socialedge.vega.backend.boarding.domain.TagId;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notEmpty;
@@ -34,6 +37,57 @@ import static org.apache.commons.lang3.Validate.notEmpty;
 @Entity @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
+
+    private static class PaymentTokenHashSet extends HashSet<Token> {
+
+        private boolean containsPrimaryToken = false;
+
+        public PaymentTokenHashSet() {
+            super();
+        }
+
+        public PaymentTokenHashSet(Collection<Token> c) {
+            super(ensureOnePrimaryToken(c));
+        }
+
+        @Override
+        public boolean add(Token token) {
+            if (containsPrimaryToken)
+                throw new IllegalArgumentException("You cant add more than one primary token");
+
+            val containedAlready = super.add(token);
+
+            if (!containedAlready && token.isPrimary())
+                containsPrimaryToken = true;
+
+            return containedAlready;
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            val wasRemoved = super.remove(o);
+
+            if (wasRemoved && ((Token)o).isPrimary())
+                containsPrimaryToken = false;
+
+            return wasRemoved;
+        }
+
+        @Override
+        public void clear() {
+            super.clear();
+            containsPrimaryToken = false;
+        }
+
+        private static Collection<Token> ensureOnePrimaryToken(Collection<Token> tokens) {
+            val primaryTokensCount = tokens.stream().filter(Token::isPrimary).count();
+
+            if (primaryTokensCount != 1)
+                throw new IllegalArgumentException("One payment token must be primary");
+
+            return tokens;
+        }
+    }
 
     @Column(nullable = false)
     private String name;
@@ -62,7 +116,7 @@ public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
         this.name = notBlank(name);
         this.password = notBlank(password);
         this.tagIds = notEmpty(tagIds);
-        this.paymentTokens = notEmpty(paymentTokens);
+        this.paymentTokens = new PaymentTokenHashSet(paymentTokens);
         this.isShadow = isShadow;
 
         if (!EmailValidator.getInstance().isValid(email))
@@ -89,6 +143,18 @@ public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
 
     public void password(String password) {
         this.password = notBlank(password);
+    }
+
+    public Set<Token> validPaymentTokens() {
+        return paymentTokens.stream()
+                .filter(t -> !t.expirationDate().isExpired())
+                .collect(Collectors.toSet());
+    }
+
+    public Token primaryPaymentToken() {
+        return paymentTokens.stream()
+                .filter(t -> !t.expirationDate().isExpired())
+                .filter(Token::isPrimary).findAny().get();
     }
 }
 

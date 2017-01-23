@@ -14,7 +14,7 @@
  */
 package eu.socialedge.vega.backend.history.boarding.infrastructure.persistence.jpa;
 
-import eu.socialedge.vega.backend.boarding.history.domain.BoardingId;
+import eu.socialedge.vega.backend.history.boarding.domain.BoardingId;
 import eu.socialedge.vega.backend.history.boarding.domain.Boarding;
 import eu.socialedge.vega.backend.history.boarding.domain.BoardingRepository;
 import eu.socialedge.vega.backend.infrastructure.persistence.jpa.repository.SpringCrudRepository;

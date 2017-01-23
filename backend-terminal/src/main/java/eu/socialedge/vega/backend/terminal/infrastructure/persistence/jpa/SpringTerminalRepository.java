@@ -14,13 +14,13 @@
  */
 package eu.socialedge.vega.backend.terminal.infrastructure.persistence.jpa;
 
-import eu.socialedge.vega.backend.ddd.repository.CrudRepository;
+import eu.socialedge.vega.backend.infrastructure.persistence.jpa.repository.SpringCrudRepository;
 import eu.socialedge.vega.backend.terminal.domain.Terminal;
 import eu.socialedge.vega.backend.terminal.domain.TerminalId;
 import eu.socialedge.vega.backend.terminal.domain.TerminalRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SpringTerminalRepository extends TerminalRepository, CrudRepository<TerminalId, Terminal> {
+public interface SpringTerminalRepository extends TerminalRepository, SpringCrudRepository<TerminalId, Terminal> {
 
 }
