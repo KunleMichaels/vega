@@ -26,6 +26,8 @@ import org.apache.commons.lang3.Validate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
@@ -76,9 +78,9 @@ public class Pass extends ValueObject {
                 Set<VehicleType> vehicleTypes, Zone zone,
                 Set<OperatorId> operatorIds) {
         this.fareId = notNull(fareId);
-        this.vehicleTypes = notEmpty(vehicleTypes);
+        this.vehicleTypes = new HashSet<>(notEmpty(vehicleTypes));
         this.zone = notNull(zone);
-        this.operatorIds = notEmpty(operatorIds);
+        this.operatorIds = new HashSet<>(notEmpty(operatorIds));
 
         Validate.isTrue(notNull(expiration).isBefore(notNull(activation)),
                 "Expiration must be before activation date");
@@ -100,5 +102,13 @@ public class Pass extends ValueObject {
 
     public boolean complies(OperatorId operatorId) {
         return operatorIds.contains(operatorId);
+    }
+
+    public Set<VehicleType> vehicleTypes() {
+        return Collections.unmodifiableSet(vehicleTypes);
+    }
+
+    public Set<OperatorId> operatorIds() {
+        return Collections.unmodifiableSet(operatorIds);
     }
 }

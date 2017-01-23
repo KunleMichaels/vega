@@ -15,8 +15,9 @@
 package eu.socialedge.vega.backend.fare.domain;
 
 import javax.money.MonetaryAmount;
+import java.io.Serializable;
 
-public interface Deduction {
+public interface Deduction extends Serializable {
 
     MonetaryAmount calculatePrice(MonetaryAmount basePrice);
 

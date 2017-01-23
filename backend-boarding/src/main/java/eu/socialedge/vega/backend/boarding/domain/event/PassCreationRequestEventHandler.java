@@ -49,6 +49,6 @@ public class PassCreationRequestEventHandler implements DomainEventHandler<PassC
                 -> new IllegalArgumentException("Cant create pass. Not Tag with given id found"));
 
         val pass = new Pass(fareId, activation, expiration, vehicleTypes, zone, operatorsIds);
-        tag.passes().add(pass);
+        tag.addPass(pass);
     }
 }

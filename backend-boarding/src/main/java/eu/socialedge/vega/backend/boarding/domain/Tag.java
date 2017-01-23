@@ -20,6 +20,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -45,14 +46,26 @@ public class Tag extends AggregateRoot<TagId> {
     public Tag(TagId id, PassengerId passengerId, Set<Pass> passes) {
         super(id);
         this.passengerId = notNull(passengerId);
-        this.passes = notNull(passes);
+        this.passes = new HashSet<>(notNull(passes));
     }
 
-    public Tag(TagId id, String body, PassengerId passengerId) {
+    public Tag(TagId id, PassengerId passengerId) {
         this(id, passengerId, new HashSet<>());
     }
 
+    public boolean addPass(Pass pass) {
+        return passes.add(notNull(pass));
+    }
+
+    public boolean removePass(Pass pass) {
+        return passes.remove(pass);
+    }
+
+    public Set<Pass> passes() {
+        return Collections.unmodifiableSet(passes);
+    }
+
     public Set<Pass> nonExpiredPasses() {
-        return passes().stream().filter(Pass::isExpired).collect(Collectors.toSet());
+        return passes.stream().filter(Pass::isExpired).collect(Collectors.toSet());
     }
 }

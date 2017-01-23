@@ -14,13 +14,11 @@
  */
 package eu.socialedge.vega.backend.account.domain;
 
-import eu.socialedge.vega.backend.payment.domain.Token;
 import eu.socialedge.vega.backend.boarding.domain.TagId;
+import eu.socialedge.vega.backend.payment.domain.Token;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
@@ -28,11 +26,11 @@ import static org.mockito.Mockito.when;
 
 public class PassengerTest {
 
-    private static HashSet<TagId> notEmptyTagIdSet = new HashSet<TagId>() {{
+    private static Set<TagId> notEmptyTagIdSet = new HashSet<TagId>() {{
         add(new TagId(1L));
     }};
 
-    private static HashSet<Token> validPaymentTokenSet = new HashSet<Token>() {{
+    private static Set<Token> validPaymentTokenSet = new HashSet<Token>() {{
         add(createPrimaryPaymentTokenMock());
         add(createNotPrimaryPaymentTokenMock());
     }};
@@ -59,6 +57,14 @@ public class PassengerTest {
             }};
 
     @Test
+    public void shouldAddNonPrimaryTokensCorrectly() {
+        Passenger p = new Passenger(new PassengerId(1L), "test", VALID_EMAIL_ADDRESSES.get(0),
+                "12", notEmptyTagIdSet, validPaymentTokenSet);
+
+        p.addPaymentToken(createNotPrimaryPaymentTokenMock());
+    }
+
+    @Test
     public void shouldThrowExceptionFor2OrMorePrimaryTokens() {
         HashSet<Token> invalidTokenSet = new HashSet<Token>() {{
             add(createPrimaryPaymentTokenMock());
@@ -82,6 +88,32 @@ public class PassengerTest {
                 new Passenger(new PassengerId(1L), "test", VALID_EMAIL_ADDRESSES.get(0),
                         "12", notEmptyTagIdSet, invalidTokenSet))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void shouldThrowExceptionOnAddingSecondPrimaryPaymentToken() {
+        Set<Token> tokenSet = new HashSet<>(validPaymentTokenSet);
+
+        Passenger p = new Passenger(new PassengerId(1L), "test", VALID_EMAIL_ADDRESSES.get(0), "12",
+                notEmptyTagIdSet, tokenSet);
+
+        assertThatThrownBy(() -> p.addPaymentToken(createPrimaryPaymentTokenMock()))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void shouldNotThrowExceptionOnAddingSecondPrimaryPaymentTokenAfterDeletingPreviousOne() {
+        Token primaryTokenToRemove = createPrimaryPaymentTokenMock();
+        HashSet<Token> validTokenSet = new HashSet<Token>() {{
+            add(createNotPrimaryPaymentTokenMock());
+            add(primaryTokenToRemove);
+        }};
+
+        Passenger p = new Passenger(new PassengerId(1L), "test", VALID_EMAIL_ADDRESSES.get(0), "12",
+                notEmptyTagIdSet, validTokenSet);
+
+        p.removePaymentToken(primaryTokenToRemove);
+        p.addPaymentToken(createPrimaryPaymentTokenMock());
     }
 
     @Test
@@ -112,12 +144,14 @@ public class PassengerTest {
 
     private static Token createPrimaryPaymentTokenMock() {
         Token tokenMock = mock(Token.class);
+        when(tokenMock.identifier()).thenReturn("primary");
         when(tokenMock.isPrimary()).thenReturn(true);
         return tokenMock;
     }
 
     private static Token createNotPrimaryPaymentTokenMock() {
         Token tokenMock = mock(Token.class);
+        when(tokenMock.identifier()).thenReturn("notPrimary");
         when(tokenMock.isPrimary()).thenReturn(false);
         return tokenMock;
     }

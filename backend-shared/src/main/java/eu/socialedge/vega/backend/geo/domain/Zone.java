@@ -16,19 +16,19 @@ package eu.socialedge.vega.backend.geo.domain;
 
 import eu.socialedge.vega.backend.ddd.ValueObject;
 import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.Path2dSerializer;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
+import lombok.val;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-@Getter
 @ToString
 @Accessors(fluent = true)
 @Embeddable
@@ -38,8 +38,6 @@ public class Zone extends ValueObject {
     @Column(name = "poly_path", nullable = false)
     @Convert(converter = Path2dSerializer.class)
     private final Path2D polyPath;
-
-    private double[] expectedSegment;
 
     public Zone(List<Location> vertices) {
         this.polyPath = createPolygonPath(vertices);
@@ -51,6 +49,25 @@ public class Zone extends ValueObject {
 
     public boolean contains(Location point) {
         return polyPath.contains(point.latitude(), point.longitude());
+    }
+
+    public Set<Location> vertices() {
+        val pathIter = polyPath.getPathIterator(null);
+        val vertices = new HashSet<Location>();
+
+        val segment = new double[6];
+        while(!pathIter.isDone()) {
+            val segmentType = pathIter.currentSegment(segment);
+
+            if (segmentType == PathIterator.SEG_MOVETO ||
+                    segmentType == PathIterator.SEG_LINETO) {
+                vertices.add(new Location(segment[0], segment[1]));
+            }
+
+            pathIter.next();
+        }
+
+        return vertices;
     }
 
     private static Path2D.Double createPolygonPath(List<Location> vertices) {
@@ -95,8 +112,6 @@ public class Zone extends ValueObject {
 
         return true;
     }
-
-    double[] aDouble = new double[2];
 
     @Override
     public int hashCode() {
