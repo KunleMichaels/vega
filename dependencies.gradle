@@ -42,7 +42,8 @@ ext {
                     jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.persistence.jpaApi}",
                     hibernateCore: "org.hibernate:hibernate-core:${versions.persistence.hibernateCore}",
                     postgresDriver: "org.postgresql:postgresql:${versions.persistence.postgresDriver}",
-                    springData: "org.springframework.boot:spring-boot-starter-data-jpa:${versions.application.springBoot}"
+                    springData: ["org.springframework:spring-orm:${versions.persistence.springOrm}",
+                                 "org.springframework.data:spring-data-jpa:${versions.persistence.springDataJpa}"]
             ],
             bus: [
                     springCloudStreamKafka: "org.springframework.cloud:spring-cloud-starter-stream-kafka:${versions.bus.springCloudStreamKafka}"
@@ -50,6 +51,7 @@ ext {
             application: [
                     springBoot: ["org.springframework.boot:spring-boot-starter:${versions.application.springBoot}",
                                  "javax.inject:javax.inject:${versions.application.jsr330}"],
+                    springBootData: "org.springframework.boot:spring-boot-starter-data-jpa:${versions.application.springBoot}",
                     springBootWeb: "org.springframework.boot:spring-boot-starter-web:${versions.application.springBoot}",
                     springDataRest: "org.springframework.data:spring-data-rest-webmvc:${versions.application.springDataRest}"
             ],
