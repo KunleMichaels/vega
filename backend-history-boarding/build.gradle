@@ -1,3 +1,11 @@
 dependencies {
-    compile project(":backend-shared")
+  compile project(":backend-shared")
+
+  compile libraries.persistence.hibernateCore
+  compile libraries.persistence.postgresDriver
+
+  compile libraries.application.springBoot
+  compile libraries.application.springBootData
+  compile libraries.application.springBootWeb
+  compile libraries.application.springDataRest
 }

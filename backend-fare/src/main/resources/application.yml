@@ -1,0 +1,55 @@
+spring:
+  profiles.active: dev
+
+  datasource:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
+
+server:
+  contextPath: /api
+
+logging:
+  file: vega-fare.log
+  level:
+    org.springframework: INFO
+
+---
+
+spring:
+  profiles: dev
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vega-fare
+    username: postgres
+    password: postgres
+
+logging:
+  level:
+    org.apache.catalina: WARN
+    org.springframework.security: DEBUG
+    org.springframework.boot.test: DEBUG
+    org.springframework.test: DEBUG
+    org.hibernate.validator: WARN
+    eu.socialedge.vega: DEBUG
+
+---
+
+spring:
+  profiles: production
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:postgresql://prod:5432/vega-fare
+    username: root
+    password:
+
+logging:
+  level:
+    eu.socialedge.vega: ERROR
