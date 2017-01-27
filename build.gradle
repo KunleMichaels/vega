@@ -22,7 +22,6 @@ configure(subprojects.findAll {it.name.startsWith('backend')}) {
         jpaMetamodel libraries.gen.jpaModel
         compileOnly libraries.gen.lombok
         testCompile libraries.test.junit
-        testCompile libraries.test.mockito
     }
 
     sourceSets {

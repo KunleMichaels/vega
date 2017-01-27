@@ -9,4 +9,6 @@ dependencies {
     compile libraries.bus.springCloudStreamKafka
 
     compile libraries.application.springDataRest
+
+    testCompile libraries.test.spring
 }

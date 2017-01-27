@@ -28,7 +28,8 @@ ext {
             test: [
                     junit  : '4.12',
                     assertj: '3.6.+',
-                    mockito: '2.2.29'
+                    mockito: '2.2.29',
+                    streamSupport: '1.1.1.RELEASE'
             ]
     ]
 
@@ -64,7 +65,10 @@ ext {
                             "junit:junit:${versions.test.junit}",
                             "org.assertj:assertj-core:${versions.test.assertj}"
                     ],
-                    mockito: "org.mockito:mockito-core:${versions.test.mockito}"
+                    mockito: "org.mockito:mockito-core:${versions.test.mockito}",
+                    spring: [
+                            "org.springframework.cloud:spring-cloud-stream-test-support:${versions.test.streamSupport}"
+                    ]
             ]
     ]
 }

@@ -12,10 +12,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.infrastructure.eventbus.kafka;
+package eu.socialedge.vega.backend.infrastructure.eventbus;
 
 import eu.socialedge.vega.backend.ddd.DomainEvent;
 import eu.socialedge.vega.backend.ddd.DomainEventPublisher;
+import eu.socialedge.vega.backend.infrastructure.eventbus.kafka.DomainEventSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.stream.annotation.EnableBinding;

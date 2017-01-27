@@ -21,5 +21,5 @@ package eu.socialedge.vega.backend.ddd;
  */
 public interface DomainEventHandler<T extends DomainEvent> {
 
-    void handleEvent(T aDomainEvent);
+    <E extends T> void handleEvent(E domainEvent);
 }
