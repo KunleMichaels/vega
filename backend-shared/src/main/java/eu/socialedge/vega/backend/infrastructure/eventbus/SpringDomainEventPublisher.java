@@ -17,6 +17,8 @@ package eu.socialedge.vega.backend.infrastructure.eventbus;
 import eu.socialedge.vega.backend.ddd.DomainEvent;
 import eu.socialedge.vega.backend.ddd.DomainEventPublisher;
 import eu.socialedge.vega.backend.infrastructure.eventbus.kafka.DomainEventSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -28,6 +30,8 @@ import org.springframework.stereotype.Service;
 @EnableBinding(DomainEventSource.class)
 public class SpringDomainEventPublisher implements DomainEventPublisher {
 
+    private static final Logger logger = LoggerFactory.getLogger(SpringDomainEventPublisher.class);
+
     @Autowired @Qualifier(DomainEventSource.CHANNEL_NAME)
     private final MessageChannel eventBus;
 
@@ -38,6 +42,7 @@ public class SpringDomainEventPublisher implements DomainEventPublisher {
 
     @Override
     public <T extends DomainEvent> void publish(T event) {
+        logger.debug("Publishing event {} ", event);
         eventBus.send(MessageBuilder.withPayload(event).build());
     }
 }
