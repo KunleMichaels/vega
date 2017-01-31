@@ -14,24 +14,29 @@
  */
 package eu.socialedge.vega.backend.payment.domain;
 
+import javax.money.MonetaryAmount;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import javax.money.MonetaryAmount;
+import static org.apache.commons.lang3.Validate.notNull;
 
 @Getter
 @ToString
-@EqualsAndHashCode
-@RequiredArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Accessors(fluent = true)
-public class Charge {
-
-    private final String chargeId;
+public class Charge extends Transaction {
 
     private final MonetaryAmount amount;
 
-    private final String description;
+    public Charge(String id, Token token, MonetaryAmount amount, String description) {
+        super(id, token, description);
+        this.amount = notNull(amount);
+    }
+
+    public Charge(String id, Token token, MonetaryAmount amount) {
+        this(id, token, amount, null);
+    }
 }

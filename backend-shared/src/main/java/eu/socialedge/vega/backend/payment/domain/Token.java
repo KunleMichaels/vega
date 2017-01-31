@@ -14,29 +14,75 @@
  */
 package eu.socialedge.vega.backend.payment.domain;
 
-import lombok.*;
+import java.time.LocalDate;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import javax.persistence.*;
+import static org.apache.commons.lang3.StringUtils.stripToNull;
+import static org.apache.commons.lang3.Validate.notBlank;
+import static org.apache.commons.lang3.Validate.notNull;
 
-@Getter
 @ToString
 @EqualsAndHashCode
-@RequiredArgsConstructor
 @Accessors(fluent = true)
 @Embeddable @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Token {
 
+    private final static String DEFAULT_TOKEN_DESC_FORMAT = "Token-%s";
+
+    @Getter
     @Column(name = "identifier", nullable = false)
     private final @NonNull String identifier;
 
     @Embedded
     private final @NonNull ExpirationDate expirationDate;
 
+    @Getter
     @Column
     private final String description;
 
+    @Getter
     @Column
     private final boolean isPrimary;
+
+    public Token(String identifier, ExpirationDate expirationDate, String description,
+                 boolean isPrimary) {
+        this.identifier = notBlank(identifier);
+        this.expirationDate = notNull(expirationDate);
+        this.description = stripToNull(description);
+        this.isPrimary = isPrimary;
+    }
+
+    public Token(String identifier, ExpirationDate expirationDate) {
+        this(identifier, expirationDate, createTokenDescription(identifier), false);
+    }
+
+    public Token(String identifier, ExpirationDate expirationDate, boolean isPrimary) {
+        this(identifier, expirationDate, createTokenDescription(identifier), isPrimary);
+    }
+
+    private static String createTokenDescription(String identifier) {
+        return String.format(DEFAULT_TOKEN_DESC_FORMAT, identifier);
+    }
+
+    public boolean isExpired() {
+        return expirationDate.isExpired();
+    }
+
+    public LocalDate expirationDate() {
+        return expirationDate.toLocalDate();
+    }
 }

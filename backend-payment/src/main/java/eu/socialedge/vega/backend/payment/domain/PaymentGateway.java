@@ -20,19 +20,26 @@ import javax.money.MonetaryAmount;
 
 public interface PaymentGateway {
 
-    <P extends PaymentMethod> Token tokenize(P paymentMethod)
-            throws PaymentGatewayException;
+    <P extends PaymentMethod> Token tokenize(P paymentMethod, String tokenDescription,
+                                             boolean isPrimaryToken);
 
-    Charge charge(Token token, MonetaryAmount amount, String description)
-            throws PaymentGatewayException;
+    default <P extends PaymentMethod> Token tokenize(P paymentMethod) {
+        return tokenize(paymentMethod, null, false);
+    }
 
-    Authorization auth(Token token, MonetaryAmount amount, String description)
-            throws PaymentGatewayException;
+    Charge charge(Token token, MonetaryAmount amount, String description);
 
-    Capture capture(Token token, MonetaryAmount amount, String statementDescription)
-            throws PaymentGatewayException;
+    Authorization auth(Token token, MonetaryAmount amount, String description);
 
-    default Capture capture(Token token) throws PaymentGatewayException {
-        return capture(token, null, null);
+    Capture capture(Authorization auth, MonetaryAmount amount, String statementDescription);
+
+    default Capture capture(Authorization auth, MonetaryAmount amount) {
+        return capture(auth, amount, null);
+    }
+
+    Capture capture(Authorization auth, String statementDescription);
+
+    default Capture capture(Authorization auth) {
+        return capture(auth, (String) null);
     }
 }

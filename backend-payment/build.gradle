@@ -1,3 +1,5 @@
 dependencies {
-    compile project(":backend-shared")
+  compile project(":backend-shared")
+
+  testCompile libraries.test.mockito
 }

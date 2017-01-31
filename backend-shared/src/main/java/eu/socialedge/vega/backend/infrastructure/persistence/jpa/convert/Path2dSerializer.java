@@ -61,7 +61,7 @@ public class Path2dSerializer implements AttributeConverter<Path2D, String> {
         try {
             return objectMapper.writeValueAsString(vertices);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to convert Path2d to database column", e);
         }
     }
 
@@ -83,7 +83,7 @@ public class Path2dSerializer implements AttributeConverter<Path2D, String> {
 
             return polyPath;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to convert db column to Path2d", e);
         }
 
 

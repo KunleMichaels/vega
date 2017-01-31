@@ -14,32 +14,41 @@
  */
 package eu.socialedge.vega.backend.payment.domain;
 
+import javax.money.MonetaryAmount;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import javax.money.MonetaryAmount;
+import static org.apache.commons.lang3.Validate.notNull;
 
 @Getter
 @ToString
-@EqualsAndHashCode
-@RequiredArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Accessors(fluent = true)
-public class Capture {
+public class Capture extends Transaction {
 
-    public enum State {
-        PENDING, COMPLETED, REFUNDED
-    }
-
-    private final String captureId;
-
-    private final State state;
-
-    private final MonetaryAmount amount;
+    private final MonetaryAmount reminder;
 
     private final boolean isFinal;
 
-    private final String description;
+    public Capture(String id, Token token, MonetaryAmount reminder, String description,
+                   boolean isFinal) {
+        super(id, token, description);
+        this.reminder = notNull(reminder);
+        this.isFinal = isFinal;
+    }
+
+    public Capture(String id, Token token, MonetaryAmount reminder, String description) {
+        this(id, token, reminder, description, true);
+    }
+
+    public Capture(String id, Token token, MonetaryAmount reminder, boolean isFinal) {
+        this(id, token, reminder, null, isFinal);
+    }
+
+    public Capture(String id, Token token, MonetaryAmount reminder) {
+        this(id, token, reminder, null, true);
+    }
 }

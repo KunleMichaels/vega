@@ -107,10 +107,7 @@ public class Zone extends ValueObject {
             actualPathIter.next();
         }
 
-        if (!actualPathIter.isDone())
-            return false;
-
-        return true;
+        return actualPathIter.isDone();
     }
 
     @Override

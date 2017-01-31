@@ -46,7 +46,7 @@ public class PaymentTokenChargeRequestEventHandler implements DomainEventHandler
                 .properties(props)
                 .description(desc)
                 .token(paymentToken)
-                .transactionId(charge.chargeId())
+                .transactionId(charge.id())
                 .build();
         eventPublisher.publish(tokenChargedNotificationEvent);
     }

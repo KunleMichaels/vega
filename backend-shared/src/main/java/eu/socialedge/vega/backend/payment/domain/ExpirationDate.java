@@ -27,7 +27,6 @@ import java.time.LocalDate;
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.Validate.notNull;
 
-@Getter
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
@@ -59,7 +58,7 @@ public class ExpirationDate extends ValueObject {
                     isNull(day) ? DEFAULT_EXPIRATION_DATE : day);
         } else {
             this.localDate = LocalDate.of(year, month,
-                    isNull(day) ? DEFAULT_EXPIRATION_DATE : day);;
+                    isNull(day) ? DEFAULT_EXPIRATION_DATE : day);
         }
     }
 
@@ -120,5 +119,9 @@ public class ExpirationDate extends ValueObject {
 
     public boolean isExpired() {
         return localDate.isBefore(LocalDate.now());
+    }
+
+    public LocalDate toLocalDate() {
+        return localDate;
     }
 }
