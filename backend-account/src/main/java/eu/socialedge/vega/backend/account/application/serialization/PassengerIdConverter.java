@@ -12,18 +12,22 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest.serialization.id;
+package eu.socialedge.vega.backend.account.application.serialization;
 
-import eu.socialedge.vega.backend.fare.domain.FareId;
-
+import eu.socialedge.vega.backend.account.domain.PassengerId;
+import lombok.val;
 import org.springframework.core.convert.converter.Converter;
 
-import java.io.Serializable;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
-public class StringToFareIdConverter implements Converter<Serializable, FareId> {
+public class PassengerIdConverter implements Converter<String, PassengerId> {
 
     @Override
-    public FareId convert(Serializable source) {
-        return new FareId(Long.valueOf(source.toString()));
+    public PassengerId convert(String source) {
+        if (isBlank(source))
+            return null;
+
+        val rawId = Long.valueOf(source);
+        return new PassengerId(rawId);
     }
 }

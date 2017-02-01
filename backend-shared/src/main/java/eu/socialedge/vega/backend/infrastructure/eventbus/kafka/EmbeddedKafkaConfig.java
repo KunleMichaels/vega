@@ -14,8 +14,8 @@
  */
 package eu.socialedge.vega.backend.infrastructure.eventbus.kafka;
 
+import lombok.val;
 import net.manub.embeddedkafka.EmbeddedKafka$;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
-
-import lombok.val;
+import java.io.IOException;
+import java.net.Socket;
 
 /**
  * This configuration starts embedded Kafka broker if
@@ -51,18 +51,41 @@ public class EmbeddedKafkaConfig {
         val kfPort = env.getProperty(KF_PORT_PROP, Integer.class, DEFAULT_EMBEDDED_KF_PORT);
         val zkPort = env.getProperty(ZK_PORT_PROP, Integer.class, DEFAULT_EMBEDDED_ZK_PORT);
 
-        try {
+        if (portsAvailable(kfPort, zkPort)) {
             val config = new net.manub.embeddedkafka.EmbeddedKafkaConfig(kfPort, zkPort);
             EmbeddedKafka$.MODULE$.start(config);
 
             logger.info("Embedded kafka server started. Zk port = {}, kafka port = {}",
                 DEFAULT_EMBEDDED_ZK_PORT, DEFAULT_EMBEDDED_KF_PORT);
-        } catch (Exception e) {
-            /* It's OK to receive 'Bind: Address already in use" here since Kafka may be
-               initialized by another microservice */
-            logger.warn("Failed to start Kafka '{}: {}'. Already started?",
-                e.getClass().getName(), e.getMessage());
-            logger.trace("Embedded Kafka startup exception", e);
+        } else {
+            logger.info("Embedded kafka server NOT started. Zk port = {} or kafka port = {} already in use",
+                DEFAULT_EMBEDDED_ZK_PORT, DEFAULT_EMBEDDED_KF_PORT);
+        }
+    }
+
+    private static boolean portsAvailable(int... ports) {
+        for (int port : ports)
+            if (!portAvailable(port))
+                return false;
+
+        return true;
+    }
+
+    private static boolean portAvailable(int port) {
+        Socket s = null;
+        try {
+            s = new Socket("localhost", port);
+            return false;
+        } catch (IOException e) {
+            return true;
+        } finally {
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 }

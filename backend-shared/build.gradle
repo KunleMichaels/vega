@@ -9,7 +9,7 @@ dependencies {
     compile (libraries.bus.embeddedKafka) {exclude group: 'org.slf4j'}
     compile libraries.bus.springCloudStreamKafka
 
-    compile libraries.application.springDataRest
+    //compile libraries.application.springDataRest
 
   testCompile libraries.test.spring
 }

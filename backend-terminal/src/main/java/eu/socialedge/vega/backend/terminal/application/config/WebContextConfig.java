@@ -14,11 +14,22 @@
  */
 package eu.socialedge.vega.backend.terminal.application.config;
 
-import eu.socialedge.vega.backend.application.rest.RepositoryRestConfiguration;
-
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
-@Configuration @Import(RepositoryRestConfiguration.class)
-public class WebContextConfig {
+@Deprecated
+@Configuration
+public class WebContextConfig extends RepositoryRestConfigurerAdapter {
+
+    @Override
+    public void configureJacksonObjectMapper(ObjectMapper objectMapper) {
+        objectMapper.setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE);
+        objectMapper.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);
+        objectMapper.setVisibility(PropertyAccessor.IS_GETTER, JsonAutoDetect.Visibility.NONE);
+
+        objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+    }
 }

@@ -14,10 +14,27 @@
  */
 package eu.socialedge.vega.backend.account.application.config;
 
-import eu.socialedge.vega.backend.application.rest.RepositoryRestConfiguration;
+import eu.socialedge.vega.backend.account.application.serialization.OperatorIdConverter;
+import eu.socialedge.vega.backend.account.application.serialization.PassengerIdConverter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.config.EnableHypermediaSupport;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@Configuration @Import(RepositoryRestConfiguration.class)
-public class WebContextConfig {
+@Configuration
+@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
+public class WebContextConfig extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new OperatorIdConverter());
+        registry.addConverter(new PassengerIdConverter());
+    }
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer c) {
+        c.defaultContentType(MediaTypes.HAL_JSON);
+    }
 }

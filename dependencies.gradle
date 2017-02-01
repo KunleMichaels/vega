@@ -20,7 +20,7 @@ ext {
             application: [
                     springBoot: '1.4.3.RELEASE',
                     jsr330: '1',
-                    springDataRest: '2.5.6.RELEASE'
+                    springDataRest: '2.5.6.RELEASE',
             ],
             gen: [
                     lombok: '1.16.+',
@@ -57,7 +57,8 @@ ext {
                     springBoot: ["org.springframework.boot:spring-boot-starter:${versions.application.springBoot}",
                                  "javax.inject:javax.inject:${versions.application.jsr330}"],
                     springBootData: "org.springframework.boot:spring-boot-starter-data-jpa:${versions.application.springBoot}",
-                    springBootWeb: "org.springframework.boot:spring-boot-starter-web:${versions.application.springBoot}",
+                    springBootWeb: ["org.springframework.boot:spring-boot-starter-web:${versions.application.springBoot}",
+                                    "org.springframework.boot:spring-boot-starter-hateoas:${versions.application.springBoot}"],
                     springDataRest: "org.springframework.data:spring-data-rest-webmvc:${versions.application.springDataRest}"
             ],
             gen: [

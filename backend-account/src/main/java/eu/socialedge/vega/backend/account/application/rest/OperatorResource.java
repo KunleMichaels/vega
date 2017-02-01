@@ -12,24 +12,18 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest.serialization;
+package eu.socialedge.vega.backend.account.application.rest;
 
-import org.javamoney.moneta.Money;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.hateoas.ResourceSupport;
 
-import javax.money.MonetaryAmount;
+@Builder
+@Getter @Setter
+public class OperatorResource extends ResourceSupport {
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
+    String name;
 
-@Component
-public class StringToMonetaryAmountConverter implements Converter<String, MonetaryAmount> {
-
-    @Override
-    public MonetaryAmount convert(String source) {
-        if (isBlank(source))
-            return null;
-
-        return Money.parse(source);
-    }
+    String description;
 }
