@@ -1,15 +1,11 @@
 spring:
   profiles.active: dev
 
-  datasource:
-    platform: postgres
-    driverClassName: org.postgresql.Driver
-
 server:
   contextPath: /api
 
 logging:
-  file: vega-fare.log
+  file: vega-terminal.log
   level:
     org.springframework: INFO
 
@@ -20,12 +16,11 @@ spring:
 
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/vega-terminal
-    username: postgres
-    password: postgres
+    data: classpath:/dev/data.sql
+  h2:
+    console:
+      enabled: true
 
 logging:
   level:
@@ -49,6 +44,8 @@ spring:
     url: jdbc:postgresql://prod:5432/vega-terminal
     username: root
     password:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
 
 logging:
   level:

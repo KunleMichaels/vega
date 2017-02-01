@@ -1,10 +1,6 @@
 spring:
   profiles.active: dev
 
-  datasource:
-    platform: postgres
-    driverClassName: org.postgresql.Driver
-
 server:
   contextPath: /api
 
@@ -20,12 +16,11 @@ spring:
 
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/vega-history-boarding
-    username: postgres
-    password: postgres
+    data: classpath:/dev/data.sql
+  h2:
+    console:
+      enabled: true
 
 logging:
   level:
@@ -49,6 +44,8 @@ spring:
     url: jdbc:postgresql://prod:5432/vega-history-boarding
     username: root
     password:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
 
 logging:
   level:
