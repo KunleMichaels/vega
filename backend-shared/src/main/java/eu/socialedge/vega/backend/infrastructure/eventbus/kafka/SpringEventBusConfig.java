@@ -16,6 +16,7 @@ package eu.socialedge.vega.backend.infrastructure.eventbus.kafka;
 
 import eu.socialedge.vega.backend.ddd.DomainEventPublisher;
 import eu.socialedge.vega.backend.ddd.DomainEventRegistrar;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 

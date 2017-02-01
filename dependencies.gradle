@@ -14,6 +14,7 @@ ext {
                     springOrm: '4.3.5.RELEASE'
             ],
             bus: [
+                    embeddedKafka: '0.4.3-kafka09',
                     springCloudStreamKafka: '1.1.1.RELEASE'
             ],
             application: [
@@ -49,6 +50,7 @@ ext {
                                  "org.springframework.data:spring-data-jpa:${versions.persistence.springDataJpa}"]
             ],
             bus: [
+                    embeddedKafka: "net.manub:scalatest-embedded-kafka_2.11:${versions.bus.embeddedKafka}",
                     springCloudStreamKafka: "org.springframework.cloud:spring-cloud-starter-stream-kafka:${versions.bus.springCloudStreamKafka}"
             ],
             application: [

@@ -6,9 +6,10 @@ dependencies {
     compile libraries.persistence.jpaApi
     compile libraries.persistence.springData
 
+    compile (libraries.bus.embeddedKafka) {exclude group: 'org.slf4j'}
     compile libraries.bus.springCloudStreamKafka
 
     compile libraries.application.springDataRest
 
-    testCompile libraries.test.spring
+  testCompile libraries.test.spring
 }
