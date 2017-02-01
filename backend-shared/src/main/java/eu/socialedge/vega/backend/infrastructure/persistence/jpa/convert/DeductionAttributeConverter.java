@@ -20,7 +20,7 @@ import org.apache.commons.lang3.SerializationException;
 
 import javax.persistence.AttributeConverter;
 
-public class DeductionSerializer implements AttributeConverter<Deduction, String> {
+public class DeductionAttributeConverter implements AttributeConverter<Deduction, String> {
 
     @Override
     public String convertToDatabaseColumn(Deduction attribute) {

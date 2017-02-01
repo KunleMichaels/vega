@@ -12,19 +12,23 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest.id;
+package eu.socialedge.vega.backend.application.rest.serialization;
 
-import eu.socialedge.vega.backend.terminal.domain.TerminalId;
+import eu.socialedge.vega.backend.util.Path2ds;
+
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
+import java.awt.geom.Path2D;
+import java.io.IOException;
 
-@Component
-public class TerminalIdConverter implements Converter<Serializable, TerminalId> {
+public class StringToPath2dConverter implements Converter<Path2D, String> {
 
     @Override
-    public TerminalId convert(Serializable source) {
-        return new TerminalId(Long.valueOf(source.toString()));
+    public String convert(Path2D source) {
+        try {
+            return Path2ds.stringify(source);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to convert Path2D to string", e);
+        }
     }
 }

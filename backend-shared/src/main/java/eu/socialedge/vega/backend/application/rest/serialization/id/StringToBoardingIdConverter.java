@@ -12,16 +12,15 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest.id;
+package eu.socialedge.vega.backend.application.rest.serialization.id;
 
 import eu.socialedge.vega.backend.history.boarding.domain.BoardingId;
+
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
-@Component
-public class BoardingIdConverter implements Converter<Serializable, BoardingId> {
+public class StringToBoardingIdConverter implements Converter<Serializable, BoardingId> {
 
     @Override
     public BoardingId convert(Serializable source) {

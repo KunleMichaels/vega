@@ -12,12 +12,14 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert;
+package eu.socialedge.vega.backend.util;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import eu.socialedge.vega.backend.geo.domain.Location;
+
 import org.junit.Test;
 
 import java.awt.geom.Path2D;
@@ -25,9 +27,12 @@ import java.awt.geom.PathIterator;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class Path2dSerializerTest {
+public class Path2dsTest {
+
     private final static ObjectMapper objectMapper = new ObjectMapper() {{
         setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE);
         setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);
@@ -54,18 +59,17 @@ public class Path2dSerializerTest {
         closePath();
     }};
 
-    private static final Path2dSerializer serializer = new Path2dSerializer();
-
     @Test
-    public void shouldSerializePath2dCorrectly() throws Exception {
-        String serializedPath2d = serializer.convertToDatabaseColumn(zonePath2d);
+    public void shouldStringifyPath2dCorrectly() throws Exception {
+        String serializedPath2d = Path2ds.stringify(zonePath2d);
 
         assertEquals(objectMapper.writeValueAsString(zoneVertices), serializedPath2d);
     }
 
     @Test
-    public void shouldDeserializePath2dCorrectly() throws Exception {
-        Path2D path = serializer.convertToEntityAttribute(objectMapper.writeValueAsString(zoneVertices));
+    public void shouldParsePath2dCorrectly() throws Exception {
+        String json = objectMapper.writeValueAsString(zoneVertices);
+        Path2D path = Path2ds.parse(json);
 
         assertEqualsPath2d(zonePath2d, path);
     }

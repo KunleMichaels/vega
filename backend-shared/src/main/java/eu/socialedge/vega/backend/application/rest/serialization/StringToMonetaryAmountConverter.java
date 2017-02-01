@@ -12,28 +12,24 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert;
+package eu.socialedge.vega.backend.application.rest.serialization;
 
 import org.javamoney.moneta.Money;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 import javax.money.MonetaryAmount;
-import javax.persistence.AttributeConverter;
 
-public class MonetaryAmountSerializer implements AttributeConverter<MonetaryAmount, String> {
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
-    @Override
-    public String convertToDatabaseColumn(MonetaryAmount attribute) {
-        if (attribute == null)
-            return null;
-
-        return attribute.toString();
-    }
+@Component
+public class StringToMonetaryAmountConverter implements Converter<String, MonetaryAmount> {
 
     @Override
-    public MonetaryAmount convertToEntityAttribute(String dbData) {
-        if (dbData == null || dbData.length() == 0)
+    public MonetaryAmount convert(String source) {
+        if (isBlank(source))
             return null;
 
-        return Money.parse(dbData);
+        return Money.parse(source);
     }
 }

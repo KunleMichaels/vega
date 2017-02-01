@@ -17,18 +17,38 @@ package eu.socialedge.vega.backend.fare.domain;
 import eu.socialedge.vega.backend.account.domain.OperatorId;
 import eu.socialedge.vega.backend.ddd.AggregateRoot;
 import eu.socialedge.vega.backend.geo.domain.Zone;
-import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.DeductionSerializer;
-import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.MonetaryAmountSerializer;
-import lombok.*;
-import lombok.experimental.Accessors;
+import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.DeductionAttributeConverter;
+import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.MonetaryAmountAttributeConverter;
+import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.PeriodAttributeConverter;
+
 import org.apache.commons.lang3.Validate;
 
-import javax.money.MonetaryAmount;
-import javax.persistence.*;
 import java.time.Period;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.money.MonetaryAmount;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -43,17 +63,18 @@ public class Fare extends AggregateRoot<FareId> {
 
     @Setter
     @Column(nullable = false)
-    @Convert(converter = MonetaryAmountSerializer.class)
+    @Convert(converter = MonetaryAmountAttributeConverter.class)
     private @NonNull MonetaryAmount price;
 
     @Setter
     @Column(nullable = false)
+    @Convert(converter = PeriodAttributeConverter.class)
     private Period validity;
 
     @ElementCollection
     @Column(name = "deduction")
     @CollectionTable(name = "fare_deduction", joinColumns = @JoinColumn(name = "fare_id"))
-    @Convert(converter = DeductionSerializer.class)
+    @Convert(converter = DeductionAttributeConverter.class)
     private final Set<Deduction> deductions;
 
     @ElementCollection

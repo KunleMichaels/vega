@@ -15,7 +15,7 @@
 package eu.socialedge.vega.backend.geo.domain;
 
 import eu.socialedge.vega.backend.ddd.ValueObject;
-import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.Path2dSerializer;
+import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.Path2dAttributeConverter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -36,7 +36,7 @@ import java.util.*;
 public class Zone extends ValueObject {
 
     @Column(name = "poly_path", nullable = false)
-    @Convert(converter = Path2dSerializer.class)
+    @Convert(converter = Path2dAttributeConverter.class)
     private final Path2D polyPath;
 
     public Zone(List<Location> vertices) {

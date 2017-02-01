@@ -12,19 +12,18 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest.id;
+package eu.socialedge.vega.backend.application.rest.serialization.id;
 
-import eu.socialedge.vega.backend.boarding.domain.TagId;
+import eu.socialedge.vega.backend.account.domain.PassengerId;
+
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
-@Component
-public class TagIdConverter implements Converter<Serializable, TagId> {
+public class StringToPassengerIdConverter implements Converter<Serializable, PassengerId> {
 
     @Override
-    public TagId convert(Serializable source) {
-        return new TagId(Long.valueOf(source.toString()));
+    public PassengerId convert(Serializable source) {
+        return new PassengerId(Long.valueOf(source.toString()));
     }
 }

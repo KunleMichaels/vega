@@ -12,14 +12,18 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest;
+package eu.socialedge.vega.backend.application.rest.serialization.id;
 
-import eu.socialedge.vega.backend.application.rest.serialization.config.SerializationRepositoryRestConfiguration;
+import eu.socialedge.vega.backend.terminal.domain.TerminalId;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.core.convert.converter.Converter;
 
-@Configuration
-@Import(SerializationRepositoryRestConfiguration.class)
-public class RepositoryRestConfiguration {
+import java.io.Serializable;
+
+public class StringToTerminalIdConverter implements Converter<Serializable, TerminalId> {
+
+    @Override
+    public TerminalId convert(Serializable source) {
+        return new TerminalId(Long.valueOf(source.toString()));
+    }
 }

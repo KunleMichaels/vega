@@ -21,7 +21,7 @@ import javax.money.MonetaryAmount;
 
 import static org.junit.Assert.assertEquals;
 
-public class DeductionSerializerTest {
+public class DeductionAttributeConverterTest {
 
     static class TestDeductionStrategy implements Deduction {
 
@@ -33,7 +33,7 @@ public class DeductionSerializerTest {
 
     private static final Deduction deductionStrategy = new TestDeductionStrategy();
 
-    private static final DeductionSerializer converter = new DeductionSerializer();
+    private static final DeductionAttributeConverter converter = new DeductionAttributeConverter();
 
     @Test
     public void shouldSerializeDeductionStrategyCorrectly() {

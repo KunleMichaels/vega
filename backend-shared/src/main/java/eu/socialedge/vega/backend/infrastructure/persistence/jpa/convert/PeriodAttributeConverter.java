@@ -12,19 +12,24 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest.id;
+package eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert;
 
-import eu.socialedge.vega.backend.account.domain.OperatorId;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
+import javax.persistence.AttributeConverter;
+import java.time.Period;
+import java.util.Objects;
 
-import java.io.Serializable;
-
-@Component
-public class OperatorIdConverter implements Converter<Serializable, OperatorId> {
+public class PeriodAttributeConverter implements AttributeConverter<Period, String> {
 
     @Override
-    public OperatorId convert(Serializable source) {
-        return new OperatorId(Long.valueOf(source.toString()));
+    public String convertToDatabaseColumn(Period attribute) {
+        return Objects.toString(attribute, null);
+    }
+
+    @Override
+    public Period convertToEntityAttribute(String dbData) {
+        if (dbData == null || dbData.length() == 0)
+            return null;
+
+        return Period.parse(dbData);
     }
 }
