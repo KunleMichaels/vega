@@ -14,23 +14,28 @@
  */
 package eu.socialedge.vega.backend.infrastructure.eventbus.kafka;
 
+import lombok.val;
 import net.manub.embeddedkafka.EmbeddedKafka$;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
-
-import lombok.val;
+import javax.annotation.PreDestroy;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Arrays;
 
 /**
  * This configuration starts embedded Kafka broker if
  * Spring's {@code dev} profile is activated
  */
+@Order(Ordered.LOWEST_PRECEDENCE)
 @Configuration
 @Profile("dev")
 public class EmbeddedKafkaConfig {
@@ -47,22 +52,37 @@ public class EmbeddedKafkaConfig {
     private Environment env;
 
     @PostConstruct
-    private void embeddedKafkaServer() {
+    private void startEmbeddedKafkaServer() {
         val kfPort = env.getProperty(KF_PORT_PROP, Integer.class, DEFAULT_EMBEDDED_KF_PORT);
         val zkPort = env.getProperty(ZK_PORT_PROP, Integer.class, DEFAULT_EMBEDDED_ZK_PORT);
 
-        try {
+        if (portsAvailable(kfPort, zkPort)) {
             val config = new net.manub.embeddedkafka.EmbeddedKafkaConfig(kfPort, zkPort);
             EmbeddedKafka$.MODULE$.start(config);
 
             logger.info("Embedded kafka server started. Zk port = {}, kafka port = {}",
                 DEFAULT_EMBEDDED_ZK_PORT, DEFAULT_EMBEDDED_KF_PORT);
-        } catch (Exception e) {
-            /* It's OK to receive 'Bind: Address already in use" here since Kafka may be
-               initialized by another microservice */
-            logger.warn("Failed to start Kafka '{}: {}'. Already started?",
-                e.getClass().getName(), e.getMessage());
-            logger.trace("Embedded Kafka startup exception", e);
+        } else {
+            logger.info("Embedded kafka server NOT started. Zk port = {} or kafka port = {} already in use",
+                DEFAULT_EMBEDDED_ZK_PORT, DEFAULT_EMBEDDED_KF_PORT);
+        }
+    }
+
+    @PreDestroy
+    private void stopEmbeddedKafkaServer() {
+        logger.info("Shutting down embedded kafka");
+        EmbeddedKafka$.MODULE$.stop();
+    }
+
+    private static boolean portsAvailable(int... ports) {
+        return Arrays.stream(ports).allMatch(EmbeddedKafkaConfig::portAvailable);
+    }
+
+    private static boolean portAvailable(int port) {
+        try (val socket = new Socket("localhost", port)) {
+            return false; // something is using the port and has responded
+        } catch (IOException e) {
+            return true;
         }
     }
 }
