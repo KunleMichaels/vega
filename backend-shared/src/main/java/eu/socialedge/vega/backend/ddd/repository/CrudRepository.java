@@ -40,6 +40,4 @@ public interface CrudRepository <ID extends Identifier<?>, T extends AggregateRo
     default void remove(Collection<T> entities) {
         remove(entities.stream().map(T::id).collect(Collectors.toList()));
     }
-
-    void clear();
 }

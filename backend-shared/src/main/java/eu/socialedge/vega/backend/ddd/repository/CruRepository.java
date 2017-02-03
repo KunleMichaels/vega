@@ -40,4 +40,6 @@ public interface CruRepository<ID extends Identifier<?>, T extends AggregateRoot
     Optional<T> get(ID id);
 
     Collection<T> list();
+
+    void clear();
 }

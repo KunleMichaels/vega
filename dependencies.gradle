@@ -3,7 +3,8 @@ ext {
         commons: [
             moneta: '1.1',
             apacheLang3: '3.5',
-            apacheValidator: '1.5.+'
+            apacheValidator: '1.5.+',
+            modelMapper: '0.7.+'
         ],
         persistence: [
             jpaApi: '1.0.0.Final',
@@ -17,7 +18,7 @@ ext {
             springCloudStreamKafka: '1.1.1.RELEASE'
         ],
         application: [
-            springBoot: '1.4.3.RELEASE',
+            springBoot: '1.4.4.RELEASE',
         ],
         gen: [
             lombok: '1.16.+',
@@ -25,6 +26,7 @@ ext {
         ],
         test: [
             junit: '4.+',
+            restAssured: '3.0.+',
             assertj: '3.6.+',
             mockito: '2.2.29'
         ]
@@ -34,7 +36,8 @@ ext {
         commons: [
             moneta: "org.javamoney:moneta:${versions.commons.moneta}",
             apacheLang3: "org.apache.commons:commons-lang3:${versions.commons.apacheLang3}",
-            apacheValidator: "commons-validator:commons-validator:${versions.commons.apacheValidator}"
+            apacheValidator: "commons-validator:commons-validator:${versions.commons.apacheValidator}",
+            modelMapper: "org.modelmapper:modelmapper:${versions.commons.modelMapper}"
         ],
         persistence: [
             jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.persistence.jpaApi}",
@@ -51,7 +54,8 @@ ext {
             springBoot: "org.springframework.boot:spring-boot-starter:${versions.application.springBoot}",
             springBootData: "org.springframework.boot:spring-boot-starter-data-jpa:${versions.application.springBoot}",
             springBootWeb: "org.springframework.boot:spring-boot-starter-web:${versions.application.springBoot}",
-            springDataRest: "org.springframework.boot:spring-boot-starter-data-rest:${versions.application.springBoot}"
+            springDataRest: "org.springframework.boot:spring-boot-starter-data-rest:${versions.application.springBoot}",
+            springHateoas: "org.springframework.boot:spring-boot-starter-hateoas:${versions.application.springBoot}"
         ],
         gen: [
             lombok: "org.projectlombok:lombok:${versions.gen.lombok}",
@@ -62,9 +66,11 @@ ext {
                 "junit:junit:${versions.test.junit}",
                 "org.assertj:assertj-core:${versions.test.assertj}"
             ],
+            restAssured: "io.rest-assured:rest-assured:${versions.test.restAssured}",
             mockito: "org.mockito:mockito-core:${versions.test.mockito}",
             spring: [
-                springCloudStreamKafka: "org.springframework.cloud:spring-cloud-stream-test-support:${versions.bus.springCloudStreamKafka}"
+                boot: "org.springframework.boot:spring-boot-starter-test:${versions.application.springBoot}",
+                cloudStreamKafka: "org.springframework.cloud:spring-cloud-stream-test-support:${versions.bus.springCloudStreamKafka}"
             ]
         ]
     ]

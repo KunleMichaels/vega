@@ -15,13 +15,19 @@
 package eu.socialedge.vega.backend.account.domain;
 
 import eu.socialedge.vega.backend.ddd.DeactivatableAggregateRoot;
-import lombok.*;
-import lombok.experimental.Accessors;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 

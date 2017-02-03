@@ -12,19 +12,17 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest.id;
+package eu.socialedge.vega.backend.account.application.rest.operator;
 
-import eu.socialedge.vega.backend.account.domain.PassengerId;
-import org.springframework.core.convert.converter.Converter;
+import eu.socialedge.vega.backend.account.domain.Operator;
+import eu.socialedge.vega.backend.application.rest.EntityResourceMapper;
+
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
-
 @Component
-public class PassengerIdConverter implements Converter<Serializable, PassengerId> {
+public class OperatorEntityMapper extends EntityResourceMapper<Operator, OperatorResource> {
 
-    @Override
-    public PassengerId convert(Serializable source) {
-        return new PassengerId(Long.valueOf(source.toString()));
+    public OperatorEntityMapper() {
+        super(OperatorController.class, Operator.class, OperatorResource.class);
     }
 }

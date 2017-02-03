@@ -12,23 +12,37 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest.serialization;
+package eu.socialedge.vega.backend.application.rest;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.config.EnableHypermediaSupport;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-public class ObjectMapperRepositoryRestConfiguration extends RepositoryRestConfigurerAdapter {
+@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
+public class RestHypermediaSupportConfig extends WebMvcConfigurerAdapter {
 
-    @Override
-    public void configureJacksonObjectMapper(ObjectMapper objectMapper) {
+    @Autowired
+    public RestHypermediaSupportConfig(ObjectMapper objectMapper) {
         objectMapper.setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE);
         objectMapper.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);
         objectMapper.setVisibility(PropertyAccessor.IS_GETTER, JsonAutoDetect.Visibility.NONE);
 
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer c) {
+        c.defaultContentType(MediaTypes.HAL_JSON);
     }
 }

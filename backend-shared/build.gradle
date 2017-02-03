@@ -5,15 +5,17 @@ dependencies {
     compile libraries.commons.moneta
     compile libraries.commons.apacheLang3
     compile libraries.commons.apacheValidator
+    compile libraries.commons.modelMapper
 
     compile libraries.persistence.jpaApi
     compile libraries.persistence.springDataJpa
 
     compile (libraries.bus.embeddedKafka) {exclude module: 'log4j'}
     compile libraries.bus.springCloudStreamKafka
-    compile libraries.application.springDataRest
 
-    testCompile libraries.test.spring.springCloudStreamKafka
+    compile libraries.application.springHateoas
+
+    testCompile libraries.test.spring.cloudStreamKafka
 }
 
 bootRepackage.enabled = false

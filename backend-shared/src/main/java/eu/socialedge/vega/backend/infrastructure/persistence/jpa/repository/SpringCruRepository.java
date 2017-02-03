@@ -80,6 +80,15 @@ public interface SpringCruRepository<ID extends Identifier<?>, T extends Aggrega
         return size() == 0L;
     }
 
+    @Override
+    @Transactional
+    default void clear() {
+        exec(() -> {
+            deleteAll();
+            flush();
+        });
+    }
+
     static <E> E exec(Supplier<E> func) {
         try {
             return func.get();

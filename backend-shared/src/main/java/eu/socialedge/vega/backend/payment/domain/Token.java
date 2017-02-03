@@ -26,7 +26,6 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -45,10 +44,10 @@ public class Token {
 
     @Getter
     @Column(name = "identifier", nullable = false)
-    private final @NonNull String identifier;
+    private final String identifier;
 
     @Embedded
-    private final @NonNull ExpirationDate expirationDate;
+    private final ExpirationDate expirationDate;
 
     @Getter
     @Column

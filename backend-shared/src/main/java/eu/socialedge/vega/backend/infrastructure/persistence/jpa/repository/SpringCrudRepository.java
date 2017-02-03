@@ -48,13 +48,4 @@ public interface SpringCrudRepository<ID extends Identifier<?>, T extends Aggreg
     default void remove(Iterable<ID> entityIds) {
         entityIds.forEach(this::remove);
     }
-
-    @Override
-    @Transactional
-    default void clear() {
-        exec(() -> {
-            deleteAll();
-            flush();
-        });
-    }
 }

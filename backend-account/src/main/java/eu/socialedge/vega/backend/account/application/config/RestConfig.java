@@ -12,19 +12,13 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest.id;
+package eu.socialedge.vega.backend.account.application.config;
 
-import eu.socialedge.vega.backend.terminal.domain.TerminalId;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
+import eu.socialedge.vega.backend.application.rest.RestHypermediaSupportConfig;
 
-import java.io.Serializable;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
-@Component
-public class TerminalIdConverter implements Converter<Serializable, TerminalId> {
-
-    @Override
-    public TerminalId convert(Serializable source) {
-        return new TerminalId(Long.valueOf(source.toString()));
-    }
+@Configuration @Import(RestHypermediaSupportConfig.class)
+public class RestConfig {
 }
