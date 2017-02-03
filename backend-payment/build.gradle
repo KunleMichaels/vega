@@ -1,5 +1,9 @@
-dependencies {
-  compile project(":backend-shared")
+apply from: "$rootDir/env-backend.gradle"
 
-  testCompile libraries.test.mockito
+dependencies {
+    compile project(":backend-shared")
+
+    testCompile libraries.test.mockito
 }
+
+bootRepackage.enabled = false

@@ -1,78 +1,77 @@
 ext {
     versions = [
-            commons: [
-                    moneta: '1.1',
-                    apacheLang3: '3.5',
-                    apacheValidator: '1.5.+'
-            ],
-            persistence: [
-                    jpaApi: '1.0.0.Final',
-                    hibernateCore: '5.2.6.Final',
-                    postgresDriver: '9.4.1212.jre7',
-                    h2Driver: '1.4.193',
-                    springDataJpa: '1.10.6.RELEASE',
-                    springOrm: '4.3.5.RELEASE'
-            ],
-            bus: [
-                    embeddedKafka: '0.4.3-kafka09',
-                    springCloudStreamKafka: '1.1.1.RELEASE'
-            ],
-            application: [
-                    springBoot: '1.4.3.RELEASE',
-                    jsr330: '1',
-                    springDataRest: '2.5.6.RELEASE'
-            ],
-            gen: [
-                    lombok: '1.16.+',
-                    jpaModelPlg: '1.1.1',
-                    hibernateJpaModel: '5.2.5.Final'
-            ],
-            test: [
-                    junit  : '4.12',
-                    assertj: '3.6.+',
-                    mockito: '2.2.29',
-                    streamSupport: '1.1.1.RELEASE'
-            ]
+        commons: [
+            moneta: '1.1',
+            apacheLang3: '3.5',
+            apacheValidator: '1.5.+'
+        ],
+        persistence: [
+            jpaApi: '1.0.0.Final',
+            hibernateCore: '5.2.6.Final',
+            postgresDriver: '9.4.1212.jre7',
+            h2Driver: '1.4.193',
+            springDataJpa: '1.10.6.RELEASE',
+        ],
+        bus: [
+            embeddedKafka: '0.6.1',
+            springCloudStreamKafka: '1.1.1.RELEASE'
+        ],
+        application: [
+            springBoot: '1.4.3.RELEASE',
+        ],
+        gen: [
+            lombok: '1.16.+',
+            hibernateJpaModel: '5.2.5.Final'
+        ],
+        test: [
+            junit: '4.+',
+            assertj: '3.6.+',
+            mockito: '2.2.29'
+        ]
     ]
 
     libraries = [
-            commons: [
-                    moneta: "org.javamoney:moneta:${versions.commons.moneta}",
-                    apacheLang3: "org.apache.commons:commons-lang3:${versions.commons.apacheLang3}",
-                    apacheValidator: "commons-validator:commons-validator:${versions.commons.apacheValidator}"
+        commons: [
+            moneta: "org.javamoney:moneta:${versions.commons.moneta}",
+            apacheLang3: "org.apache.commons:commons-lang3:${versions.commons.apacheLang3}",
+            apacheValidator: "commons-validator:commons-validator:${versions.commons.apacheValidator}"
+        ],
+        persistence: [
+            jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.persistence.jpaApi}",
+            hibernateCore: "org.hibernate:hibernate-core:${versions.persistence.hibernateCore}",
+            postgresDriver: "org.postgresql:postgresql:${versions.persistence.postgresDriver}",
+            h2Driver: "com.h2database:h2:${versions.persistence.h2Driver}",
+            springDataJpa: "org.springframework.boot:spring-boot-starter-data-jpa:${versions.application.springBoot}"
+        ],
+        bus: [
+            embeddedKafka: "net.manub:scalatest-embedded-kafka_2.11:${versions.bus.embeddedKafka}",
+            springCloudStreamKafka: "org.springframework.cloud:spring-cloud-starter-stream-kafka:${versions.bus.springCloudStreamKafka}"
+        ],
+        application: [
+            springBoot: "org.springframework.boot:spring-boot-starter:${versions.application.springBoot}",
+            springBootData: "org.springframework.boot:spring-boot-starter-data-jpa:${versions.application.springBoot}",
+            springBootWeb: "org.springframework.boot:spring-boot-starter-web:${versions.application.springBoot}",
+            springDataRest: "org.springframework.boot:spring-boot-starter-data-rest:${versions.application.springBoot}"
+        ],
+        gen: [
+            lombok: "org.projectlombok:lombok:${versions.gen.lombok}",
+            jpaModel: "org.hibernate:hibernate-jpamodelgen:${versions.gen.hibernateJpaModel}"
+        ],
+        test: [
+            junit: [
+                "junit:junit:${versions.test.junit}",
+                "org.assertj:assertj-core:${versions.test.assertj}"
             ],
-            persistence: [
-                    jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.persistence.jpaApi}",
-                    hibernateCore: "org.hibernate:hibernate-core:${versions.persistence.hibernateCore}",
-                    postgresDriver: "org.postgresql:postgresql:${versions.persistence.postgresDriver}",
-                    h2Driver: "com.h2database:h2:${versions.persistence.h2Driver}",
-                    springData: ["org.springframework:spring-orm:${versions.persistence.springOrm}",
-                                 "org.springframework.data:spring-data-jpa:${versions.persistence.springDataJpa}"]
-            ],
-            bus: [
-                    embeddedKafka: "net.manub:scalatest-embedded-kafka_2.11:${versions.bus.embeddedKafka}",
-                    springCloudStreamKafka: "org.springframework.cloud:spring-cloud-starter-stream-kafka:${versions.bus.springCloudStreamKafka}"
-            ],
-            application: [
-                    springBoot: ["org.springframework.boot:spring-boot-starter:${versions.application.springBoot}",
-                                 "javax.inject:javax.inject:${versions.application.jsr330}"],
-                    springBootData: "org.springframework.boot:spring-boot-starter-data-jpa:${versions.application.springBoot}",
-                    springBootWeb: "org.springframework.boot:spring-boot-starter-web:${versions.application.springBoot}",
-                    springDataRest: "org.springframework.data:spring-data-rest-webmvc:${versions.application.springDataRest}"
-            ],
-            gen: [
-                    lombok: "org.projectlombok:lombok:${versions.gen.lombok}",
-                    jpaModel: "org.hibernate:hibernate-jpamodelgen:${versions.gen.hibernateJpaModel}"
-            ],
-            test: [
-                    junit: [
-                            "junit:junit:${versions.test.junit}",
-                            "org.assertj:assertj-core:${versions.test.assertj}"
-                    ],
-                    mockito: "org.mockito:mockito-core:${versions.test.mockito}",
-                    spring: [
-                            "org.springframework.cloud:spring-cloud-stream-test-support:${versions.test.streamSupport}"
-                    ]
+            mockito: "org.mockito:mockito-core:${versions.test.mockito}",
+            spring: [
+                springCloudStreamKafka: "org.springframework.cloud:spring-cloud-stream-test-support:${versions.bus.springCloudStreamKafka}"
             ]
+        ]
+    ]
+
+    p1ugins = [
+        application: [
+            springBoot: "org.springframework.boot:spring-boot-gradle-plugin:${versions.application.springBoot}"
+        ]
     ]
 }

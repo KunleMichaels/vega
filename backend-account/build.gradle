@@ -1,3 +1,5 @@
+apply from: "$rootDir/env-backend.gradle"
+
 dependencies {
     compile project(":backend-shared")
 

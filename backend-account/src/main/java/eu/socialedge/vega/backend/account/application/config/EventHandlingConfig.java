@@ -20,7 +20,7 @@ import eu.socialedge.vega.backend.ddd.DomainEventHandler;
 import eu.socialedge.vega.backend.ddd.DomainEventPublisher;
 import eu.socialedge.vega.backend.ddd.DomainEventRegistrar;
 import eu.socialedge.vega.backend.account.domain.event.PassengerFareChargeRequestEvent;
-import eu.socialedge.vega.backend.infrastructure.eventbus.kafka.SpringEventBusConfig;
+import eu.socialedge.vega.backend.infrastructure.eventbus.cloudstream.config.SpringEventBusConfig;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -22,7 +22,7 @@ import eu.socialedge.vega.backend.fare.domain.event.BookFarePaymentRequestEvent;
 import eu.socialedge.vega.backend.fare.domain.event.BookFarePaymentRequestEventHandler;
 import eu.socialedge.vega.backend.fare.domain.event.FareChargeRequestEvent;
 import eu.socialedge.vega.backend.fare.domain.event.FareChargeRequestEventHandler;
-import eu.socialedge.vega.backend.infrastructure.eventbus.kafka.SpringEventBusConfig;
+import eu.socialedge.vega.backend.infrastructure.eventbus.cloudstream.config.SpringEventBusConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

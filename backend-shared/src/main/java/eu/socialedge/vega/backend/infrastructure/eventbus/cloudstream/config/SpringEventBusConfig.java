@@ -12,16 +12,19 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.infrastructure.eventbus.kafka;
+package eu.socialedge.vega.backend.infrastructure.eventbus.cloudstream.config;
 
-import org.springframework.cloud.stream.annotation.Output;
-import org.springframework.messaging.MessageChannel;
+import eu.socialedge.vega.backend.ddd.DomainEventPublisher;
+import eu.socialedge.vega.backend.ddd.DomainEventRegistrar;
 
-public interface DomainEventSource {
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-    String CHANNEL_NAME = "eventBus";
-
-    @Output(DomainEventSource.CHANNEL_NAME)
-    MessageChannel eventBus();
-
+/**
+ * This configuration enables Spring Cloud Stream based implementations
+ * of {@link DomainEventPublisher} and {@link DomainEventRegistrar}.
+ */
+@Configuration
+@ComponentScan("eu.socialedge.vega.backend.infrastructure.eventbus")
+public class SpringEventBusConfig {
 }

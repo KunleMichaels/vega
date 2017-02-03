@@ -1,4 +1,4 @@
-package eu.socialedge.vega.backend.infrastructure.eventbus;
+package eu.socialedge.vega.backend.infrastructure.eventbus.cloudstream;
 
 import eu.socialedge.vega.backend.ddd.DomainEvent;
 import eu.socialedge.vega.backend.ddd.DomainEventHandler;
@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,7 +19,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @SpringBootTest(properties = {"server.port=-1"})
 @DirtiesContext
 public class SpringDomainEventRegistrarIntegrationTest {

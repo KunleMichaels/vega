@@ -1,4 +1,4 @@
-package eu.socialedge.vega.backend.infrastructure.eventbus;
+package eu.socialedge.vega.backend.infrastructure.eventbus.cloudstream;
 
 import eu.socialedge.vega.backend.ddd.DomainEvent;
 import eu.socialedge.vega.backend.ddd.DomainEventHandler;
@@ -22,7 +22,7 @@ public class SpringDomainEventRegistrarTest {
     private @Mock ChildDomainEventHandler childDomainEventHandler;
 
     private SpringDomainEventRegistrar eventRegistrar = new SpringDomainEventRegistrar();
-    
+
     @Test
     public void shouldCallHandlerForHisEvent() {
         eventRegistrar.registerEventHandler(firstHandler, DomainEvent.class);
@@ -32,34 +32,34 @@ public class SpringDomainEventRegistrarTest {
         verify(firstHandler).handleEvent(firstEvent);
         verifyZeroInteractions(childDomainEventHandler);
     }
-    
+
     @Test
     public void shouldNotHandleChildDomainEvent() {
         eventRegistrar.registerEventHandler(firstHandler, DomainEvent.class);
         eventRegistrar.registerEventHandler(childDomainEventHandler, ChildDomainEvent.class);
-        
+
         eventRegistrar.handleEvent(firstEvent);
         verifyZeroInteractions(childDomainEventHandler);
     }
-    
+
     @Test
     public void shouldHandleChildEventsAssignableFromParent() {
         eventRegistrar.registerEventHandler(firstHandler, DomainEvent.class);
         eventRegistrar.registerEventHandler(childDomainEventHandler, ChildDomainEvent.class);
-        
+
         eventRegistrar.handleEvent(childDomainEvent);
-        
+
         verify(childDomainEventHandler).handleEvent(childDomainEvent);
         verify(firstHandler).handleEvent(childDomainEvent);
     }
-    
+
     @Test
     public void shouldCallAllHandlersForTheirEvent() {
         eventRegistrar.registerEventHandler(firstHandler, DomainEvent.class);
         eventRegistrar.registerEventHandler(firstHandler, DomainEvent.class);
-        
+
         eventRegistrar.handleEvent(firstEvent);
-        
+
         verify(firstHandler, times(2)).handleEvent(firstEvent);
         verifyZeroInteractions(childDomainEventHandler);
     }

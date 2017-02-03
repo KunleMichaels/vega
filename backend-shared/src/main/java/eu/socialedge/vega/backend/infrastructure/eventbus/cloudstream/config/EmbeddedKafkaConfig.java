@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.infrastructure.eventbus.kafka;
+package eu.socialedge.vega.backend.infrastructure.eventbus.cloudstream.config;
 
 import lombok.val;
 import net.manub.embeddedkafka.EmbeddedKafka$;
@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
+import scala.collection.immutable.HashMap;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -51,27 +52,33 @@ public class EmbeddedKafkaConfig {
     @Autowired
     private Environment env;
 
+    private boolean embeddedKafkaStarted = false;
+
     @PostConstruct
     private void startEmbeddedKafkaServer() {
         val kfPort = env.getProperty(KF_PORT_PROP, Integer.class, DEFAULT_EMBEDDED_KF_PORT);
         val zkPort = env.getProperty(ZK_PORT_PROP, Integer.class, DEFAULT_EMBEDDED_ZK_PORT);
 
         if (portsAvailable(kfPort, zkPort)) {
-            val config = new net.manub.embeddedkafka.EmbeddedKafkaConfig(kfPort, zkPort);
-            EmbeddedKafka$.MODULE$.start(config);
+            val config = new net.manub.embeddedkafka.EmbeddedKafkaConfig(kfPort, zkPort, new HashMap<>());
 
-            logger.info("Embedded kafka server started. Zk port = {}, kafka port = {}",
-                DEFAULT_EMBEDDED_ZK_PORT, DEFAULT_EMBEDDED_KF_PORT);
+            logger.info("Setting up Embedded kafka server ...");
+            EmbeddedKafka$.MODULE$.start(config);
+            embeddedKafkaStarted = true;
+
+            logger.info("Embedded kafka server started. Zk port = {}, kafka port = {}", zkPort, kfPort);
         } else {
             logger.info("Embedded kafka server NOT started. Zk port = {} or kafka port = {} already in use",
-                DEFAULT_EMBEDDED_ZK_PORT, DEFAULT_EMBEDDED_KF_PORT);
+                zkPort, kfPort);
         }
     }
 
     @PreDestroy
     private void stopEmbeddedKafkaServer() {
-        logger.info("Shutting down embedded kafka");
-        EmbeddedKafka$.MODULE$.stop();
+        if (embeddedKafkaStarted) {
+            logger.info("Shutting down embedded kafka");
+            EmbeddedKafka$.MODULE$.stop();
+        }
     }
 
     private static boolean portsAvailable(int... ports) {

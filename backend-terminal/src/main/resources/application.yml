@@ -30,6 +30,8 @@ logging:
     org.springframework.test: DEBUG
     org.hibernate.validator: WARN
     eu.socialedge.vega: DEBUG
+    org.apache.zookeeper: FATAL
+    kafka: FATAL
 
 ---
 
