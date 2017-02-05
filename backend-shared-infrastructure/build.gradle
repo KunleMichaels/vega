@@ -1,0 +1,11 @@
+apply from: "$rootDir/env-backend.gradle"
+
+dependencies {
+    compile project(":backend-shared-domain")
+
+    compile libraries.bus.dddSupportSpringCloud
+    compile (libraries.bus.embeddedKafka) {exclude module: 'log4j'}
+    compile libraries.bus.springCloudStreamKafka
+}
+
+bootRepackage.enabled = false

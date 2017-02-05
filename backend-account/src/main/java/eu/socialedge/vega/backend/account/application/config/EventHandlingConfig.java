@@ -14,11 +14,11 @@
  */
 package eu.socialedge.vega.backend.account.application.config;
 
+import eu.socialedge.ddd.event.DomainEventHandler;
+import eu.socialedge.ddd.event.DomainEventPublisher;
+import eu.socialedge.ddd.event.DomainEventRegistrar;
 import eu.socialedge.vega.backend.account.domain.PassengerRepository;
 import eu.socialedge.vega.backend.account.domain.event.PassengerChargeRequestEventHandler;
-import eu.socialedge.vega.backend.ddd.DomainEventHandler;
-import eu.socialedge.vega.backend.ddd.DomainEventPublisher;
-import eu.socialedge.vega.backend.ddd.DomainEventRegistrar;
 import eu.socialedge.vega.backend.account.domain.event.PassengerFareChargeRequestEvent;
 import eu.socialedge.vega.backend.infrastructure.eventbus.cloudstream.config.SpringEventBusConfig;
 import lombok.val;

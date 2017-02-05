@@ -14,12 +14,12 @@
  */
 package eu.socialedge.vega.backend.account.infrastructure.persistence.jpa;
 
+import eu.socialedge.ddd.infrastructure.persistence.jpa.SpringMindfulRepository;
 import eu.socialedge.vega.backend.account.domain.Operator;
 import eu.socialedge.vega.backend.account.domain.OperatorId;
 import eu.socialedge.vega.backend.account.domain.OperatorRepository;
-import eu.socialedge.vega.backend.infrastructure.persistence.jpa.repository.SpringCruaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SpringOperatorRepository extends OperatorRepository, SpringCruaRepository<OperatorId, Operator> {
+public interface SpringOperatorRepository extends OperatorRepository, SpringMindfulRepository<OperatorId, Operator> {
 }

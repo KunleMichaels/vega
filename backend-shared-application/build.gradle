@@ -1,0 +1,9 @@
+apply from: "$rootDir/env-backend.gradle"
+
+dependencies {
+    compile project(":backend-shared-domain")
+
+    compile libraries.application.springDataRest
+}
+
+bootRepackage.enabled = false

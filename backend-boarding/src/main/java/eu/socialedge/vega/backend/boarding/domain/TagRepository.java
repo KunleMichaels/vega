@@ -14,8 +14,8 @@
  */
 package eu.socialedge.vega.backend.boarding.domain;
 
-import eu.socialedge.vega.backend.ddd.repository.CrudRepository;
+import eu.socialedge.ddd.domain.repository.MutableRepository;
 
-public interface TagRepository extends CrudRepository<TagId, Tag> {
+public interface TagRepository extends MutableRepository<TagId, Tag> {
 
 }

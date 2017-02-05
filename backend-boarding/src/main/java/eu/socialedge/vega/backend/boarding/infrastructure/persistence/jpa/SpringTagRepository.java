@@ -14,12 +14,12 @@
  */
 package eu.socialedge.vega.backend.boarding.infrastructure.persistence.jpa;
 
-import eu.socialedge.vega.backend.infrastructure.persistence.jpa.repository.SpringCrudRepository;
+import eu.socialedge.ddd.infrastructure.persistence.jpa.SpringMutableRepository;
 import eu.socialedge.vega.backend.boarding.domain.Tag;
 import eu.socialedge.vega.backend.boarding.domain.TagId;
 import eu.socialedge.vega.backend.boarding.domain.TagRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SpringTagRepository extends TagRepository, SpringCrudRepository<TagId, Tag> {
+public interface SpringTagRepository extends TagRepository, SpringMutableRepository<TagId, Tag> {
 }

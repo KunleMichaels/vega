@@ -14,8 +14,8 @@
  */
 package eu.socialedge.vega.backend.history.boarding.domain;
 
-import eu.socialedge.vega.backend.ddd.repository.CrudRepository;
+import eu.socialedge.ddd.domain.repository.MutableRepository;
 
-public interface BoardingRepository extends CrudRepository<BoardingId, Boarding> {
+public interface BoardingRepository extends MutableRepository<BoardingId, Boarding> {
 
 }

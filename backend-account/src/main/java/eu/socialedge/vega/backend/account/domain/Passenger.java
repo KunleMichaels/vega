@@ -14,37 +14,21 @@
  */
 package eu.socialedge.vega.backend.account.domain;
 
+import eu.socialedge.ddd.domain.DeactivatableAggregateRoot;
 import eu.socialedge.vega.backend.boarding.domain.TagId;
-import eu.socialedge.vega.backend.ddd.DeactivatableAggregateRoot;
 import eu.socialedge.vega.backend.payment.domain.Token;
-
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.validator.routines.EmailValidator;
 
+import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-import lombok.val;
-
-import static org.apache.commons.lang3.Validate.notBlank;
-import static org.apache.commons.lang3.Validate.notEmpty;
-import static org.apache.commons.lang3.Validate.notNull;
+import static org.apache.commons.lang3.Validate.*;
 
 @Getter
 @ToString

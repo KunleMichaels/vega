@@ -1,11 +1,14 @@
 apply from: "$rootDir/env-backend.gradle"
 
 dependencies {
-    compile project(":backend-shared")
+    compile project(":backend-shared-domain")
+    compile project(":backend-shared-infrastructure")
+    compile project(":backend-shared-application")
 
     compile libraries.persistence.hibernateCore
     compile libraries.persistence.postgresDriver
     compile libraries.persistence.h2Driver
+    compile libraries.persistence.dddSupportSpringRepositories
 
     compile libraries.application.springBoot
     compile libraries.application.springBootData

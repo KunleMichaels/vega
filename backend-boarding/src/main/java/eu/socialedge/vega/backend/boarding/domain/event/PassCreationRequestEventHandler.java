@@ -16,8 +16,8 @@ package eu.socialedge.vega.backend.boarding.domain.event;
 
 import eu.socialedge.vega.backend.boarding.domain.Pass;
 import eu.socialedge.vega.backend.boarding.domain.TagRepository;
-import eu.socialedge.vega.backend.ddd.DomainEventHandler;
-import eu.socialedge.vega.backend.ddd.DomainEventPublisher;
+import eu.socialedge.ddd.event.DomainEventHandler;
+import eu.socialedge.ddd.event.DomainEventPublisher;
 import lombok.val;
 
 import java.time.LocalDateTime;

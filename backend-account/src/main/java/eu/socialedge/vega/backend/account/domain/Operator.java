@@ -14,7 +14,7 @@
  */
 package eu.socialedge.vega.backend.account.domain;
 
-import eu.socialedge.vega.backend.ddd.DeactivatableAggregateRoot;
+import eu.socialedge.ddd.domain.DeactivatableAggregateRoot;
 import lombok.*;
 import lombok.experimental.Accessors;
 

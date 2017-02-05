@@ -14,11 +14,9 @@
  */
 package eu.socialedge.vega.backend.fare.domain;
 
+import eu.socialedge.ddd.domain.AggregateRoot;
 import eu.socialedge.vega.backend.account.domain.OperatorId;
-import eu.socialedge.vega.backend.ddd.AggregateRoot;
 import eu.socialedge.vega.backend.geo.domain.Zone;
-import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.DeductionSerializer;
-import eu.socialedge.vega.backend.infrastructure.persistence.jpa.convert.MonetaryAmountSerializer;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.Validate;
@@ -43,7 +41,6 @@ public class Fare extends AggregateRoot<FareId> {
 
     @Setter
     @Column(nullable = false)
-    @Convert(converter = MonetaryAmountSerializer.class)
     private @NonNull MonetaryAmount price;
 
     @Setter
@@ -53,7 +50,6 @@ public class Fare extends AggregateRoot<FareId> {
     @ElementCollection
     @Column(name = "deduction")
     @CollectionTable(name = "fare_deduction", joinColumns = @JoinColumn(name = "fare_id"))
-    @Convert(converter = DeductionSerializer.class)
     private final Set<Deduction> deductions;
 
     @ElementCollection

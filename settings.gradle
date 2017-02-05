@@ -1,8 +1,10 @@
-include 'backend-shared',
+include 'backend-shared-domain',
+        'backend-shared-infrastructure',
         'backend-fare',
         'backend-boarding',
         'backend-account',
         'backend-terminal',
         'backend-payment',
         'backend-history-boarding'
+include 'backend-shared-application'
 

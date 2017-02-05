@@ -14,12 +14,12 @@
  */
 package eu.socialedge.vega.backend.account.infrastructure.persistence.jpa;
 
+import eu.socialedge.ddd.infrastructure.persistence.jpa.SpringMindfulRepository;
 import eu.socialedge.vega.backend.account.domain.Passenger;
 import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.vega.backend.account.domain.PassengerRepository;
-import eu.socialedge.vega.backend.infrastructure.persistence.jpa.repository.SpringCruaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SpringPassengerRepository extends PassengerRepository, SpringCruaRepository<PassengerId, Passenger> {
+public interface SpringPassengerRepository extends PassengerRepository, SpringMindfulRepository<PassengerId, Passenger> {
 }

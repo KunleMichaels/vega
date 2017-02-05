@@ -1,7 +1,9 @@
 apply from: "$rootDir/env-backend.gradle"
 
 dependencies {
-    compile project(":backend-shared")
+    compile project(":backend-shared-domain")
+    compile project(":backend-shared-infrastructure")
+    compile project(":backend-shared-application")
 
     testCompile libraries.test.mockito
 }

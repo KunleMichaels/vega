@@ -1,22 +1,22 @@
 INSERT INTO OPERATOR
-(OPERATOR_ID, IS_ACTIVE, DESCRIPTION, NAME)
+(OPERATOR_ID, IS_ACTIVE, DESCRIPTION, NAME, VERSION)
 VALUES
-(1, true, 'First operator', 'Transporter');
+(1, true, 'First operator', 'Transporter', 0);
 
 INSERT INTO OPERATOR
-(OPERATOR_ID, IS_ACTIVE, DESCRIPTION, NAME)
+(OPERATOR_ID, IS_ACTIVE, DESCRIPTION, NAME, VERSION)
 VALUES
-(2, true, 'Second operator', 'Operator');
+(2, true, 'Second operator', 'Operator', 0);
 
 INSERT INTO PASSENGER
-(PASSENGER_ID, IS_ACTIVE, EMAIL, IS_SHADOW, NAME, PASSWORD)
+(PASSENGER_ID, IS_ACTIVE, EMAIL, IS_SHADOW, NAME, PASSWORD, VERSION)
 VALUES
-(1, true, 'first@email.com', false, 'John Doe', 'q1qq1qwe');
+(1, true, 'first@email.com', false, 'John Doe', 'q1qq1qwe', 0);
 
 INSERT INTO PASSENGER
-(PASSENGER_ID, IS_ACTIVE, EMAIL, IS_SHADOW, NAME, PASSWORD)
+(PASSENGER_ID, IS_ACTIVE, EMAIL, IS_SHADOW, NAME, PASSWORD, VERSION)
 VALUES
-(2, true, 'second@email.com', true, 'John Smith', 'kljk34lj43kj');
+(2, true, 'second@email.com', true, 'John Smith', 'kljk34lj43kj', 0);
 
 INSERT INTO PASSENGER_PMETHODS
 (PASSENGER_ID, DESCRIPTION, LOCAL_DATE, IDENTIFIER, IS_PRIMARY)

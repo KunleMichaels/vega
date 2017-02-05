@@ -14,8 +14,8 @@
  */
 package eu.socialedge.vega.backend.account.domain;
 
-import eu.socialedge.vega.backend.ddd.repository.CruaRepository;
+import eu.socialedge.ddd.domain.repository.MindfulRepository;
 
-public interface OperatorRepository extends CruaRepository<OperatorId, Operator> {
+public interface OperatorRepository extends MindfulRepository<OperatorId, Operator> {
 
 }

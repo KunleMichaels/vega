@@ -1,12 +1,12 @@
 INSERT INTO FARE
-(FARE_ID, PRICE, VALIDITY, POLY_PATH)
+(FARE_ID, PRICE, VALIDITY, POLY_PATH, VERSION)
 VALUES
-(1, 'EUR 25.25', 'P1Y1M1D', '[{"latitude":0.0,"longitude":0.0},{"latitude":0.0,"longitude":11.0},{"latitude":11.0,"longitude":0.0},{"latitude":11.0,"longitude":11.0}]');
+(1, 'EUR 25.25', 'P1Y1M1D', '[{"latitude":0.0,"longitude":0.0},{"latitude":0.0,"longitude":11.0},{"latitude":11.0,"longitude":0.0},{"latitude":11.0,"longitude":11.0}]', 0);
 
 INSERT INTO FARE
-(FARE_ID, PRICE, VALIDITY, POLY_PATH)
+(FARE_ID, PRICE, VALIDITY, POLY_PATH, VERSION)
 VALUES
-(2, 'EUR 12.11', 'P1Y1M1D', '[{"latitude":0.0,"longitude":0.0},{"latitude":0.0,"longitude":22.0},{"latitude":22.0,"longitude":0.0},{"latitude":22.0,"longitude":22.0}]');
+(2, 'EUR 12.11', 'P1Y1M1D', '[{"latitude":0.0,"longitude":0.0},{"latitude":0.0,"longitude":22.0},{"latitude":22.0,"longitude":0.0},{"latitude":22.0,"longitude":22.0}]', 0);
 
 INSERT INTO FARE_VEHICLE_TYPE
 (FARE_ID, VEHICLE_TYPES)

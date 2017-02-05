@@ -14,12 +14,12 @@
  */
 package eu.socialedge.vega.backend.fare.infrastructure.persistence.jpa;
 
-import eu.socialedge.vega.backend.infrastructure.persistence.jpa.repository.SpringCrudRepository;
-import eu.socialedge.vega.backend.fare.domain.FareId;
+import eu.socialedge.ddd.infrastructure.persistence.jpa.SpringMutableRepository;
 import eu.socialedge.vega.backend.fare.domain.Fare;
+import eu.socialedge.vega.backend.fare.domain.FareId;
 import eu.socialedge.vega.backend.fare.domain.FareRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SpringFareRepository extends FareRepository, SpringCrudRepository<FareId, Fare> {
+public interface SpringFareRepository extends FareRepository, SpringMutableRepository<FareId, Fare> {
 }

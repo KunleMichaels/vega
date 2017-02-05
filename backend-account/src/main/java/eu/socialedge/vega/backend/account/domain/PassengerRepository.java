@@ -14,7 +14,7 @@
  */
 package eu.socialedge.vega.backend.account.domain;
 
-import eu.socialedge.vega.backend.ddd.repository.CruaRepository;
+import eu.socialedge.ddd.domain.repository.MindfulRepository;
 
-public interface PassengerRepository extends CruaRepository<PassengerId, Passenger> {
+public interface PassengerRepository extends MindfulRepository<PassengerId, Passenger> {
 }

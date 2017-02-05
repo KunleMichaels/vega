@@ -14,7 +14,7 @@
  */
 package eu.socialedge.vega.backend.terminal.domain;
 
-import eu.socialedge.vega.backend.ddd.ValueObject;
+import eu.socialedge.ddd.domain.ValueObject;
 import lombok.*;
 import lombok.experimental.Accessors;
 

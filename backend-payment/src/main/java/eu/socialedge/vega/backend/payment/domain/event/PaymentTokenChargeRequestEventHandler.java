@@ -14,8 +14,8 @@
  */
 package eu.socialedge.vega.backend.payment.domain.event;
 
-import eu.socialedge.vega.backend.ddd.DomainEventHandler;
-import eu.socialedge.vega.backend.ddd.DomainEventPublisher;
+import eu.socialedge.ddd.event.DomainEventHandler;
+import eu.socialedge.ddd.event.DomainEventPublisher;
 import eu.socialedge.vega.backend.payment.domain.Charge;
 import eu.socialedge.vega.backend.payment.domain.PaymentGateway;
 import lombok.val;

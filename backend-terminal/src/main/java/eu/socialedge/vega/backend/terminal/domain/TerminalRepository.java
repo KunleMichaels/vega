@@ -14,8 +14,8 @@
  */
 package eu.socialedge.vega.backend.terminal.domain;
 
-import eu.socialedge.vega.backend.ddd.repository.CrudRepository;
+import eu.socialedge.ddd.domain.repository.MutableRepository;
 
-public interface TerminalRepository extends CrudRepository<TerminalId, Terminal> {
+public interface TerminalRepository extends MutableRepository<TerminalId, Terminal> {
 
 }

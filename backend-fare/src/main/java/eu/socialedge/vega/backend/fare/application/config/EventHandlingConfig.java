@@ -14,9 +14,9 @@
  */
 package eu.socialedge.vega.backend.fare.application.config;
 
-import eu.socialedge.vega.backend.ddd.DomainEventHandler;
-import eu.socialedge.vega.backend.ddd.DomainEventPublisher;
-import eu.socialedge.vega.backend.ddd.DomainEventRegistrar;
+import eu.socialedge.ddd.event.DomainEventHandler;
+import eu.socialedge.ddd.event.DomainEventPublisher;
+import eu.socialedge.ddd.event.DomainEventRegistrar;
 import eu.socialedge.vega.backend.fare.domain.FareRepository;
 import eu.socialedge.vega.backend.fare.domain.event.BookFarePaymentRequestEvent;
 import eu.socialedge.vega.backend.fare.domain.event.BookFarePaymentRequestEventHandler;

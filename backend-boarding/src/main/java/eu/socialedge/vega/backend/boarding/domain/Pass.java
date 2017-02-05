@@ -15,7 +15,7 @@
 package eu.socialedge.vega.backend.boarding.domain;
 
 import eu.socialedge.vega.backend.account.domain.OperatorId;
-import eu.socialedge.vega.backend.ddd.ValueObject;
+import eu.socialedge.ddd.domain.ValueObject;
 import eu.socialedge.vega.backend.fare.domain.FareId;
 import eu.socialedge.vega.backend.fare.domain.VehicleType;
 import eu.socialedge.vega.backend.geo.domain.Location;

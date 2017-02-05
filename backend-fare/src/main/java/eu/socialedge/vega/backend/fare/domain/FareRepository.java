@@ -14,8 +14,8 @@
  */
 package eu.socialedge.vega.backend.fare.domain;
 
-import eu.socialedge.vega.backend.ddd.repository.CrudRepository;
+import eu.socialedge.ddd.domain.repository.MutableRepository;
 
-public interface FareRepository extends CrudRepository<FareId, Fare> {
+public interface FareRepository extends MutableRepository<FareId, Fare> {
 
 }

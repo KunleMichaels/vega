@@ -14,7 +14,7 @@
  */
 package eu.socialedge.vega.backend.terminal.domain;
 
-import eu.socialedge.vega.backend.ddd.AggregateRoot;
+import eu.socialedge.ddd.domain.AggregateRoot;
 import lombok.*;
 
 import javax.persistence.Access;

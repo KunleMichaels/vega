@@ -1,6 +1,7 @@
 ext {
     versions = [
         commons: [
+            dddSupport: '0.2',
             moneta: '1.1',
             apacheLang3: '3.5',
             apacheValidator: '1.5.+'
@@ -32,6 +33,7 @@ ext {
 
     libraries = [
         commons: [
+            dddSupport: "eu.socialedge.ddd:ddd-api:${versions.commons.dddSupport}",
             moneta: "org.javamoney:moneta:${versions.commons.moneta}",
             apacheLang3: "org.apache.commons:commons-lang3:${versions.commons.apacheLang3}",
             apacheValidator: "commons-validator:commons-validator:${versions.commons.apacheValidator}"
@@ -41,9 +43,11 @@ ext {
             hibernateCore: "org.hibernate:hibernate-core:${versions.persistence.hibernateCore}",
             postgresDriver: "org.postgresql:postgresql:${versions.persistence.postgresDriver}",
             h2Driver: "com.h2database:h2:${versions.persistence.h2Driver}",
-            springDataJpa: "org.springframework.boot:spring-boot-starter-data-jpa:${versions.application.springBoot}"
+            springDataJpa: "org.springframework.boot:spring-boot-starter-data-jpa:${versions.application.springBoot}",
+            dddSupportSpringRepositories: "eu.socialedge.ddd:ddd-repository-spring-data:${versions.commons.dddSupport}"
         ],
         bus: [
+            dddSupportSpringCloud: "eu.socialedge.ddd:ddd-event-spring-cloud:${versions.commons.dddSupport}",
             embeddedKafka: "net.manub:scalatest-embedded-kafka_2.11:${versions.bus.embeddedKafka}",
             springCloudStreamKafka: "org.springframework.cloud:spring-cloud-starter-stream-kafka:${versions.bus.springCloudStreamKafka}"
         ],

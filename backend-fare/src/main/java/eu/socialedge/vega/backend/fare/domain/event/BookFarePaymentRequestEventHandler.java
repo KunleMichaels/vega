@@ -15,8 +15,8 @@
 package eu.socialedge.vega.backend.fare.domain.event;
 
 import eu.socialedge.vega.backend.boarding.domain.event.PassCreationRequestEvent;
-import eu.socialedge.vega.backend.ddd.DomainEventHandler;
-import eu.socialedge.vega.backend.ddd.DomainEventPublisher;
+import eu.socialedge.ddd.event.DomainEventHandler;
+import eu.socialedge.ddd.event.DomainEventPublisher;
 import eu.socialedge.vega.backend.fare.domain.FareRepository;
 import lombok.val;
 
