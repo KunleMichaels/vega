@@ -19,12 +19,13 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Component
 public class OperatorIdConverter implements Converter<Serializable, OperatorId> {
 
     @Override
     public OperatorId convert(Serializable source) {
-        return new OperatorId(Long.valueOf(source.toString()));
+        return new OperatorId(UUID.fromString(source.toString()));
     }
 }

@@ -19,12 +19,13 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Component
 public class BoardingIdConverter implements Converter<Serializable, BoardingId> {
 
     @Override
     public BoardingId convert(Serializable source) {
-        return new BoardingId(Long.valueOf(source.toString()));
+        return new BoardingId(UUID.fromString(source.toString()));
     }
 }

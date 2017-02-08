@@ -49,8 +49,16 @@ public class Tag extends AggregateRoot<TagId> {
         this.passes = new HashSet<>(notNull(passes));
     }
 
+    public Tag(PassengerId passengerId, Set<Pass> passes) {
+        this(new TagId(), passengerId, passes);
+    }
+
     public Tag(TagId id, PassengerId passengerId) {
         this(id, passengerId, new HashSet<>());
+    }
+
+    public Tag(PassengerId passengerId) {
+        this(new TagId(), passengerId);
     }
 
     public boolean addPass(Pass pass) {

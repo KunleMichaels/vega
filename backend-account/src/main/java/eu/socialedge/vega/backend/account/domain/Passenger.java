@@ -76,9 +76,19 @@ public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
         this.email = email;
     }
 
+    public Passenger(String name, String email, String password,
+                     Set<TagId> tagIds, Set<Token> paymentTokens, boolean isShadow) {
+        this(new PassengerId(), name, email, password, tagIds, paymentTokens, isShadow);
+    }
+
     public Passenger(PassengerId id, String name, String email, String password,
                      Set<TagId> tagIds, Set<Token> paymentTokens) {
         this(id, name, email, password, tagIds, paymentTokens, false);
+    }
+
+    public Passenger(String name, String email, String password,
+                     Set<TagId> tagIds, Set<Token> paymentTokens) {
+        this(new PassengerId(), name, email, password, tagIds, paymentTokens);
     }
 
     public void name(String name) {

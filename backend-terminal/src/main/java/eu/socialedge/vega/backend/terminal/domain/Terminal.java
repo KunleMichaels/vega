@@ -43,4 +43,8 @@ public class Terminal extends AggregateRoot<TerminalId> {
         this.build = notNull(build);
         this.installation = notNull(installation);
     }
+
+    public Terminal(Build build, Installation installation) {
+        this(new TerminalId(), build, installation);
+    }
 }

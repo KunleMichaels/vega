@@ -19,12 +19,13 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Component
 public class TerminalIdConverter implements Converter<Serializable, TerminalId> {
 
     @Override
     public TerminalId convert(Serializable source) {
-        return new TerminalId(Long.valueOf(source.toString()));
+        return new TerminalId(UUID.fromString(source.toString()));
     }
 }

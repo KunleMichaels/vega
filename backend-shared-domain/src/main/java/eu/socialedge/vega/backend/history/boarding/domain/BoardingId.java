@@ -14,18 +14,18 @@
  */
 package eu.socialedge.vega.backend.history.boarding.domain;
 
-import eu.socialedge.ddd.domain.Identifier;
-import lombok.AccessLevel;
+import eu.socialedge.ddd.domain.UuId;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Embeddable @Access(AccessType.FIELD)
-@NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
+@NoArgsConstructor(force = true)
 @AttributeOverride(name = "value", column = @Column(name = "boarding_id"))
-public class BoardingId extends Identifier<Long> {
+public class BoardingId extends UuId {
 
-    public BoardingId(Long value) {
-        super(value);
+    public BoardingId(UUID uuid) {
+        super(uuid);
     }
 }
