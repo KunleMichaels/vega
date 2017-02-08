@@ -26,6 +26,6 @@ public class FareIdConverter implements Converter<Serializable, FareId> {
 
     @Override
     public FareId convert(Serializable source) {
-        return new FareId(UUID.fromString(source.toString()));
+        return new FareId(source.toString());
     }
 }

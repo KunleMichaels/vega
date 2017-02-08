@@ -14,18 +14,20 @@
  */
 package eu.socialedge.vega.backend.fare.domain;
 
-import eu.socialedge.ddd.domain.UuId;
-import lombok.NoArgsConstructor;
+import eu.socialedge.ddd.domain.Identifier;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 @Embeddable @Access(AccessType.FIELD)
-@NoArgsConstructor(force = true)
 @AttributeOverride(name = "value", column = @Column(name = "fare_id"))
-public class FareId extends UuId {
+public class FareId extends Identifier<String> {
 
-    public FareId(UUID uuid) {
-        super(uuid);
+    public FareId() {
+        super(UUID.randomUUID().toString());
+    }
+
+    public FareId(String id) {
+        super(id);
     }
 }

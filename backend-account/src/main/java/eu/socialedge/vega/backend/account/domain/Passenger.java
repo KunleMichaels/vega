@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.Validate.*;
 
 @Getter
@@ -47,9 +48,6 @@ public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "is_shadow", nullable = false)
-    private boolean isShadow;
-
     @ElementCollection
     @CollectionTable(name = "passenger_token", joinColumns = @JoinColumn(name = "passenger_id"))
     private final Set<TagId> tagIds;
@@ -58,37 +56,41 @@ public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
     @CollectionTable(name = "passenger_pmethods", joinColumns = @JoinColumn(name = "passenger_id"))
     private final Set<Token> paymentTokens;
 
-    private transient boolean hasPrimaryPaymentToken = true;
-
     public Passenger(PassengerId id, String name, String email, String password,
-                     Set<TagId> tagIds, Set<Token> paymentTokens, boolean isShadow) {
+                     Set<TagId> tagIds, Set<Token> paymentTokens) {
         super(id);
 
         this.name = notBlank(name);
         this.password = notBlank(password);
-        this.tagIds = new HashSet<>(notEmpty(tagIds));
-        this.paymentTokens = newPaymentTokenHashSet(notEmpty(paymentTokens));
-        this.isShadow = isShadow;
+        this.tagIds = isNull(tagIds) ? new HashSet<>() : new HashSet<>(tagIds);
 
         if (!EmailValidator.getInstance().isValid(email))
             throw new IllegalArgumentException(email + " is not a valid email address");
 
         this.email = email;
-    }
 
-    public Passenger(String name, String email, String password,
-                     Set<TagId> tagIds, Set<Token> paymentTokens, boolean isShadow) {
-        this(new PassengerId(), name, email, password, tagIds, paymentTokens, isShadow);
-    }
+        if (isNull(paymentTokens)) {
+            this.paymentTokens = new HashSet<>();
+            this.isActive = false;
+        } else {
+            if (countPrimaryPaymentTokens(paymentTokens) != 1)
+                throw new IllegalArgumentException("One (only) payment token must be primary");
 
-    public Passenger(PassengerId id, String name, String email, String password,
-                     Set<TagId> tagIds, Set<Token> paymentTokens) {
-        this(id, name, email, password, tagIds, paymentTokens, false);
+            this.paymentTokens = new HashSet<>(paymentTokens);
+        }
     }
 
     public Passenger(String name, String email, String password,
                      Set<TagId> tagIds, Set<Token> paymentTokens) {
         this(new PassengerId(), name, email, password, tagIds, paymentTokens);
+    }
+
+    public Passenger(PassengerId id, String name, String email, String password) {
+        this(id, name, email, password, null, null);
+    }
+
+    public Passenger(String name, String email, String password) {
+        this(new PassengerId(), name, email, password);
     }
 
     public void name(String name) {
@@ -121,24 +123,14 @@ public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
     public boolean addPaymentToken(Token token) {
         Validate.notNull(token);
 
-        if (token.isPrimary() && hasPrimaryPaymentToken)
+        if (token.isPrimary() && containsPrimaryPaymentToken(this.paymentTokens))
             throw new IllegalArgumentException("You cant add more than one primary token");
 
-        val added = paymentTokens.add(token);
-
-        if (token.isPrimary() && added)
-            hasPrimaryPaymentToken = true;
-
-        return added;
+        return paymentTokens.add(token);
     }
 
     public boolean removePaymentToken(Token token) {
-        val removed = paymentTokens.remove(token);
-
-        if (removed && token.isPrimary())
-            hasPrimaryPaymentToken = false;
-
-        return removed;
+        return paymentTokens.remove(token);
     }
 
     public Set<Token> paymentTokens() {
@@ -157,13 +149,12 @@ public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
                 .filter(Token::isPrimary).findAny().get();
     }
 
-    private Set<Token> newPaymentTokenHashSet(Set<Token> tokens) {
-        val primaryTokensCount = tokens.stream().filter(Token::isPrimary).count();
+    private static int countPrimaryPaymentTokens(Set<Token> tokens) {
+        return Math.toIntExact(tokens.stream().filter(Token::isPrimary).count());
+    }
 
-        if (primaryTokensCount != 1)
-            throw new IllegalArgumentException("One payment token must be primary");
-
-        return tokens;
+    private static boolean containsPrimaryPaymentToken(Set<Token> tokens) {
+        return countPrimaryPaymentTokens(tokens) > 0;
     }
 }
 

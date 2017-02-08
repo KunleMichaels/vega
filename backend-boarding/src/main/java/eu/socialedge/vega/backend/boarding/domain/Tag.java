@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Getter
@@ -46,7 +47,7 @@ public class Tag extends AggregateRoot<TagId> {
     public Tag(TagId id, PassengerId passengerId, Set<Pass> passes) {
         super(id);
         this.passengerId = notNull(passengerId);
-        this.passes = new HashSet<>(notNull(passes));
+        this.passes = isNull(passes) ? new HashSet<>() : new HashSet<>(passes);
     }
 
     public Tag(PassengerId passengerId, Set<Pass> passes) {

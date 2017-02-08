@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -75,12 +76,13 @@ public class Fare extends AggregateRoot<FareId> {
                 "Validity period must be longer than 0");
 
         this.price = notNull(price);
-        this.deductions = new HashSet<>(notNull(deductions));
+        this.deductions = isNull(deductions) ? new HashSet<>() : new HashSet<>(deductions);
         this.validity = notNull(validity);
         this.vehicleTypes = new HashSet<>(notEmpty(vehicleTypes));
         this.zone = notNull(zone);
         this.operatorIds = new HashSet<>(notEmpty(operatorIds));
     }
+
     public Fare(MonetaryAmount price, Set<Deduction> deductions,
                 Period validity, Set<VehicleType> vehicleTypes, Zone zone,
                 Set<OperatorId> operatorIds) {
@@ -89,7 +91,7 @@ public class Fare extends AggregateRoot<FareId> {
 
     public Fare(FareId fareId, MonetaryAmount price, Period validity,
                 Set<VehicleType> vehicleTypes, Zone zone, Set<OperatorId> operatorIds) {
-        this(fareId, price, new HashSet<>(), validity, vehicleTypes,
+        this(fareId, price, null, validity, vehicleTypes,
                 zone, operatorIds);
     }
 

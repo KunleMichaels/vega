@@ -26,6 +26,6 @@ public class OperatorIdConverter implements Converter<Serializable, OperatorId> 
 
     @Override
     public OperatorId convert(Serializable source) {
-        return new OperatorId(UUID.fromString(source.toString()));
+        return new OperatorId(source.toString());
     }
 }

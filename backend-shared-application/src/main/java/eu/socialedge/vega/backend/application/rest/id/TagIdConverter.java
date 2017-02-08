@@ -26,6 +26,6 @@ public class TagIdConverter implements Converter<Serializable, TagId> {
 
     @Override
     public TagId convert(Serializable source) {
-        return new TagId(UUID.fromString(source.toString()));
+        return new TagId(source.toString());
     }
 }

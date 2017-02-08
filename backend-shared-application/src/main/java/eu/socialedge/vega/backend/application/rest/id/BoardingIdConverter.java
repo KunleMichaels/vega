@@ -26,6 +26,6 @@ public class BoardingIdConverter implements Converter<Serializable, BoardingId> 
 
     @Override
     public BoardingId convert(Serializable source) {
-        return new BoardingId(UUID.fromString(source.toString()));
+        return new BoardingId(source.toString());
     }
 }
