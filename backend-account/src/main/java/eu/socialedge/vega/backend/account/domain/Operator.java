@@ -46,6 +46,10 @@ public class Operator extends DeactivatableAggregateRoot<OperatorId> {
         this.description = description;
     }
 
+    public Operator(String name, String description) {
+        this(new OperatorId(), name, description);
+    }
+
     public void name(String name) {
         this.name = notBlank(name);
     }

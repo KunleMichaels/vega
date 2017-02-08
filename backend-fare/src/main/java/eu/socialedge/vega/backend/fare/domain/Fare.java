@@ -81,11 +81,21 @@ public class Fare extends AggregateRoot<FareId> {
         this.zone = notNull(zone);
         this.operatorIds = new HashSet<>(notEmpty(operatorIds));
     }
+    public Fare(MonetaryAmount price, Set<Deduction> deductions,
+                Period validity, Set<VehicleType> vehicleTypes, Zone zone,
+                Set<OperatorId> operatorIds) {
+        this(new FareId(), price, deductions, validity, vehicleTypes, zone, operatorIds);
+    }
 
     public Fare(FareId fareId, MonetaryAmount price, Period validity,
                 Set<VehicleType> vehicleTypes, Zone zone, Set<OperatorId> operatorIds) {
         this(fareId, price, new HashSet<>(), validity, vehicleTypes,
                 zone, operatorIds);
+    }
+
+    public Fare(MonetaryAmount price, Period validity,
+                Set<VehicleType> vehicleTypes, Zone zone, Set<OperatorId> operatorIds) {
+        this(new FareId(), price, validity, vehicleTypes, zone, operatorIds);
     }
 
     public boolean addVehicleType(VehicleType vehicleType) {

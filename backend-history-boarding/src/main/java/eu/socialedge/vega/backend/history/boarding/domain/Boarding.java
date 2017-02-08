@@ -63,8 +63,19 @@ public class Boarding extends AggregateRoot<BoardingId> {
         this.timestamp = notNull(timestamp);
     }
 
+    public Boarding(BoardingType boardingType, PassengerId passengerId,
+                    TerminalId terminalId, Location location,
+                    LocalDateTime timestamp) {
+        this(new BoardingId(), boardingType, passengerId, terminalId, location, timestamp);
+    }
+
     public Boarding(BoardingId id, BoardingType boardingType, PassengerId passengerId,
                     TerminalId terminalId, Location location) {
         this(id, boardingType, passengerId, terminalId, location, LocalDateTime.now());
+    }
+
+    public Boarding(BoardingType boardingType, PassengerId passengerId,
+                    TerminalId terminalId, Location location) {
+        this(new BoardingId(), boardingType, passengerId, terminalId, location);
     }
 }

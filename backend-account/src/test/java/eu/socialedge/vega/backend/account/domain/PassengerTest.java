@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class PassengerTest {
 
     private static Set<TagId> notEmptyTagIdSet = new HashSet<TagId>() {{
-        add(new TagId(1L));
+        add(new TagId());
     }};
 
     private static Set<Token> validPaymentTokenSet = new HashSet<Token>() {{
@@ -58,7 +58,7 @@ public class PassengerTest {
 
     @Test
     public void shouldAddNonPrimaryTokensCorrectly() {
-        Passenger p = new Passenger(new PassengerId(1L), "test", VALID_EMAIL_ADDRESSES.get(0),
+        Passenger p = new Passenger(new PassengerId(), "test", VALID_EMAIL_ADDRESSES.get(0),
                 "12", notEmptyTagIdSet, validPaymentTokenSet);
 
         p.addPaymentToken(createNotPrimaryPaymentTokenMock());
@@ -72,7 +72,7 @@ public class PassengerTest {
         }};
 
         assertThatThrownBy(() ->
-                new Passenger(new PassengerId(1L), "test", VALID_EMAIL_ADDRESSES.get(0),
+                new Passenger(new PassengerId(), "test", VALID_EMAIL_ADDRESSES.get(0),
                         "12", notEmptyTagIdSet, invalidTokenSet))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -85,7 +85,7 @@ public class PassengerTest {
         }};
 
         assertThatThrownBy(() ->
-                new Passenger(new PassengerId(1L), "test", VALID_EMAIL_ADDRESSES.get(0),
+                new Passenger(new PassengerId(), "test", VALID_EMAIL_ADDRESSES.get(0),
                         "12", notEmptyTagIdSet, invalidTokenSet))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -94,7 +94,7 @@ public class PassengerTest {
     public void shouldThrowExceptionOnAddingSecondPrimaryPaymentToken() {
         Set<Token> tokenSet = new HashSet<>(validPaymentTokenSet);
 
-        Passenger p = new Passenger(new PassengerId(1L), "test", VALID_EMAIL_ADDRESSES.get(0), "12",
+        Passenger p = new Passenger(new PassengerId(), "test", VALID_EMAIL_ADDRESSES.get(0), "12",
                 notEmptyTagIdSet, tokenSet);
 
         assertThatThrownBy(() -> p.addPaymentToken(createPrimaryPaymentTokenMock()))
@@ -109,7 +109,7 @@ public class PassengerTest {
             add(primaryTokenToRemove);
         }};
 
-        Passenger p = new Passenger(new PassengerId(1L), "test", VALID_EMAIL_ADDRESSES.get(0), "12",
+        Passenger p = new Passenger(new PassengerId(), "test", VALID_EMAIL_ADDRESSES.get(0), "12",
                 notEmptyTagIdSet, validTokenSet);
 
         p.removePaymentToken(primaryTokenToRemove);
@@ -120,12 +120,12 @@ public class PassengerTest {
     public void shouldThrowExceptionForInvalidEmailAddress() {
         INVALID_EMAIL_ADDRESSES.forEach(email -> {
             assertThatThrownBy(() ->
-                    new Passenger(new PassengerId(1L), "test", email, "12",
+                    new Passenger(new PassengerId(), "test", email, "12",
                             notEmptyTagIdSet, validPaymentTokenSet))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("email address");
             assertThatThrownBy(() ->
-                    new Passenger(new PassengerId(1L), "test", email, "12",
+                    new Passenger(new PassengerId(), "test", email, "12",
                             notEmptyTagIdSet, validPaymentTokenSet)
                                 .email(email))
                     .isInstanceOf(IllegalArgumentException.class)
@@ -136,7 +136,7 @@ public class PassengerTest {
     @Test
     public void shouldNotThrowExceptionForValidEmailAddressAndPaymentTokensSet() {
         VALID_EMAIL_ADDRESSES.forEach(email -> {
-            new Passenger(new PassengerId(1L), "test", email, "12",
+            new Passenger(new PassengerId(), "test", email, "12",
                     notEmptyTagIdSet, validPaymentTokenSet)
                         .email(email);
         });

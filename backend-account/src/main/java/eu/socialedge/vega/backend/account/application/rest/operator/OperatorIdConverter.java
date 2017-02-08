@@ -15,22 +15,17 @@
 package eu.socialedge.vega.backend.account.application.rest.operator;
 
 import eu.socialedge.vega.backend.account.domain.OperatorId;
-import lombok.val;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Component
-public class OperatorIdConverter implements Converter<String, OperatorId> {
+public class OperatorIdConverter implements Converter<Serializable, OperatorId> {
 
     @Override
-    public OperatorId convert(String source) {
-        if (isBlank(source)) {
-            return null;
-        }
-
-        val rawId = Long.valueOf(source);
-        return new OperatorId(rawId);
+    public OperatorId convert(Serializable source) {
+        return new OperatorId(UUID.fromString(source.toString()));
     }
 }
