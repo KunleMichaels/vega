@@ -1,7 +1,7 @@
 ext {
     versions = [
         commons: [
-            dddSupport: '0.2',
+            dddSupport: '0.2.1',
             moneta: '1.1',
             apacheLang3: '3.5',
             apacheValidator: '1.5.+',

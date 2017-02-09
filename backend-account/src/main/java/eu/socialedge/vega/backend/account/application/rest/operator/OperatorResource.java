@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.hateoas.ResourceSupport;
+
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -14,7 +17,9 @@ import org.springframework.hateoas.ResourceSupport;
 @NoArgsConstructor(force = true)
 public class OperatorResource extends ResourceSupport {
 
+    @NotNull
     String name;
 
+    @NotNull
     String description;
 }
