@@ -78,6 +78,7 @@ public class OperatorController {
         return ResponseEntity.ok().build();
     }
 
+    @Transactional
     @RequestMapping(method = DELETE, path = "/{operatorId}")
     public ResponseEntity<Void> deactivate(@PathVariable @NotNull OperatorId operatorId) {
         if (!operatorRepository.contains(operatorId)) {

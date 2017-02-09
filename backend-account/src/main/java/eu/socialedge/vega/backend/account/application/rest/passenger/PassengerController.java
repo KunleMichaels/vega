@@ -82,6 +82,7 @@ public class PassengerController {
         return ResponseEntity.ok().build();
     }
 
+    @Transactional
     @RequestMapping(method = DELETE, path = "/{passengerId}")
     public ResponseEntity<Void> deactivate(@PathVariable @NotNull PassengerId passengerId) {
         if (!passengerRepository.contains(passengerId)) {
