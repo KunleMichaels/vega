@@ -26,6 +26,6 @@ public class PassengerIdConverter implements Converter<Serializable, PassengerId
 
     @Override
     public PassengerId convert(Serializable source) {
-        return new PassengerId(UUID.fromString(source.toString()));
+        return new PassengerId(source.toString());
     }
 }

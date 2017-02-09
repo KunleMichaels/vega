@@ -26,6 +26,6 @@ public class TerminalIdConverter implements Converter<Serializable, TerminalId> 
 
     @Override
     public TerminalId convert(Serializable source) {
-        return new TerminalId(UUID.fromString(source.toString()));
+        return new TerminalId(source.toString());
     }
 }

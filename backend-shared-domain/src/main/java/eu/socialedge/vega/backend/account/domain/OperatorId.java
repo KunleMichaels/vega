@@ -14,18 +14,20 @@
  */
 package eu.socialedge.vega.backend.account.domain;
 
-import eu.socialedge.ddd.domain.UuId;
-import lombok.NoArgsConstructor;
+import eu.socialedge.ddd.domain.Identifier;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 @Embeddable @Access(AccessType.FIELD)
-@NoArgsConstructor(force = true)
 @AttributeOverride(name = "value", column = @Column(name = "operator_id"))
-public class OperatorId extends UuId {
+public class OperatorId extends Identifier<String> {
 
-    public OperatorId(UUID uuid) {
-        super(uuid);
+    public OperatorId() {
+        super(UUID.randomUUID().toString());
+    }
+
+    public OperatorId(String id) {
+        super(id);
     }
 }

@@ -1,44 +1,44 @@
 INSERT INTO OPERATOR
 (OPERATOR_ID, IS_ACTIVE, DESCRIPTION, NAME, VERSION)
 VALUES
-(1, true, 'First operator', 'Transporter', 0);
+('067e6162-3b6f-4ae2-a171-2470b63dff00', true, 'First operator', 'Transporter', 0);
 
 INSERT INTO OPERATOR
 (OPERATOR_ID, IS_ACTIVE, DESCRIPTION, NAME, VERSION)
 VALUES
-(2, true, 'Second operator', 'Operator', 0);
+('067e6162-3b6f-4ae2-a171-2470b63dff01', true, 'Second operator', 'Operator', 0);
 
 INSERT INTO PASSENGER
-(PASSENGER_ID, IS_ACTIVE, EMAIL, IS_SHADOW, NAME, PASSWORD, VERSION)
+(PASSENGER_ID, IS_ACTIVE, EMAIL, NAME, PASSWORD, VERSION)
 VALUES
-(1, true, 'first@email.com', false, 'John Doe', 'q1qq1qwe', 0);
+('067e6162-3b6f-4ae2-a171-2470b63dff03', true, 'first@email.com', 'John Doe', 'q1qq1qwe', 0);
 
 INSERT INTO PASSENGER
-(PASSENGER_ID, IS_ACTIVE, EMAIL, IS_SHADOW, NAME, PASSWORD, VERSION)
+(PASSENGER_ID, IS_ACTIVE, EMAIL, NAME, PASSWORD, VERSION)
 VALUES
-(2, true, 'second@email.com', true, 'John Smith', 'kljk34lj43kj', 0);
+('067e6162-3b6f-4ae2-a171-2470b63dff04', true, 'second@email.com', 'John Smith', 'kljk34lj43kj', 0);
 
 INSERT INTO PASSENGER_PMETHODS
 (PASSENGER_ID, DESCRIPTION, LOCAL_DATE, IDENTIFIER, IS_PRIMARY)
 VALUES
-(1, 'first payment method', '2015-12-03', 'Identifier1', true);
+('067e6162-3b6f-4ae2-a171-2470b63dff03', 'first payment method', '2015-12-03', 'Identifier1', true);
 
 INSERT INTO PASSENGER_PMETHODS
 (PASSENGER_ID, DESCRIPTION, LOCAL_DATE, IDENTIFIER, IS_PRIMARY)
 VALUES
-(1, 'second payment method', '2016-12-03', '1265434563446', false);
+('067e6162-3b6f-4ae2-a171-2470b63dff03', 'second payment method', '2016-12-03', '1265434563446', false);
 
 INSERT INTO PASSENGER_PMETHODS
 (PASSENGER_ID, DESCRIPTION, LOCAL_DATE, IDENTIFIER, IS_PRIMARY)
 VALUES
-(2, 'first payment method', '2014-6-03', '23423142314', true);
+('067e6162-3b6f-4ae2-a171-2470b63dff04', 'first payment method', '2014-6-03', '23423142314', true);
 
 INSERT INTO PASSENGER_TOKEN
 (PASSENGER_ID, TAG_ID)
 VALUES
-(1, 1);
+('067e6162-3b6f-4ae2-a171-2470b63dff03', '54947df8-0e9e-4471-a2f9-9af509fb5889');
 
 INSERT INTO PASSENGER_TOKEN
 (PASSENGER_ID, TAG_ID)
 VALUES
-(2, 2);
+('067e6162-3b6f-4ae2-a171-2470b63dff04', '54947df8-0e9e-4471-a2f9-9af509fb5890');
