@@ -167,9 +167,15 @@ public class PassengerController {
         return ResponseEntity.ok(passenger.tagIds());
     }
 
-    @RequestMapping(method = POST, path = "/test")
-    // Send http://whatever/tags/AnyId and AnyId will be injected into String id :)
-    public void test(@AntValueRequestBody("**/tags/{id}") String id) {
+    @RequestMapping(method = POST, path = "/linktestRaw")
+    // Send http://whatever/passengers/AnyId and AnyId will be injected into String id :)
+    public void linktestRaw(@AntValueRequestBody("**/passengers/{id}") String id) {
+        System.out.println(id);
+    }
+
+    @RequestMapping(method = POST, path = "/linktestConverted")
+    // Send http://whatever/passengers/AnyId and AnyId will be injected into PassengerId id :)
+    public void linktestConverted(@AntValueRequestBody("**/passengers/{id}") PassengerId id) {
         System.out.println(id);
     }
 }
