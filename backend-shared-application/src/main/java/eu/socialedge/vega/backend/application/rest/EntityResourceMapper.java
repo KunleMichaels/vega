@@ -54,7 +54,7 @@ public class EntityResourceMapper<E extends Entity<?>, R extends ResourceSupport
 
         resource.add(linkTo(controller).slash(entity.id()).withSelfRel());
 
-        return resource;
+        return enhance(resource, entity);
     }
 
     public Collection<R> toResources(Collection<E> entities) {
@@ -77,4 +77,7 @@ public class EntityResourceMapper<E extends Entity<?>, R extends ResourceSupport
         return modelMapper.map(source, entityClass);
     }
 
+    protected R enhance(R resource, E entity) {
+        return resource;
+    }
 }

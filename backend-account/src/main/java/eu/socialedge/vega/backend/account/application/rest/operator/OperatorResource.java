@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.validation.constraints.NotNull;
@@ -17,9 +16,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(force = true)
 public class OperatorResource extends ResourceSupport {
 
-    @NotNull
-    String name;
+    @NotNull(message = "Name can not be null")
+    private String name;
 
-    @NotNull
-    String description;
+    @NotNull(message = "Description can not be null")
+    private String description;
 }

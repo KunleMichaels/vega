@@ -1,5 +1,6 @@
 package eu.socialedge.vega.backend.account.application.rest.passenger;
 
+import eu.socialedge.vega.backend.application.rest.serialization.EntityIdsFromUri;
 import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.vega.backend.account.domain.PassengerRepository;
 import eu.socialedge.vega.backend.boarding.domain.TagId;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import java.util.Collection;
+import java.util.Set;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -83,6 +85,17 @@ public class PassengerController {
     }
 
     @Transactional
+    @RequestMapping(method = POST, path = "/{passengerId}")
+    public ResponseEntity<Void> activate(@PathVariable @NotNull PassengerId passengerId) {
+        if (!passengerRepository.contains(passengerId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        passengerRepository.activate(passengerId);
+        return ResponseEntity.ok().build();
+    }
+
+    @Transactional
     @RequestMapping(method = DELETE, path = "/{passengerId}")
     public ResponseEntity<Void> deactivate(@PathVariable @NotNull PassengerId passengerId) {
         if (!passengerRepository.contains(passengerId)) {
@@ -108,18 +121,17 @@ public class PassengerController {
 
     @Transactional
     @RequestMapping(method = POST, path = "/{passengerId}/tags")
-    public ResponseEntity<Void> addTag(@PathVariable @NotNull PassengerId passengerId,
-                                       @RequestBody @NotNull TagId tagId) {
+    public ResponseEntity<Void> addTags(@PathVariable @NotNull PassengerId passengerId,
+                                       @EntityIdsFromUri @NotNull Set<String> tagIds) {
 
         val passengerOpt = passengerRepository.get(passengerId);
-
         if (!passengerOpt.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
         val passenger = passengerOpt.get();
 
-        passenger.addTagId(tagId);
+        tagIds.stream().map(TagId::new).forEach(passenger::addTagId);
 
         return ResponseEntity.ok().build();
     }
@@ -149,9 +161,9 @@ public class PassengerController {
         if (!passengerOpt.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-
         val passenger = passengerOpt.get();
 
         return ResponseEntity.ok(passenger.tagIds());
     }
 }
+

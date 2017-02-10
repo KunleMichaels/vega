@@ -2,7 +2,6 @@ package eu.socialedge.vega.backend.account.application.rest.passenger;
 
 import eu.socialedge.vega.backend.account.domain.Passenger;
 import eu.socialedge.vega.backend.application.rest.EntityResourceMapper;
-import lombok.val;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -16,9 +15,7 @@ public class PassengerEntityMapper extends EntityResourceMapper<Passenger, Passe
     }
 
     @Override
-    public PassengerResource toResource(Passenger entity) {
-        val passengerResource = super.toResource(entity);
-
+    public PassengerResource enhance(PassengerResource passengerResource, Passenger entity) {
         passengerResource.add(
             linkTo(methodOn(PassengerController.class).tokens(entity.id())).withRel("tokens"),
             linkTo(methodOn(PassengerController.class).tags(entity.id())).withRel("tags")
