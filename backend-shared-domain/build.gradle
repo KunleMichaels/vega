@@ -1,5 +1,4 @@
 apply from: "$rootDir/env-backend.gradle"
-apply from: "$rootDir/ext-jpametamodel.gradle"
 
 dependencies {
     compile libraries.commons.dddSupport
