@@ -51,5 +51,6 @@ public class RestHypermediaSupportConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new EntityIdFromUriArgument());
+        argumentResolvers.add(new AntValueRequestBodyMethodArgumentResolver());
     }
 }

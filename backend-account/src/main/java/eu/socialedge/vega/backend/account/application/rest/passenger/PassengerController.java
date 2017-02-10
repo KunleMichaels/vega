@@ -3,6 +3,7 @@ package eu.socialedge.vega.backend.account.application.rest.passenger;
 import eu.socialedge.vega.backend.application.rest.serialization.EntityIdsFromUri;
 import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.vega.backend.account.domain.PassengerRepository;
+import eu.socialedge.vega.backend.application.rest.serialization.AntValueRequestBody;
 import eu.socialedge.vega.backend.boarding.domain.TagId;
 import eu.socialedge.vega.backend.payment.domain.Token;
 import lombok.val;
@@ -164,6 +165,12 @@ public class PassengerController {
         val passenger = passengerOpt.get();
 
         return ResponseEntity.ok(passenger.tagIds());
+    }
+
+    @RequestMapping(method = POST, path = "/test")
+    // Send http://whatever/tags/AnyId and AnyId will be injected into String id :)
+    public void test(@AntValueRequestBody("**/tags/{id}") String id) {
+        System.out.println(id);
     }
 }
 
