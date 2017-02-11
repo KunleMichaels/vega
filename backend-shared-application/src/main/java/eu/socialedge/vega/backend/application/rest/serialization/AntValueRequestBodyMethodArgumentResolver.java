@@ -14,6 +14,7 @@
  */
 package eu.socialedge.vega.backend.application.rest.serialization;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.core.MethodParameter;
@@ -26,19 +27,35 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Accessors(fluent = true)
 public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final static AntPathMatcher pathMatcher = new AntPathMatcher();
 
     @Setter @Getter
-    private ConversionService conversionService = new DefaultConversionService();
+    private ConversionService conversionService;
+
+    @Setter @Getter
+    private ObjectMapper objectMapper;
+
+    public AntValueRequestBodyMethodArgumentResolver() {
+        this(new DefaultConversionService(), new ObjectMapper());
+    }
+
+    public AntValueRequestBodyMethodArgumentResolver(ConversionService conversionService) {
+        this(conversionService, new ObjectMapper());
+    }
+
+    public AntValueRequestBodyMethodArgumentResolver(ConversionService conversionService, ObjectMapper objectMapper) {
+        this.conversionService = conversionService;
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public boolean supportsParameter(MethodParameter param) {
@@ -50,8 +67,7 @@ public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodA
                                   NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory)
             throws Exception {
 
-        val req = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
-        val reqBody = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        val reqBody = extractRequestBody(nativeWebRequest);
 
         val antValClass = param.getParameterType();
         val antValAnn = param.getParameterAnnotation(AntValueRequestBody.class);
@@ -62,20 +78,45 @@ public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodA
 
         val antPlaceholder = isBlank(antValAnn.placeholder()) ? param.getParameterName() : antValAnn.placeholder();
 
-        val pathVariables = pathMatcher.extractUriTemplateVariables(antPattern, reqBody);
-        if (!pathVariables.containsKey(antPlaceholder))
-            throw new IllegalArgumentException("Failed to parse {" + antPlaceholder + "} from " + reqBody);
+        if (Iterable.class.isAssignableFrom(antValClass) || antValClass.isArray()) {
+            val reqBodyElements = objectMapper.readValue(reqBody, String[].class);
 
-        val placeholderValue = pathVariables.get(antPlaceholder);
-        val placeholderValueClass = placeholderValue.getClass();
+            val placeholderValues = Arrays.stream(reqBodyElements)
+                .map(reqBodyElement -> this.extractPlaceholderValue(reqBodyElement, antPattern, antPlaceholder))
+                .toArray();
 
-        if (placeholderValueClass.equals(antValClass))
-            return placeholderValue;
+            return convert(placeholderValues, antValClass);
+        } else {
+            val placeholderValue = this.extractPlaceholderValue(reqBody, antPattern, antPlaceholder);
 
-        if (!conversionService.canConvert(placeholderValueClass, antValClass))
-            throw new IllegalStateException("Failed to convert AntValueRequestBody of type "
-                + antValClass.getName() + " to " + placeholderValueClass.getName());
+            return convert(placeholderValue, antValClass);
+        }
+    }
 
-        return conversionService.convert(placeholderValue, antValClass);
+    private String extractPlaceholderValue(String body, String pattern, String placeholder) {
+        val pathVariables = pathMatcher.extractUriTemplateVariables(pattern, body);
+        if (!pathVariables.containsKey(placeholder))
+            throw new IllegalArgumentException("Failed to parse {" + placeholder + "} from " + body);
+
+        return pathVariables.get(placeholder);
+    }
+
+    private <T> T convert(Object value, Class<T> targetClz) {
+        val valClz = value.getClass();
+
+        if (valClz.equals(targetClz))
+            return (T) value;
+
+        if (!conversionService.canConvert(valClz, targetClz))
+            throw new IllegalStateException("No required converter found (" + valClz.getName() +
+                " -> " + targetClz.getName() + ")");
+
+        return conversionService.convert(value, targetClz);
+    }
+
+    private static String extractRequestBody(NativeWebRequest nativeWebRequest) throws IOException {
+        val req = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
+
+        return req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
     }
 }

@@ -1,9 +1,9 @@
 package eu.socialedge.vega.backend.account.application.rest.passenger;
 
-import eu.socialedge.vega.backend.application.rest.serialization.EntityIdsFromUri;
 import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.vega.backend.account.domain.PassengerRepository;
 import eu.socialedge.vega.backend.application.rest.serialization.AntValueRequestBody;
+import eu.socialedge.vega.backend.application.rest.serialization.EntityIdsFromUri;
 import eu.socialedge.vega.backend.boarding.domain.TagId;
 import eu.socialedge.vega.backend.payment.domain.Token;
 import lombok.val;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
@@ -177,6 +177,16 @@ public class PassengerController {
     // Send http://whatever/passengers/AnyId and AnyId will be injected into PassengerId id :)
     public void linktestConverted(@AntValueRequestBody("**/passengers/{id}") PassengerId id) {
         System.out.println(id);
+    }
+
+    @RequestMapping(method = POST, path = "/linktestConvertedArray")
+    public void linktestConverted(@AntValueRequestBody(value = "**/passengers/{id}", placeholder = "id") PassengerId[] ids) {
+        System.out.println(Arrays.toString(ids));
+    }
+
+    @RequestMapping(method = POST, path = "/linktestConvertedCollection")
+    public void linktestConverted(@AntValueRequestBody(value = "**/passengers/{id}", placeholder = "id") Set<PassengerId> ids) {
+        System.out.println(ids);
     }
 }
 
