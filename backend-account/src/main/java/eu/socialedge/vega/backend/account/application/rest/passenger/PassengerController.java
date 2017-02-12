@@ -3,7 +3,6 @@ package eu.socialedge.vega.backend.account.application.rest.passenger;
 import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.vega.backend.account.domain.PassengerRepository;
 import eu.socialedge.vega.backend.application.rest.serialization.AntValueRequestBody;
-import eu.socialedge.vega.backend.application.rest.serialization.EntityIdsFromUri;
 import eu.socialedge.vega.backend.boarding.domain.TagId;
 import eu.socialedge.vega.backend.payment.domain.Token;
 import lombok.val;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
@@ -75,7 +73,6 @@ public class PassengerController {
         if (!passengerOpt.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-
         val passenger = passengerOpt.get();
 
         passenger.name(passengerResource.name());
@@ -114,7 +111,6 @@ public class PassengerController {
         if (!passengerOpt.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-
         val passenger = passengerOpt.get();
 
         return ResponseEntity.ok(passenger.paymentTokens());
@@ -123,13 +119,13 @@ public class PassengerController {
     @Transactional
     @RequestMapping(method = POST, path = "/{passengerId}/tags")
     public ResponseEntity<Void> addTags(@PathVariable @NotNull PassengerId passengerId,
-                                       @EntityIdsFromUri @NotNull Set<String> tagIds) {
+                                        @AntValueRequestBody(pattern = "tags/{id}",
+                                            placeholder = "id") @NotNull Set<String> tagIds) {
 
         val passengerOpt = passengerRepository.get(passengerId);
         if (!passengerOpt.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-
         val passenger = passengerOpt.get();
 
         tagIds.stream().map(TagId::new).forEach(passenger::addTagId);
@@ -138,19 +134,19 @@ public class PassengerController {
     }
 
     @Transactional
-    @RequestMapping(method = DELETE, path = "/{passengerId}/tags/{tagId}")
-    public ResponseEntity<Void> removeTag(@PathVariable @NotNull PassengerId passengerId,
-                                          @PathVariable @NotNull TagId tagId) {
+    @RequestMapping(method = DELETE, path = "/{passengerId}/tags")
+    public ResponseEntity<Void> removeTags(@PathVariable @NotNull PassengerId passengerId,
+                                           @AntValueRequestBody(pattern = "tags/{id}",
+                                               placeholder = "id") @NotNull Set<String> tagIds) {
 
         val passengerOpt = passengerRepository.get(passengerId);
 
         if (!passengerOpt.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-
         val passenger = passengerOpt.get();
 
-        passenger.removeTagId(tagId);
+        tagIds.stream().map(TagId::new).forEach(passenger::removeTagId);
 
         return ResponseEntity.ok().build();
     }
@@ -165,28 +161,6 @@ public class PassengerController {
         val passenger = passengerOpt.get();
 
         return ResponseEntity.ok(passenger.tagIds());
-    }
-
-    @RequestMapping(method = POST, path = "/linktestRaw")
-    // Send http://whatever/passengers/AnyId and AnyId will be injected into String id :)
-    public void linktestRaw(@AntValueRequestBody("**/passengers/{id}") String id) {
-        System.out.println(id);
-    }
-
-    @RequestMapping(method = POST, path = "/linktestConverted")
-    // Send http://whatever/passengers/AnyId and AnyId will be injected into PassengerId id :)
-    public void linktestConverted(@AntValueRequestBody("**/passengers/{id}") PassengerId id) {
-        System.out.println(id);
-    }
-
-    @RequestMapping(method = POST, path = "/linktestConvertedArray")
-    public void linktestConverted(@AntValueRequestBody(value = "**/passengers/{id}", placeholder = "id") PassengerId[] ids) {
-        System.out.println(Arrays.toString(ids));
-    }
-
-    @RequestMapping(method = POST, path = "/linktestConvertedCollection")
-    public void linktestConverted(@AntValueRequestBody(value = "**/passengers/{id}", placeholder = "id") Set<PassengerId> ids) {
-        System.out.println(ids);
     }
 }
 

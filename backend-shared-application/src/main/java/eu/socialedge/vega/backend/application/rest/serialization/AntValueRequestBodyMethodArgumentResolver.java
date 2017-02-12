@@ -67,49 +67,47 @@ public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodA
                                   NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory)
             throws Exception {
 
-        val reqBody = extractRequestBody(nativeWebRequest);
+        val parameterType = param.getParameterType();
+        val antValueRequestAnnotation = param.getParameterAnnotation(AntValueRequestBody.class);
+        val requestBody = extractRequestBody(nativeWebRequest);
+        val placeholderValues = extractPlaceholderValues(requestBody, antValueRequestAnnotation);
 
-        val antValClass = param.getParameterType();
-        val antValAnn = param.getParameterAnnotation(AntValueRequestBody.class);
-        val antPattern = antValAnn.value();
+        return convert(placeholderValues, parameterType);
+    }
 
-        if (isBlank(antValAnn.value()))
-            throw new IllegalArgumentException("Pattern (value) must be defined for AntValueRequestBody");
-
-        val antPlaceholder = isBlank(antValAnn.placeholder()) ? param.getParameterName() : antValAnn.placeholder();
-
-        if (Iterable.class.isAssignableFrom(antValClass) || antValClass.isArray()) {
-            val reqBodyElements = objectMapper.readValue(reqBody, String[].class);
-
-            val placeholderValues = Arrays.stream(reqBodyElements)
-                .map(reqBodyElement -> this.extractPlaceholderValue(reqBodyElement, antPattern, antPlaceholder))
-                .toArray();
-
-            return convert(placeholderValues, antValClass);
-        } else {
-            val placeholderValue = this.extractPlaceholderValue(reqBody, antPattern, antPlaceholder);
-
-            return convert(placeholderValue, antValClass);
+    private String[] extractPlaceholderValues(String requestBody, AntValueRequestBody annotation) {
+        try {
+            val requestBodyElements = objectMapper.readValue(requestBody, String[].class);
+            return Arrays.stream(requestBodyElements)
+                .map(reqBodyElement -> extractPlaceholderValue(reqBodyElement, annotation.pattern(),
+                    annotation.placeholder(), annotation.isPartialMatch()))
+                .toArray(String[]::new);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Failed to parse request payload. Make sure it is json array");
         }
     }
 
-    private String extractPlaceholderValue(String body, String pattern, String placeholder) {
+    private String extractPlaceholderValue(String body, String pattern, String placeholder, boolean partial) {
+        pattern = partial ? "**/" + pattern : pattern;
+        
         val pathVariables = pathMatcher.extractUriTemplateVariables(pattern, body);
-        if (!pathVariables.containsKey(placeholder))
+        if (!pathVariables.containsKey(placeholder)) {
             throw new IllegalArgumentException("Failed to parse {" + placeholder + "} from " + body);
-
+        }
         return pathVariables.get(placeholder);
     }
 
     private <T> T convert(Object value, Class<T> targetClz) {
         val valClz = value.getClass();
 
-        if (valClz.equals(targetClz))
+        if (valClz.equals(targetClz)) {
             return (T) value;
+        }
 
-        if (!conversionService.canConvert(valClz, targetClz))
+        if (!conversionService.canConvert(valClz, targetClz)) {
             throw new IllegalStateException("No required converter found (" + valClz.getName() +
                 " -> " + targetClz.getName() + ")");
+        }
 
         return conversionService.convert(value, targetClz);
     }

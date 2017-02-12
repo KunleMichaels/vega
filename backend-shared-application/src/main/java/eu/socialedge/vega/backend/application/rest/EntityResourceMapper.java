@@ -69,11 +69,11 @@ public class EntityResourceMapper<E extends Entity<?>, R extends ResourceSupport
         return resources.stream().map(this::fromResource).collect(Collectors.toList());
     }
 
-    protected R convert(E source) {
+    private R convert(E source) {
         return modelMapper.map(source, resourceClass);
     }
 
-    protected E convert(R source) {
+    private E convert(R source) {
         return modelMapper.map(source, entityClass);
     }
 

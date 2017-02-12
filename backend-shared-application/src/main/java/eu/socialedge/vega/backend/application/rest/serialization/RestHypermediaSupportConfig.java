@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.MediaTypes;
@@ -52,9 +51,6 @@ public class RestHypermediaSupportConfig extends WebMvcConfigurationSupport {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        val conversionService = mvcConversionService();
-
-        argumentResolvers.add(new EntityIdFromUriArgument());
-        argumentResolvers.add(new AntValueRequestBodyMethodArgumentResolver(conversionService));
+        argumentResolvers.add(new AntValueRequestBodyMethodArgumentResolver(mvcConversionService()));
     }
 }
