@@ -3,7 +3,6 @@ spring:
 
 server:
   contextPath: /api
-  port: 1231
 
 logging:
   file: vega-account.log
