@@ -33,7 +33,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -136,7 +135,7 @@ public class PassengerController {
     @Transactional
     @RequestMapping(method = POST, path = "/{passengerId}/tags")
     public ResponseEntity<Void> addTag(@PathVariable @NotNull PassengerId passengerId,
-                                       @AntValueRequestBody("tags/{id}") @NotNull TagId tagId) {
+                                       @AntValueRequestBody("tags/{id}") @NotNull TagId id) {
 
         val passengerOpt = passengerRepository.get(passengerId);
         if (!passengerOpt.isPresent()) {
@@ -144,7 +143,7 @@ public class PassengerController {
         }
         val passenger = passengerOpt.get();
 
-        passenger.addTagId(tagId);
+        passenger.addTagId(id);
 
         return ResponseEntity.ok().build();
     }
@@ -152,7 +151,7 @@ public class PassengerController {
     @Transactional
     @RequestMapping(method = DELETE, path = "/{passengerId}/tags")
     public ResponseEntity<Void> removeTag(@PathVariable @NotNull PassengerId passengerId,
-                                          @AntValueRequestBody("tags/{id}") @NotNull TagId tagId) {
+                                          @AntValueRequestBody("tags/{id}") @NotNull TagId id) {
 
         val passengerOpt = passengerRepository.get(passengerId);
 
@@ -161,7 +160,7 @@ public class PassengerController {
         }
         val passenger = passengerOpt.get();
 
-        passenger.removeTagId(tagId);
+        passenger.removeTagId(id);
 
         return ResponseEntity.ok().build();
     }

@@ -90,7 +90,7 @@ public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodA
         val valClz = value.getClass();
 
         if (valClz.equals(targetClz))
-            return (T) value;
+            return targetClz.cast(value);
 
         if (!conversionService.canConvert(valClz, targetClz))
             throw new IllegalStateException("No required converter found (" + valClz.getName() +

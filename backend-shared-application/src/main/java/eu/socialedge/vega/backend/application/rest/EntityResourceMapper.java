@@ -50,11 +50,11 @@ public class EntityResourceMapper<E extends Entity<?>, R extends ResourceSupport
     }
 
     public R toResource(E entity) {
-        val resource = convert(entity);
+        val resource = convertToResource(entity);
 
         resource.add(linkTo(controller).slash(entity.id()).withSelfRel());
 
-        return enhance(resource, entity);
+        return enhanceToResource(resource, entity);
     }
 
     public Collection<R> toResources(Collection<E> entities) {
@@ -62,22 +62,28 @@ public class EntityResourceMapper<E extends Entity<?>, R extends ResourceSupport
     }
 
     public E fromResource(R resource) {
-        return convert(resource);
+        val entity = convertFromResource(resource);
+
+        return enhanceFromResource(entity, resource);
     }
 
     public Collection<E> fromResource(Collection<R> resources) {
         return resources.stream().map(this::fromResource).collect(Collectors.toList());
     }
 
-    private R convert(E source) {
+    protected R convertToResource(E source) {
         return modelMapper.map(source, resourceClass);
     }
 
-    private E convert(R source) {
+    protected E convertFromResource(R source) {
         return modelMapper.map(source, entityClass);
     }
 
-    protected R enhance(R resource, E entity) {
+    protected R enhanceToResource(R resource, E entity) {
         return resource;
+    }
+
+    protected E enhanceFromResource(E entity, R resource) {
+        return entity;
     }
 }
