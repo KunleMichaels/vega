@@ -14,9 +14,10 @@
  */
 package eu.socialedge.vega.backend.application.rest.serialization;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
+import lombok.val;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.DefaultConversionService;
@@ -28,7 +29,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -36,25 +36,19 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @Accessors(fluent = true)
 public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
+    private final static String ANT_IGNORE_PREFIX = "**";
+
     private final static AntPathMatcher pathMatcher = new AntPathMatcher();
 
     @Setter @Getter
     private ConversionService conversionService;
 
-    @Setter @Getter
-    private ObjectMapper objectMapper;
-
     public AntValueRequestBodyMethodArgumentResolver() {
-        this(new DefaultConversionService(), new ObjectMapper());
+        this(new DefaultConversionService());
     }
 
     public AntValueRequestBodyMethodArgumentResolver(ConversionService conversionService) {
-        this(conversionService, new ObjectMapper());
-    }
-
-    public AntValueRequestBodyMethodArgumentResolver(ConversionService conversionService, ObjectMapper objectMapper) {
         this.conversionService = conversionService;
-        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -67,47 +61,40 @@ public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodA
                                   NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory)
             throws Exception {
 
-        val parameterType = param.getParameterType();
-        val antValueRequestAnnotation = param.getParameterAnnotation(AntValueRequestBody.class);
-        val requestBody = extractRequestBody(nativeWebRequest);
-        val placeholderValues = extractPlaceholderValues(requestBody, antValueRequestAnnotation);
+        val reqBody = extractRequestBody(nativeWebRequest);
 
-        return convert(placeholderValues, parameterType);
+        val paramClz = param.getParameterType();
+        val paramMatchAnn = param.getParameterAnnotation(AntValueRequestBody.class);
+
+        if (isBlank(paramMatchAnn.value()))
+            throw new IllegalArgumentException("Pattern (value) must be defined for AntValueRequestBody");
+
+        val antPlaceholder = isBlank(paramMatchAnn.placeholder()) ? param.getParameterName() : paramMatchAnn.placeholder();
+        val antPattern = paramMatchAnn.matchTrail() ? ANT_IGNORE_PREFIX + paramMatchAnn.value(): paramMatchAnn.value();
+
+        val matchedValue = this.extractPlaceholderValue(reqBody, antPattern, antPlaceholder);
+
+        return convert(matchedValue, paramClz);
     }
 
-    private String[] extractPlaceholderValues(String requestBody, AntValueRequestBody annotation) {
-        try {
-            val requestBodyElements = objectMapper.readValue(requestBody, String[].class);
-            return Arrays.stream(requestBodyElements)
-                .map(reqBodyElement -> extractPlaceholderValue(reqBodyElement, annotation.pattern(),
-                    annotation.placeholder(), annotation.isPartialMatch()))
-                .toArray(String[]::new);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Failed to parse request payload. Make sure it is json array");
-        }
-    }
+    private String extractPlaceholderValue(String body, String antPattern, String placeholder) {
+        val pathVariables = pathMatcher.extractUriTemplateVariables(antPattern, body);
 
-    private String extractPlaceholderValue(String body, String pattern, String placeholder, boolean partial) {
-        pattern = partial ? "**/" + pattern : pattern;
-        
-        val pathVariables = pathMatcher.extractUriTemplateVariables(pattern, body);
-        if (!pathVariables.containsKey(placeholder)) {
+        if (!pathVariables.containsKey(placeholder))
             throw new IllegalArgumentException("Failed to parse {" + placeholder + "} from " + body);
-        }
+
         return pathVariables.get(placeholder);
     }
 
     private <T> T convert(Object value, Class<T> targetClz) {
         val valClz = value.getClass();
 
-        if (valClz.equals(targetClz)) {
+        if (valClz.equals(targetClz))
             return (T) value;
-        }
 
-        if (!conversionService.canConvert(valClz, targetClz)) {
+        if (!conversionService.canConvert(valClz, targetClz))
             throw new IllegalStateException("No required converter found (" + valClz.getName() +
                 " -> " + targetClz.getName() + ")");
-        }
 
         return conversionService.convert(value, targetClz);
     }

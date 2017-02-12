@@ -14,18 +14,41 @@
  */
 package eu.socialedge.vega.backend.application.rest.serialization;
 
+import org.springframework.core.annotation.AliasFor;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Represents a value extracted from request body against
+ * Ant Path pattern's placeholder.
+ */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AntValueRequestBody {
 
-    String pattern();
+    @AliasFor("pattern")
+    String value() default "";
 
-    String placeholder();
+    /**
+     * Ant Style URI that will be used as a mask for the
+     * content of a request body
+     */
+    @AliasFor("value")
+    String pattern() default "";
 
-    boolean isPartialMatch() default true;
+    /**
+     * A placeholder's name in pattern that will be used to
+     * extract value from a request body.
+     *
+     * If empty, Java 8 parameter name is used as placeholder
+     */
+    String placeholder() default "";
+
+    /**
+     * If true, "**" will be prepended to the pattern
+     */
+    boolean matchTrail() default true;
 }

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
-import java.util.Set;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -118,9 +117,8 @@ public class PassengerController {
 
     @Transactional
     @RequestMapping(method = POST, path = "/{passengerId}/tags")
-    public ResponseEntity<Void> addTags(@PathVariable @NotNull PassengerId passengerId,
-                                        @AntValueRequestBody(pattern = "tags/{id}",
-                                            placeholder = "id") @NotNull Set<String> tagIds) {
+    public ResponseEntity<Void> addTag(@PathVariable @NotNull PassengerId passengerId,
+                                       @AntValueRequestBody("tags/{id}") @NotNull TagId tagId) {
 
         val passengerOpt = passengerRepository.get(passengerId);
         if (!passengerOpt.isPresent()) {
@@ -128,16 +126,15 @@ public class PassengerController {
         }
         val passenger = passengerOpt.get();
 
-        tagIds.stream().map(TagId::new).forEach(passenger::addTagId);
+        passenger.addTagId(tagId);
 
         return ResponseEntity.ok().build();
     }
 
     @Transactional
     @RequestMapping(method = DELETE, path = "/{passengerId}/tags")
-    public ResponseEntity<Void> removeTags(@PathVariable @NotNull PassengerId passengerId,
-                                           @AntValueRequestBody(pattern = "tags/{id}",
-                                               placeholder = "id") @NotNull Set<String> tagIds) {
+    public ResponseEntity<Void> removeTag(@PathVariable @NotNull PassengerId passengerId,
+                                          @AntValueRequestBody("tags/{id}") @NotNull TagId tagId) {
 
         val passengerOpt = passengerRepository.get(passengerId);
 
@@ -146,7 +143,7 @@ public class PassengerController {
         }
         val passenger = passengerOpt.get();
 
-        tagIds.stream().map(TagId::new).forEach(passenger::removeTagId);
+        passenger.removeTagId(tagId);
 
         return ResponseEntity.ok().build();
     }
