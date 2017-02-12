@@ -34,7 +34,7 @@ public class PassengerEntityMapper extends EntityResourceMapper<Passenger, Passe
     public PassengerResource enhance(PassengerResource passengerResource, Passenger entity) {
         passengerResource.add(
             linkTo(methodOn(PassengerController.class).tokens(entity.id())).withRel("tokens"),
-            linkTo(methodOn(PassengerController.class).tags(entity.id())).withRel("tags"),
+            linkTo(methodOn(PassengerController.class).tags(entity.id(), null)).withRel("tags"),
             linkTo(methodOn(PassengerController.class).addTags(entity.id(), Collections.emptySet())).withRel("addTags"),
             linkTo(methodOn(PassengerController.class).removeTags(entity.id(), Collections.emptySet())).withRel("removeTags")
         );

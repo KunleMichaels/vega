@@ -27,11 +27,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -166,7 +169,7 @@ public class PassengerController {
     }
 
     @RequestMapping(method = GET, path = "/{passengerId}/tags")
-    public ResponseEntity<Collection<TagId>> tags(@PathVariable @NotNull PassengerId passengerId) {
+    public ResponseEntity<Collection<String>> tags(@PathVariable @NotNull PassengerId passengerId, UriComponentsBuilder uriBuilder) {
         val passengerOpt = passengerRepository.get(passengerId);
 
         if (!passengerOpt.isPresent()) {
@@ -174,7 +177,12 @@ public class PassengerController {
         }
         val passenger = passengerOpt.get();
 
-        return ResponseEntity.ok(passenger.tagIds());
+        val tags = passenger.tagIds().stream()
+            .map(tagId -> uriBuilder.path("/tags/{id}").buildAndExpand(tagId))
+            .map(UriComponents::toString)
+            .collect(Collectors.toSet());
+
+        return ResponseEntity.ok(tags);
     }
 }
 
