@@ -48,7 +48,7 @@ public @interface AntValueRequestBody {
     String placeholder() default "";
 
     /**
-     * If true, "**" will be prepended to the pattern
+     * If true, "**\/" will be prepended to the pattern
      */
     boolean matchTrail() default true;
 }

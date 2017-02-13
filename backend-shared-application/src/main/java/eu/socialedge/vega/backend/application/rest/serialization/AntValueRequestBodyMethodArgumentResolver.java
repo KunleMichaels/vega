@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -56,7 +56,7 @@ public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodA
 
     @Override
     public boolean supportsParameter(MethodParameter param) {
-        return param.hasParameterAnnotation(AntValueRequestBody.class);
+        return param.hasParameterAnnotation(AntValueRequestBody.class) && param.getClass().isArray();
     }
 
     @Override
@@ -65,19 +65,17 @@ public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodA
             throws Exception {
 
         val reqBody = extractRequestBody(nativeWebRequest);
-
-        val paramClz = param.getParameterType();
         val paramMatchAnn = param.getParameterAnnotation(AntValueRequestBody.class);
 
         if (isBlank(paramMatchAnn.value()))
             throw new IllegalArgumentException("Pattern (value) must be defined for AntValueRequestBody");
 
         val antPlaceholder = isBlank(paramMatchAnn.placeholder()) ? param.getParameterName() : paramMatchAnn.placeholder();
-        val antPattern = paramMatchAnn.matchTrail() ? ANT_IGNORE_PREFIX + paramMatchAnn.value(): paramMatchAnn.value();
+        val antPattern = paramMatchAnn.matchTrail() ? ANT_IGNORE_PREFIX + paramMatchAnn.value() : paramMatchAnn.value();
 
         val matchedValues = reqBody.stream().map(uri -> extractPlaceholderValue(uri, antPattern, antPlaceholder)).collect(Collectors.toSet());
 
-        return convert(matchedValues, paramClz);
+        return convert(matchedValues, param.getParameterType());
     }
 
     private String extractPlaceholderValue(URI uri, String antPattern, String placeholder) {
@@ -102,12 +100,12 @@ public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodA
         return conversionService.convert(value, targetClz);
     }
 
-    private static List<URI> extractRequestBody(NativeWebRequest nativeWebRequest) throws IOException {
+    private static Set<URI> extractRequestBody(NativeWebRequest nativeWebRequest) throws IOException {
         val req = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
 
         return req.getReader().lines()
             .map(AntValueRequestBodyMethodArgumentResolver::parseToUri)
-            .collect(Collectors.toList());
+            .collect(Collectors.toSet());
     }
 
     private static URI parseToUri(String uri) {
