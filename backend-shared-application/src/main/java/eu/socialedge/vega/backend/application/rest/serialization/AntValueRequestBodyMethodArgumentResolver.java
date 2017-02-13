@@ -29,6 +29,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -36,7 +39,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @Accessors(fluent = true)
 public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final static String ANT_IGNORE_PREFIX = "**";
+    private final static String ANT_IGNORE_PREFIX = "**/";
 
     private final static AntPathMatcher pathMatcher = new AntPathMatcher();
 
@@ -72,16 +75,16 @@ public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodA
         val antPlaceholder = isBlank(paramMatchAnn.placeholder()) ? param.getParameterName() : paramMatchAnn.placeholder();
         val antPattern = paramMatchAnn.matchTrail() ? ANT_IGNORE_PREFIX + paramMatchAnn.value(): paramMatchAnn.value();
 
-        val matchedValue = this.extractPlaceholderValue(reqBody, antPattern, antPlaceholder);
+        val matchedValues = reqBody.stream().map(uri -> extractPlaceholderValue(uri, antPattern, antPlaceholder)).collect(Collectors.toSet());
 
-        return convert(matchedValue, paramClz);
+        return convert(matchedValues, paramClz);
     }
 
-    private String extractPlaceholderValue(String body, String antPattern, String placeholder) {
-        val pathVariables = pathMatcher.extractUriTemplateVariables(antPattern, body);
+    private String extractPlaceholderValue(URI uri, String antPattern, String placeholder) {
+        val pathVariables = pathMatcher.extractUriTemplateVariables(antPattern, uri.toString());
 
         if (!pathVariables.containsKey(placeholder))
-            throw new IllegalArgumentException("Failed to parse {" + placeholder + "} from " + body);
+            throw new IllegalArgumentException("Failed to parse {" + placeholder + "} from " + uri);
 
         return pathVariables.get(placeholder);
     }
@@ -99,9 +102,19 @@ public class AntValueRequestBodyMethodArgumentResolver implements HandlerMethodA
         return conversionService.convert(value, targetClz);
     }
 
-    private static String extractRequestBody(NativeWebRequest nativeWebRequest) throws IOException {
+    private static List<URI> extractRequestBody(NativeWebRequest nativeWebRequest) throws IOException {
         val req = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
 
-        return req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        return req.getReader().lines()
+            .map(AntValueRequestBodyMethodArgumentResolver::parseToUri)
+            .collect(Collectors.toList());
+    }
+
+    private static URI parseToUri(String uri) {
+        try {
+            return new URI(uri);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException(String.format("Provided uri is not valid: '%s'", uri));
+        }
     }
 }

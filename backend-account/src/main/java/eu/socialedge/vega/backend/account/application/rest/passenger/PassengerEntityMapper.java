@@ -31,10 +31,7 @@ public class PassengerEntityMapper extends EntityResourceMapper<Passenger, Passe
     @Override
     public PassengerResource enhanceToResource(PassengerResource passengerResource, Passenger entity) {
         passengerResource.add(
-            linkTo(methodOn(PassengerController.class).tokens(entity.id())).withRel("tokens"),
-            linkTo(methodOn(PassengerController.class).tags(entity.id(), null)).withRel("tags"),
-            linkTo(methodOn(PassengerController.class).addTag(entity.id(), null)).withRel("addTag"),
-            linkTo(methodOn(PassengerController.class).removeTag(entity.id(), null)).withRel("removeTag")
+            linkTo(methodOn(PassengerController.class).tags(entity.id(), null)).withRel("tags")
         );
 
         return passengerResource;

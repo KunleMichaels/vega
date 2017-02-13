@@ -48,7 +48,6 @@ public class RestHypermediaSupportConfig extends WebMvcConfigurationSupport {
         c.defaultContentType(MediaTypes.HAL_JSON);
     }
 
-
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new AntValueRequestBodyMethodArgumentResolver(mvcConversionService()));

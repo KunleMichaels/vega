@@ -36,7 +36,6 @@ public class EntityResourceMapper<E extends Entity<?>, R extends ResourceSupport
         if (modelMapper == null) {
             this.modelMapper = new ModelMapper();
 
-
             this.modelMapper.getConfiguration()
                 .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
                 .setFieldMatchingEnabled(true)
@@ -57,8 +56,13 @@ public class EntityResourceMapper<E extends Entity<?>, R extends ResourceSupport
         return enhanceToResource(resource, entity);
     }
 
-    public Collection<R> toResources(Collection<E> entities) {
-        return entities.stream().map(this::toResource).collect(Collectors.toList());
+    public ResourceCollection<R> toResources(Collection<E> entities) {
+        val resources = entities.stream().map(this::toResource).collect(Collectors.toList());
+        val resourceCollection = new ResourceCollection<R>(resources);
+
+        resourceCollection.add(linkTo(controller).withSelfRel());
+
+        return resourceCollection;
     }
 
     public E fromResource(R resource) {

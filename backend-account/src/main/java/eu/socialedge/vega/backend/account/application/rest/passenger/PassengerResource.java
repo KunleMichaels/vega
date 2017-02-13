@@ -15,6 +15,7 @@
 package eu.socialedge.vega.backend.account.application.rest.passenger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.socialedge.vega.backend.payment.domain.Token;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,4 +43,6 @@ public class PassengerResource extends ResourceSupport {
     @NotNull(message = "Password can not be null")
     @JsonProperty(access = WRITE_ONLY)
     private String password;
+
+    private Token[] tokens;
 }

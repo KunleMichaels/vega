@@ -16,8 +16,10 @@ package eu.socialedge.vega.backend.account.application.rest.operator;
 
 import eu.socialedge.vega.backend.account.domain.OperatorId;
 import eu.socialedge.vega.backend.account.domain.OperatorRepository;
+import eu.socialedge.vega.backend.application.rest.ResourceCollection;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -66,7 +67,7 @@ public class OperatorController {
     }
 
     @RequestMapping(method = GET)
-    public ResponseEntity<Collection<OperatorResource>> read() {
+    public ResponseEntity<ResourceCollection<OperatorResource>> read() {
         val operators = operatorRepository.listActive();
 
         val operatorResources = mapper.toResources(operators);
