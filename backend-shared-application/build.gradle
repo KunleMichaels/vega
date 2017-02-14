@@ -3,7 +3,9 @@ apply from: "$rootDir/env-backend.gradle"
 dependencies {
     compile project(":backend-shared-domain")
 
-    compile libraries.application.springDataRest
+    compile libraries.commons.modelMapper
+
+    compile libraries.application.springHateoas
 }
 
 bootRepackage.enabled = false

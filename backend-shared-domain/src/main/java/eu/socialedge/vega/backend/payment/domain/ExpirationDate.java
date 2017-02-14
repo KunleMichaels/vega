@@ -27,7 +27,6 @@ import java.time.LocalDate;
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.Validate.notNull;
 
-@ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
 @Embeddable @Access(AccessType.FIELD)
@@ -123,5 +122,16 @@ public class ExpirationDate extends ValueObject {
 
     public LocalDate toLocalDate() {
         return localDate;
+    }
+
+    public static ExpirationDate parse(String date) {
+        val localDate = LocalDate.parse(date);
+
+        return new ExpirationDate(localDate);
+    }
+
+    @Override
+    public String toString() {
+        return localDate.toString();
     }
 }

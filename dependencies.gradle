@@ -4,7 +4,8 @@ ext {
             dddSupport: '0.2',
             moneta: '1.1',
             apacheLang3: '3.5',
-            apacheValidator: '1.5.+'
+            apacheValidator: '1.5.+',
+            modelMapper: '0.7.+'
         ],
         persistence: [
             jpaApi: '1.0.0.Final',
@@ -36,7 +37,8 @@ ext {
             dddSupport: "eu.socialedge.ddd:ddd-api:${versions.commons.dddSupport}",
             moneta: "org.javamoney:moneta:${versions.commons.moneta}",
             apacheLang3: "org.apache.commons:commons-lang3:${versions.commons.apacheLang3}",
-            apacheValidator: "commons-validator:commons-validator:${versions.commons.apacheValidator}"
+            apacheValidator: "commons-validator:commons-validator:${versions.commons.apacheValidator}",
+            modelMapper: "org.modelmapper:modelmapper:${versions.commons.modelMapper}"
         ],
         persistence: [
             jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.persistence.jpaApi}",
@@ -55,7 +57,8 @@ ext {
             springBoot: "org.springframework.boot:spring-boot-starter:${versions.application.springBoot}",
             springBootData: "org.springframework.boot:spring-boot-starter-data-jpa:${versions.application.springBoot}",
             springBootWeb: "org.springframework.boot:spring-boot-starter-web:${versions.application.springBoot}",
-            springDataRest: "org.springframework.boot:spring-boot-starter-data-rest:${versions.application.springBoot}"
+            springDataRest: "org.springframework.boot:spring-boot-starter-data-rest:${versions.application.springBoot}",
+            springHateoas: "org.springframework.boot:spring-boot-starter-hateoas:${versions.application.springBoot}"
         ],
         gen: [
             lombok: "org.projectlombok:lombok:${versions.gen.lombok}",

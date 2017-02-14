@@ -14,8 +14,6 @@
  */
 package eu.socialedge.vega.backend.terminal.application.config;
 
-import eu.socialedge.vega.backend.application.rest.RepositoryRestConfiguration;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
