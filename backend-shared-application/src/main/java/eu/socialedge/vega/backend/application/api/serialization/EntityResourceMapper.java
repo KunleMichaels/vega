@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest.serialization;
+package eu.socialedge.vega.backend.application.api.serialization;
 
 import eu.socialedge.ddd.domain.Entity;
 import lombok.val;
@@ -21,19 +21,12 @@ import org.modelmapper.config.Configuration;
 import org.modelmapper.convention.NameTokenizers;
 import org.modelmapper.convention.NamingConventions;
 import org.springframework.hateoas.ResourceSupport;
-import org.springframework.hateoas.Resources;
-
-import java.util.Collection;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.Validate.notNull;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
-public class EntityResourceMapper<E extends Entity<?>, R extends ResourceSupport> {
-
-    protected final Class<?> controller;
+public class EntityResourceMapper<E extends Entity<?>, R extends ResourceSupport>
+        implements ResourceMapper<E, R> {
 
     protected final Class<E> entityClass;
 
@@ -41,51 +34,24 @@ public class EntityResourceMapper<E extends Entity<?>, R extends ResourceSupport
 
     protected ModelMapper modelMapper;
 
-    public EntityResourceMapper(Class<?> controller, Class<E> entityClass, Class<R> resourceClass) {
-        this(controller, entityClass, resourceClass, null);
+    public EntityResourceMapper(Class<E> entityClass, Class<R> resourceClass) {
+        this(entityClass, resourceClass, null);
     }
 
-    public EntityResourceMapper(Class<?> controller, Class<E> entityClass, Class<R> resourceClass, ModelMapper modelMapper) {
-        this.controller = notNull(controller);
+    public EntityResourceMapper(Class<E> entityClass, Class<R> resourceClass, ModelMapper modelMapper) {
         this.entityClass = notNull(entityClass);
         this.resourceClass = notNull(resourceClass);
         this.modelMapper = isNull(modelMapper) ? createDefaultModelMapper() : modelMapper;
     }
 
     public R toResource(E entity) {
-        val resource = convertToResource(entity);
-
-        resource.add(linkTo(controller).slash(entity.id()).withSelfRel());
-
-        return resource;
-    }
-
-    public Resources<R> toResources(Collection<E> entities) {
-        val resources = entities.stream().map(this::toResource).collect(Collectors.toList());
-        val resourceCollection = new Resources<R>(resources);
-
-        resourceCollection.add(linkTo(controller).withSelfRel());
-
-        return resourceCollection;
+        return modelMapper.map(entity, resourceClass);
     }
 
     public E fromResource(R resource) {
-        return convertFromResource(resource);
+        return modelMapper.map(resource, entityClass);
     }
 
-    public Collection<E> fromResource(Resources<R> resources) {
-        return StreamSupport.stream(resources.spliterator(), false)
-            .map(this::fromResource)
-            .collect(Collectors.toList());
-    }
-
-    protected R convertToResource(E source) {
-        return modelMapper.map(source, resourceClass);
-    }
-
-    protected E convertFromResource(R source) {
-        return modelMapper.map(source, entityClass);
-    }
 
     private ModelMapper createDefaultModelMapper() {
         val modelMapper = new ModelMapper();

@@ -14,41 +14,58 @@
  */
 package eu.socialedge.vega.backend.account.application.api.passenger;
 
+import eu.socialedge.vega.backend.account.application.api.operator.OperatorController;
 import eu.socialedge.vega.backend.account.domain.Passenger;
-import eu.socialedge.vega.backend.application.rest.serialization.EntityResourceMapper;
+import eu.socialedge.vega.backend.application.api.serialization.EntityResourceMapper;
 import eu.socialedge.vega.backend.payment.domain.Token;
 import lombok.val;
-import org.springframework.hateoas.core.EmbeddedWrappers;
+import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @Component
 public class PassengerEntityMapper extends EntityResourceMapper<Passenger, PassengerResource> {
 
-    private static final EmbeddedWrappers embeddedWrappers = new EmbeddedWrappers(true);
-
     public PassengerEntityMapper() {
-        super(PassengerController.class, Passenger.class, PassengerResource.class);
+        super(Passenger.class, PassengerResource.class);
     }
 
     @Override
-    protected PassengerResource convertToResource(Passenger source) {
-        val operatorResource = modelMapper.map(source, resourceClass);
-        val tokenResources = source.paymentTokens().stream()
+    public PassengerResource toResource(Passenger entity) {
+        val operatorResource = modelMapper.map(entity, resourceClass);
+        val tokenResources = entity.paymentTokens().stream()
             .map(token -> modelMapper.map(token, TokenResource.class))
             .toArray(TokenResource[]::new);
 
         operatorResource.tokenResources(tokenResources);
 
+        val selfLink = linkTo(methodOn(PassengerController.class).read(entity.id())).withSelfRel();
+        val tagsLink = linkTo(methodOn(PassengerController.class).tags(entity.id(),  null)).withRel("tags");
+        operatorResource.add(selfLink, tagsLink);
+
         return operatorResource;
     }
 
+    public Resources<PassengerResource> toResources(Collection<Passenger> passengers) {
+        val resources = passengers.stream().map(this::toResource).collect(Collectors.toList());
+        val resourcesCollection = new Resources<PassengerResource>(resources);
+
+        val selfLink = linkTo(methodOn(OperatorController.class).read()).withSelfRel();
+        resourcesCollection.add(selfLink);
+
+        return resourcesCollection;
+    }
+
     @Override
-    protected Passenger convertFromResource(PassengerResource source) {
-        val operatorEntity = modelMapper.map(source, entityClass);
-        val tokenValueObjects = Arrays.stream(source.tokenResources())
+    public Passenger fromResource(PassengerResource resource) {
+        val operatorEntity = modelMapper.map(resource, entityClass);
+        val tokenValueObjects = Arrays.stream(resource.tokenResources())
             .map(tokenResource -> modelMapper.map(tokenResource, Token.class))
             .collect(Collectors.toList());
 

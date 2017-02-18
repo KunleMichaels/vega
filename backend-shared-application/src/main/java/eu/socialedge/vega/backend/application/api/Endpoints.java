@@ -12,12 +12,19 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.account.application.config;
+package eu.socialedge.vega.backend.application.api;
 
-import eu.socialedge.vega.backend.application.api.config.RestHypermediaSupportConfig;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+public interface Endpoints {
 
-@Configuration @Import(RestHypermediaSupportConfig.class)
-public class WebContextConfig {
+    String ROOT = "/api";
+
+    String OPERATORS_ROOT = ROOT + "/operators";
+    String OPERATORS_ID = OPERATORS_ROOT+ "/{operatorId}";
+
+    String PASSENGERS_ROOT = ROOT + "/passengers";
+    String PASSENGERS_ID = PASSENGERS_ROOT + "/{passengerId}";
+    String PASSENGERS_TAGS = PASSENGERS_ROOT + "/{passengerId}/tags";
+
+    String TAGS_ROOT = ROOT + "/tags";
+    String TAGS_ID = TAGS_ROOT + "/{tagId}";
 }

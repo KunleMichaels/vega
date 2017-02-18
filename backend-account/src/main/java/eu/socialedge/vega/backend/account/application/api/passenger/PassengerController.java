@@ -16,8 +16,13 @@ package eu.socialedge.vega.backend.account.application.api.passenger;
 
 import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.vega.backend.account.domain.PassengerRepository;
+import eu.socialedge.vega.backend.application.api.Endpoints;
+import eu.socialedge.vega.backend.application.api.support.UrlListValue;
+import eu.socialedge.vega.backend.boarding.domain.TagId;
 import lombok.val;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,16 +30,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @Transactional(readOnly = true)
-@RequestMapping(value = "/passengers")
 public class PassengerController {
 
     @Autowired
@@ -44,7 +52,7 @@ public class PassengerController {
     private PassengerRepository passengerRepository;
 
     @Transactional
-    @RequestMapping(method = POST)
+    @RequestMapping(method = POST, path = Endpoints.PASSENGERS_ROOT)
     public ResponseEntity<Void> create(@RequestBody @NotNull @Valid PassengerResource passengerResource) {
         val passenger = mapper.fromResource(passengerResource);
         passengerRepository.add(passenger);
@@ -53,7 +61,7 @@ public class PassengerController {
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(method = GET, path = "/{passengerId}")
+    @RequestMapping(method = GET, path = Endpoints.PASSENGERS_ID)
     public ResponseEntity<PassengerResource> read(@PathVariable @NotNull PassengerId passengerId) {
         val passengerOpt = passengerRepository.get(passengerId);
 
@@ -65,7 +73,7 @@ public class PassengerController {
         return ResponseEntity.ok(passengerResource);
     }
 
-    @RequestMapping(method = GET)
+    @RequestMapping(method = GET, path = Endpoints.PASSENGERS_ROOT)
     public ResponseEntity<Resources<PassengerResource>> read() {
         val passengers = passengerRepository.listActive();
 
@@ -74,18 +82,7 @@ public class PassengerController {
     }
 
     @Transactional
-    @RequestMapping(method = POST, path = "/{passengerId}")
-    public ResponseEntity<Void> activate(@PathVariable @NotNull PassengerId passengerId) {
-        if (!passengerRepository.contains(passengerId)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        passengerRepository.activate(passengerId);
-        return ResponseEntity.ok().build();
-    }
-
-    @Transactional
-    @RequestMapping(method = DELETE, path = "/{passengerId}")
+    @RequestMapping(method = DELETE, path = Endpoints.PASSENGERS_ID)
     public ResponseEntity<Void> deactivate(@PathVariable @NotNull PassengerId passengerId) {
         if (!passengerRepository.contains(passengerId)) {
             return ResponseEntity.notFound().build();
@@ -95,12 +92,11 @@ public class PassengerController {
         return ResponseEntity.ok().build();
     }
 
-    /*
-    @Transactional
-    @RequestMapping(method = POST, path = "/{passengerId}/tags", consumes = "text/uri-list")
-    public ResponseEntity<Void> updateTags(@PathVariable @NotNull PassengerId passengerId,
-                                           @AntValueRequestBody(pattern = "tags/{id}", placeholder = "id") @NotNull TagId[] tagIds) {
 
+    @Transactional
+    @RequestMapping(method = POST, path = Endpoints.PASSENGERS_TAGS, consumes = "text/uri-list")
+    public ResponseEntity<Void> updateTags(@PathVariable @NotNull PassengerId passengerId,
+                                           @UrlListValue(Endpoints.TAGS_ID) @NotEmpty TagId[] tagIds) {
         val passengerOpt = passengerRepository.get(passengerId);
         if (!passengerOpt.isPresent()) {
             return ResponseEntity.notFound().build();
@@ -113,8 +109,8 @@ public class PassengerController {
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(method = GET, path = "/{passengerId}/tags")
-    public ResponseEntity<Collection<String>> tags(@PathVariable @NotNull PassengerId passengerId, UriComponentsBuilder uriBuilder) {
+    @RequestMapping(method = GET, path = Endpoints.PASSENGERS_TAGS, produces = "text/uri-list")
+    public ResponseEntity<List<Link>> tags(@PathVariable @NotNull PassengerId passengerId, UriComponentsBuilder uriBuilder) {
         val passengerOpt = passengerRepository.get(passengerId);
 
         if (!passengerOpt.isPresent()) {
@@ -122,11 +118,11 @@ public class PassengerController {
         }
         val passenger = passengerOpt.get();
 
-        val tags = passenger.tagIds().stream()
-            .map(tagId -> uriBuilder.cloneBuilder().path("/tags/{id}").buildAndExpand(tagId))
-            .map(UriComponents::toString)
-            .collect(Collectors.toSet());
+        val tagLinks = passenger.tagIds().stream()
+            .map(tagId -> uriBuilder.cloneBuilder().path(Endpoints.TAGS_ID).buildAndExpand(tagId))
+            .map(ub -> new Link(ub.toString()))
+            .collect(Collectors.toList());
 
-        return ResponseEntity.ok(tags);
-    }*/
+        return ResponseEntity.ok(tagLinks);
+    }
 }

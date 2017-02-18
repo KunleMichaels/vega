@@ -16,6 +16,7 @@ package eu.socialedge.vega.backend.account.application.api.operator;
 
 import eu.socialedge.vega.backend.account.domain.OperatorId;
 import eu.socialedge.vega.backend.account.domain.OperatorRepository;
+import eu.socialedge.vega.backend.application.api.Endpoints;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resources;
@@ -34,7 +35,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @Transactional(readOnly = true)
-@RequestMapping(value = "/operators")
 public class OperatorController {
 
     @Autowired
@@ -44,7 +44,7 @@ public class OperatorController {
     private OperatorRepository operatorRepository;
 
     @Transactional
-    @RequestMapping(method = POST)
+    @RequestMapping(method = POST, path = Endpoints.OPERATORS_ROOT)
     public ResponseEntity<Void> create(@RequestBody @NotNull @Valid OperatorResource operatorResource) {
         val operator = mapper.fromResource(operatorResource);
         operatorRepository.add(operator);
@@ -53,7 +53,7 @@ public class OperatorController {
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(method = GET, path = "/{operatorId}")
+    @RequestMapping(method = GET, path = Endpoints.OPERATORS_ID)
     public ResponseEntity<OperatorResource> read(@PathVariable @NotNull OperatorId operatorId) {
         val operatorOpt = operatorRepository.get(operatorId);
 
@@ -65,7 +65,7 @@ public class OperatorController {
         return ResponseEntity.ok(operatorResource);
     }
 
-    @RequestMapping(method = GET)
+    @RequestMapping(method = GET, path = Endpoints.OPERATORS_ROOT)
     public ResponseEntity<Resources<OperatorResource>> read() {
         val operators = operatorRepository.listActive();
 
@@ -74,9 +74,9 @@ public class OperatorController {
     }
 
     @Transactional
-    @RequestMapping(method = PUT, path = "/{operatorId}")
+    @RequestMapping(method = PUT, path = Endpoints.OPERATORS_ID)
     public ResponseEntity<Void> update(@PathVariable @NotNull OperatorId operatorId,
-                                       @RequestBody  @NotNull @Valid OperatorResource operatorResource) {
+                                       @RequestBody @NotNull @Valid OperatorResource operatorResource) {
 
         val operatorOpt = operatorRepository.get(operatorId);
 
@@ -93,18 +93,7 @@ public class OperatorController {
     }
 
     @Transactional
-    @RequestMapping(method = POST, path = "/{operatorId}")
-    public ResponseEntity<Void> activate(@PathVariable @NotNull OperatorId operatorId) {
-        if (!operatorRepository.contains(operatorId)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        operatorRepository.activate(operatorId);
-        return ResponseEntity.ok().build();
-    }
-
-    @Transactional
-    @RequestMapping(method = DELETE, path = "/{operatorId}")
+    @RequestMapping(method = DELETE, path = Endpoints.OPERATORS_ID)
     public ResponseEntity<Void> deactivate(@PathVariable @NotNull OperatorId operatorId) {
         if (!operatorRepository.contains(operatorId)) {
             return ResponseEntity.notFound().build();

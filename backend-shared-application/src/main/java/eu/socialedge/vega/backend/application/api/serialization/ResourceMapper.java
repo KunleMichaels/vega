@@ -12,12 +12,13 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.account.application.config;
+package eu.socialedge.vega.backend.application.api.serialization;
 
-import eu.socialedge.vega.backend.application.api.config.RestHypermediaSupportConfig;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.hateoas.ResourceSupport;
 
-@Configuration @Import(RestHypermediaSupportConfig.class)
-public class WebContextConfig {
+public interface ResourceMapper<E, R extends ResourceSupport> {
+
+    R toResource(E entity);
+
+    E fromResource(R resource);
 }

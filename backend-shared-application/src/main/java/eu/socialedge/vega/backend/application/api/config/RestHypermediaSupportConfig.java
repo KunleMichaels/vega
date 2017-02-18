@@ -12,19 +12,27 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.rest;
+package eu.socialedge.vega.backend.application.api.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import eu.socialedge.vega.backend.application.api.convert.UriListHttpMessageConverter;
+import eu.socialedge.vega.backend.application.api.support.UrlListValueMethodArgumentResolver;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
+import java.util.List;
 
 @Configuration
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
@@ -44,13 +52,25 @@ public class RestHypermediaSupportConfig extends WebMvcConfigurationSupport {
     }
 
     @Override
+    protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        val conversionService = mvcConversionService();
+
+        argumentResolvers.add(new UrlListValueMethodArgumentResolver(conversionService));
+    }
+
+    @Override
+    protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(new UriListHttpMessageConverter());
+    }
+
+    @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer contentNegotiation) {
         contentNegotiation
             .favorPathExtension(false)
             .favorParameter(false)
-            .ignoreAcceptHeader(true)
             .useJaf(false)
             .defaultContentType(MediaTypes.HAL_JSON)
-            .mediaType("json", MediaTypes.HAL_JSON);
+            .mediaType("json", MediaTypes.HAL_JSON)
+            .mediaType("uri-list", MediaType.parseMediaType("text/uri-list"));
     }
 }
