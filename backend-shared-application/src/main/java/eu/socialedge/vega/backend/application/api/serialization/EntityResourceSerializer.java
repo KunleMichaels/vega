@@ -15,33 +15,27 @@
 package eu.socialedge.vega.backend.application.api.serialization;
 
 import eu.socialedge.ddd.domain.Entity;
+import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.ResourceSupport;
 
-public class EntityResourceMapper<E extends Entity<?>, R extends ResourceSupport>
-        extends ModelMapperSupport
-        implements ResourceMapper<E, R> {
+import static org.apache.commons.lang3.Validate.notNull;
 
-    protected final ResourceSerializer<E, R> serializer;
-    protected final ResourceDeserializer<E, R> deserializer;
+public class EntityResourceSerializer<E extends Entity<?>, R extends ResourceSupport>
+        extends ModelMapperSupport implements ResourceSerializer<E, R> {
 
-    protected final Class<E> entityClass;
     protected final Class<R> resourceClass;
 
-    public EntityResourceMapper(Class<E> entityClass, Class<R> resourceClass) {
-        this.serializer = new EntityResourceSerializer<>(modelMapper, resourceClass);
-        this.deserializer = new EntityResourceDeserializer<>(modelMapper, entityClass);
+    public EntityResourceSerializer(Class<R> resourceClass) {
+        this(null, resourceClass);
+    }
 
-        this.entityClass = entityClass;
-        this.resourceClass = resourceClass;
+    public EntityResourceSerializer(ModelMapper modelMapper, Class<R> resourceClass) {
+        super(modelMapper);
+        this.resourceClass = notNull(resourceClass);
     }
 
     @Override
     public R toResource(E entity) {
-        return serializer.toResource(entity);
-    }
-
-    @Override
-    public E fromResource(R resource) {
-        return deserializer.fromResource(resource);
+        return modelMapper.map(entity, resourceClass);
     }
 }

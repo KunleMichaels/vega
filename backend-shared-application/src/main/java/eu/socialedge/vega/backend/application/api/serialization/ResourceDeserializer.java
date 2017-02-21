@@ -16,6 +16,8 @@ package eu.socialedge.vega.backend.application.api.serialization;
 
 import org.springframework.hateoas.ResourceSupport;
 
-public interface ResourceMapper<E, R extends ResourceSupport>
-        extends ResourceSerializer<E, R>, ResourceDeserializer<E, R> {
+public interface ResourceDeserializer<E, R extends ResourceSupport> {
+
+    E fromResource(R resource);
+
 }
