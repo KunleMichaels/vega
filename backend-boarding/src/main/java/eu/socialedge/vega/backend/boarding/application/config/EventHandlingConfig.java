@@ -12,19 +12,21 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.account.application.config;
+package eu.socialedge.vega.backend.boarding.application.config;
 
-import eu.socialedge.vega.backend.infrastructure.persistence.convert.config.JpaConverterConfig;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import eu.socialedge.ddd.event.DomainEventPublisher;
+import eu.socialedge.ddd.event.DomainEventRegistrar;
+import eu.socialedge.vega.backend.infrastructure.eventbus.cloudstream.config.SpringEventBusConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@Configuration
-@EnableAutoConfiguration
-@Import(JpaConverterConfig.class)
-@EntityScan("eu.socialedge.vega.backend.account.domain")
-@EnableJpaRepositories("eu.socialedge.vega.backend.account.infrastructure.persistence.jpa")
-public class DatabaseConfig {
+@Configuration @Import(SpringEventBusConfig.class)
+public class EventHandlingConfig {
+
+    @Autowired
+    private DomainEventRegistrar eventRegistrar;
+
+    @Autowired
+    private DomainEventPublisher eventPublisher;
 }

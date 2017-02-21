@@ -12,21 +12,17 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.application.api;
+package eu.socialedge.vega.backend.boarding.application;
 
-public interface Endpoints {
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
-    String ROOT = "/api";
+@SpringBootApplication
+public class VegaBoardingMicroservice {
 
-    String OPERATORS_ROOT = ROOT + "/operators";
-    String OPERATORS_ID = OPERATORS_ROOT+ "/{operatorId}";
-
-    String PASSENGERS_ROOT = ROOT + "/passengers";
-    String PASSENGERS_ID = PASSENGERS_ROOT + "/{passengerId}";
-    String PASSENGERS_TAGS = PASSENGERS_ROOT + "/{passengerId}/tags";
-
-    String TAGS_ROOT = ROOT + "/tags";
-    String TAGS_ID = TAGS_ROOT + "/{tagId}";
-
-    String BOARDINGS_ROOT = ROOT + "/boardings";
+    public static void main(String[] args) {
+        new SpringApplicationBuilder()
+                .sources(VegaBoardingMicroservice.class)
+                .run(args);
+    }
 }

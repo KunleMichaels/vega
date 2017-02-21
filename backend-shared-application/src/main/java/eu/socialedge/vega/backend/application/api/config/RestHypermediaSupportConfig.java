@@ -28,6 +28,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -37,6 +38,8 @@ import java.util.List;
 @Configuration
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
 public class RestHypermediaSupportConfig extends WebMvcConfigurationSupport {
+
+    private ObjectMapper objectMapper;
 
     @Autowired
     public RestHypermediaSupportConfig(ObjectMapper objectMapper) {
@@ -49,6 +52,8 @@ public class RestHypermediaSupportConfig extends WebMvcConfigurationSupport {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -60,6 +65,7 @@ public class RestHypermediaSupportConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
         converters.add(new UriListHttpMessageConverter());
     }
 
@@ -71,6 +77,8 @@ public class RestHypermediaSupportConfig extends WebMvcConfigurationSupport {
             .useJaf(false)
             .defaultContentType(MediaTypes.HAL_JSON)
             .mediaType("json", MediaTypes.HAL_JSON)
-            .mediaType("uri-list", MediaType.parseMediaType("text/uri-list"));
+            .mediaType("uri-list", MediaType.parseMediaType("text/uri-list"))
+            .mediaType("json", MediaType.APPLICATION_JSON_UTF8)
+            .mediaType("json", MediaType.APPLICATION_JSON);
     }
 }

@@ -21,10 +21,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
-
-import javax.validation.constraints.NotNull;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 
@@ -36,17 +35,17 @@ import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 @Relation(collectionRelation = "passengers")
 public class PassengerResource extends ResourceSupport {
 
-    @NotNull(message = "Name can not be null")
+    @NotEmpty(message = "Name can not be null")
     private String name;
 
-    @NotNull(message = "Email can not be null")
+    @NotEmpty(message = "Email can not be null")
     private String email;
 
-    @NotNull(message = "Password can not be null")
+    @NotEmpty(message = "Password can not be null")
     @JsonProperty(access = WRITE_ONLY)
     private String password;
 
     @JsonUnwrapped
-    @JsonProperty(value = "token")
+    @JsonProperty(value = "tokens")
     private TokenResource[] tokenResources;
 }

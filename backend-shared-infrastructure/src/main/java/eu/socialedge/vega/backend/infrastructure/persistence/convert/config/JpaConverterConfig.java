@@ -12,19 +12,13 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package eu.socialedge.vega.backend.account.application.config;
+package eu.socialedge.vega.backend.infrastructure.persistence.convert.config;
 
-import eu.socialedge.vega.backend.infrastructure.persistence.convert.config.JpaConverterConfig;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EnableAutoConfiguration
-@Import(JpaConverterConfig.class)
-@EntityScan("eu.socialedge.vega.backend.account.domain")
-@EnableJpaRepositories("eu.socialedge.vega.backend.account.infrastructure.persistence.jpa")
-public class DatabaseConfig {
+@EntityScan("eu.socialedge.vega.backend.infrastructure.persistence.convert")
+public class JpaConverterConfig {
+
 }
