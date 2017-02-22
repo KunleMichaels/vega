@@ -14,5 +14,4 @@ dependencies {
     compile libraries.application.springBoot
     compile libraries.application.springBootData
     compile libraries.application.springBootWeb
-    compile libraries.application.springDataRest
 }

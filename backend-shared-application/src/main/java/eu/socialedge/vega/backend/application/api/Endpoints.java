@@ -29,4 +29,5 @@ public interface Endpoints {
     String TAGS_ID = TAGS_ROOT + "/{tagId}";
 
     String BOARDINGS_ROOT = ROOT + "/boardings";
+    String BOARDINGS_ID = BOARDINGS_ROOT + "/{boardingId}";
 }
