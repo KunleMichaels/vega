@@ -14,26 +14,25 @@
  */
 package eu.socialedge.vega.backend.infrastructure.persistence.convert;
 
+import org.javamoney.moneta.Money;
+
+import javax.money.MonetaryAmount;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import java.time.Period;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Converter(autoApply = true)
-public class PeriodSerializer implements AttributeConverter<Period, String> {
+public class MonetaryAmountConverter implements AttributeConverter<MonetaryAmount, String> {
 
     @Override
-    public String convertToDatabaseColumn(Period attribute) {
-        return Objects.toString(attribute, null);
+    public String convertToDatabaseColumn(MonetaryAmount amount) {
+        return Objects.toString(amount, null);
     }
 
     @Override
-    public Period convertToEntityAttribute(String rawPeriod) {
-        if (isBlank(rawPeriod))
-            return null;
-
-        return Period.parse(rawPeriod);
+    public MonetaryAmount convertToEntityAttribute(String rawAmount) {
+        return isBlank(rawAmount) ? null : Money.parse(rawAmount);
     }
 }

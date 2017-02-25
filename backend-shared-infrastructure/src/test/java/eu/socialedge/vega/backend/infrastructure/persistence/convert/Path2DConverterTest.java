@@ -27,7 +27,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class Path2dSerializerTest {
+public class Path2DConverterTest {
     private final static ObjectMapper objectMapper = new ObjectMapper() {{
         setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE);
         setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);
@@ -54,7 +54,7 @@ public class Path2dSerializerTest {
         closePath();
     }};
 
-    private static final Path2dSerializer serializer = new Path2dSerializer();
+    private static final Path2dConverter serializer = new Path2dConverter();
 
     @Test
     public void shouldSerializePath2dCorrectly() throws Exception {

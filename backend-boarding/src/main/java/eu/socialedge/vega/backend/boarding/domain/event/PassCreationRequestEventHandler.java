@@ -14,13 +14,15 @@
  */
 package eu.socialedge.vega.backend.boarding.domain.event;
 
-import eu.socialedge.vega.backend.boarding.domain.Pass;
-import eu.socialedge.vega.backend.boarding.domain.TagRepository;
 import eu.socialedge.ddd.event.DomainEventHandler;
 import eu.socialedge.ddd.event.DomainEventPublisher;
+import eu.socialedge.vega.backend.boarding.domain.Pass;
+import eu.socialedge.vega.backend.boarding.domain.TagRepository;
+import eu.socialedge.vega.backend.payment.domain.ExpirationDate;
 import lombok.val;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.LocalDate;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -39,8 +41,9 @@ public class PassCreationRequestEventHandler implements DomainEventHandler<PassC
     public void handleEvent(PassCreationRequestEvent event) {
         val tagId = event.tagId();
         val fareId = event.fareId();
-        val activation = LocalDateTime.now();
-        val expiration = activation.plus(event.validity());
+        val activation = Instant.now();
+        val expirationDateTime = LocalDate.from(activation.plus(event.validity()));
+        val expirationDate = new ExpirationDate(expirationDateTime);
         val vehicleTypes = event.vehicleTypes();
         val zone = event.zone();
         val operatorsIds = event.operatorIds();
@@ -48,7 +51,7 @@ public class PassCreationRequestEventHandler implements DomainEventHandler<PassC
         val tag = tagRepository.get(tagId).orElseThrow(()
                 -> new IllegalArgumentException("Cant create pass. Not Tag with given id found"));
 
-        val pass = new Pass(fareId, activation, expiration, vehicleTypes, zone, operatorsIds);
+        val pass = new Pass(fareId, activation, expirationDate, vehicleTypes, zone, operatorsIds);
         tag.addPass(pass);
     }
 }

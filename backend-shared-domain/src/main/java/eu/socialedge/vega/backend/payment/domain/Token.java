@@ -18,12 +18,12 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 import static org.apache.commons.lang3.StringUtils.stripToNull;
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 
+@Getter
 @ToString
 @EqualsAndHashCode
 @Accessors(fluent = true)
@@ -33,18 +33,15 @@ public class Token {
 
     private final static String DEFAULT_TOKEN_DESC_FORMAT = "Token-%s";
 
-    @Getter
     @Column(name = "identifier", nullable = false)
     private final @NonNull String identifier;
 
     @Embedded
     private final @NonNull ExpirationDate expirationDate;
 
-    @Getter
     @Column
     private final String description;
 
-    @Getter
     @Column
     private final boolean isPrimary;
 
@@ -69,10 +66,6 @@ public class Token {
     }
 
     public boolean isExpired() {
-        return expirationDate.isExpired();
-    }
-
-    public LocalDate expirationDate() {
-        return expirationDate.toLocalDate();
+        return expirationDate.occurred();
     }
 }

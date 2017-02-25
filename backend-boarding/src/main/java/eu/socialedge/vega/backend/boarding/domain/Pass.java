@@ -14,18 +14,19 @@
  */
 package eu.socialedge.vega.backend.boarding.domain;
 
-import eu.socialedge.vega.backend.account.domain.OperatorId;
 import eu.socialedge.ddd.domain.ValueObject;
+import eu.socialedge.vega.backend.account.domain.OperatorId;
 import eu.socialedge.vega.backend.fare.domain.FareId;
 import eu.socialedge.vega.backend.fare.domain.VehicleType;
 import eu.socialedge.vega.backend.geo.domain.Location;
 import eu.socialedge.vega.backend.geo.domain.Zone;
+import eu.socialedge.vega.backend.payment.domain.ExpirationDate;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.Validate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,18 +49,18 @@ public class Pass extends ValueObject {
 
     @Id
     @Column(nullable = false)
-    private final LocalDateTime activation;
+    private final Instant activation;
 
     @Id
     @Column(nullable = false)
-    private final LocalDateTime expiration;
+    private final ExpirationDate expirationDate;
 
     @ElementCollection
     @Column(name = "vehicle_types")
     @CollectionTable(name = "pass_vehicle_type", joinColumns = {
             @JoinColumn(name = "fare_id"),
             @JoinColumn(name = "activation"),
-            @JoinColumn(name = "expiration")})
+            @JoinColumn(name = "expirationDate")})
     @Enumerated(EnumType.STRING)
     private final Set<VehicleType> vehicleTypes;
 
@@ -70,26 +71,26 @@ public class Pass extends ValueObject {
     @CollectionTable(name = "pass_operator", joinColumns = {
             @JoinColumn(name = "fare_id"),
             @JoinColumn(name = "activation"),
-            @JoinColumn(name = "expiration")})
+            @JoinColumn(name = "expirationDate")})
     private final Set<OperatorId> operatorIds;
 
     public Pass(FareId fareId,
-                LocalDateTime activation, LocalDateTime expiration,
+                Instant activation, ExpirationDate expirationDate,
                 Set<VehicleType> vehicleTypes, Zone zone,
                 Set<OperatorId> operatorIds) {
         this.fareId = notNull(fareId);
         this.vehicleTypes = new HashSet<>(notEmpty(vehicleTypes));
         this.zone = notNull(zone);
         this.operatorIds = new HashSet<>(notEmpty(operatorIds));
+        this.activation = notNull(activation);
 
-        Validate.isTrue(notNull(expiration).isBefore(notNull(activation)),
-                "Expiration must be before activation date");
-        this.activation = activation;
-        this.expiration = expiration;
+        Validate.isTrue(expirationDate.toInstant().isBefore(activation),
+                "expirationDate must be before activation date");
+        this.expirationDate = expirationDate;
     }
 
     public boolean isExpired() {
-        return LocalDateTime.now().isBefore(expiration);
+        return expirationDate.occurred();
     }
 
     public boolean complies(VehicleType vehicleType) {

@@ -21,7 +21,7 @@ import eu.socialedge.vega.backend.geo.domain.Location;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -49,11 +49,11 @@ public class Boarding extends AggregateRoot<BoardingId> {
     private final Location location;
 
     @Column(nullable = false)
-    private final LocalDateTime timestamp;
+    private final ZonedDateTime timestamp;
 
     public Boarding(BoardingId id, BoardingType boardingType, PassengerId passengerId,
                     TerminalId terminalId, Location location,
-                    LocalDateTime timestamp) {
+                    ZonedDateTime timestamp) {
         super(id);
 
         this.boardingType = notNull(boardingType);
@@ -65,13 +65,13 @@ public class Boarding extends AggregateRoot<BoardingId> {
 
     public Boarding(BoardingType boardingType, PassengerId passengerId,
                     TerminalId terminalId, Location location,
-                    LocalDateTime timestamp) {
+                    ZonedDateTime timestamp) {
         this(new BoardingId(), boardingType, passengerId, terminalId, location, timestamp);
     }
 
     public Boarding(BoardingId id, BoardingType boardingType, PassengerId passengerId,
                     TerminalId terminalId, Location location) {
-        this(id, boardingType, passengerId, terminalId, location, LocalDateTime.now());
+        this(id, boardingType, passengerId, terminalId, location, ZonedDateTime.now());
     }
 
     public Boarding(BoardingType boardingType, PassengerId passengerId,

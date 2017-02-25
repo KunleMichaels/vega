@@ -34,7 +34,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.Validate.notNull;
 
 @Converter(autoApply = true)
-public class Path2dSerializer implements AttributeConverter<Path2D, String> {
+public class Path2dConverter implements AttributeConverter<Path2D, String> {
 
     private final static ObjectMapper objectMapper = new ObjectMapper() {{
         setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE);

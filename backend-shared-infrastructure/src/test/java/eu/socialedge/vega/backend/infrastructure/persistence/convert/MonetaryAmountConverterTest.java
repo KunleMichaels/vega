@@ -21,12 +21,12 @@ import javax.money.MonetaryAmount;
 
 import static org.junit.Assert.assertEquals;
 
-public class MonetaryAmountSerializerTest {
+public class MonetaryAmountConverterTest {
 
     private static final MonetaryAmount money = Money.of(20, "EUR");
 
-    private static final MonetaryAmountSerializer converter
-            = new MonetaryAmountSerializer();
+    private static final MonetaryAmountConverter converter
+            = new MonetaryAmountConverter();
 
     @Test
     public void shouldSerializeMoneyObjectCorrectly() {

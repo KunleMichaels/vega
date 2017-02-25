@@ -14,9 +14,8 @@
  */
 package eu.socialedge.vega.backend.infrastructure.persistence.convert;
 
-import org.javamoney.moneta.Money;
+import eu.socialedge.vega.backend.payment.domain.ExpirationDate;
 
-import javax.money.MonetaryAmount;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.Objects;
@@ -24,15 +23,15 @@ import java.util.Objects;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Converter(autoApply = true)
-public class MonetaryAmountSerializer implements AttributeConverter<MonetaryAmount, String> {
+public class ExpirationDateConverter implements AttributeConverter<ExpirationDate, String> {
 
     @Override
-    public String convertToDatabaseColumn(MonetaryAmount amount) {
-        return Objects.toString(amount, null);
+    public String convertToDatabaseColumn(ExpirationDate expDate) {
+        return Objects.toString(expDate, null);
     }
 
     @Override
-    public MonetaryAmount convertToEntityAttribute(String rawAmount) {
-        return isBlank(rawAmount) ? null : Money.parse(rawAmount);
+    public ExpirationDate convertToEntityAttribute(String rawExpDate) {
+        return isBlank(rawExpDate) ? null : ExpirationDate.parse(rawExpDate);
     }
 }

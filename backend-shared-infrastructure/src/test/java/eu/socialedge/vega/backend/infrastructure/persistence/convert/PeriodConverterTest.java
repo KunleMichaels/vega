@@ -7,11 +7,11 @@ import java.time.Period;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class PeriodSerializerTest {
+public class PeriodConverterTest {
 
     private static final Period period = Period.of(1, 1, 1);
 
-    private static final PeriodSerializer converter = new PeriodSerializer();
+    private static final PeriodConverter converter = new PeriodConverter();
 
     @Test
     public void shouldSerializePeriodObjectCorrectly() {

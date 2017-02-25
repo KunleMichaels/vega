@@ -22,10 +22,10 @@ public class ExpirationDateTest {
     @Test
     public void shouldIdentifyItsExpirationCorrectly() throws Exception {
         ExpirationDate expiredExpDate = new ExpirationDate(7, 1995);
-        assertTrue(expiredExpDate.isExpired());
+        assertTrue(expiredExpDate.occurred());
 
         ExpirationDate nonExpiredExpDate = new ExpirationDate(7, 2024);
-        assertFalse(nonExpiredExpDate.isExpired());
+        assertFalse(nonExpiredExpDate.occurred());
     }
 
     @Test
@@ -65,5 +65,14 @@ public class ExpirationDateTest {
         ExpirationDate expDateNotReqLz = new ExpirationDate(10, 12, 1995);
         assertEquals("10", expDateNotReqLz.dayAsString(true));
         assertEquals("12", expDateNotReqLz.monthAsString(true));
+    }
+
+    @Test
+    public void shouldParseExpirationDateCorrectly() {
+        ExpirationDate expDate = ExpirationDate.MIN;
+
+        String expDateStr = expDate.toString();
+        ExpirationDate expDateParsed = ExpirationDate.parse(expDateStr);
+        assertEquals(expDate, expDateParsed);
     }
 }

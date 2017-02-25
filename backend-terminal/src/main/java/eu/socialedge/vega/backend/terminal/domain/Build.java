@@ -22,7 +22,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @ToString
@@ -37,5 +37,5 @@ public class Build extends ValueObject {
     private final long number;
 
     @Column(nullable = false)
-    private @NonNull final LocalDateTime timestamp;
+    private @NonNull final ZonedDateTime timestamp = ZonedDateTime.now();
 }
