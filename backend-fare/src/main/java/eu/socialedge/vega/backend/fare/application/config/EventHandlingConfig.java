@@ -23,13 +23,11 @@ import eu.socialedge.vega.backend.fare.domain.event.BookFarePaymentRequestEventH
 import eu.socialedge.vega.backend.fare.domain.event.FareChargeRequestEvent;
 import eu.socialedge.vega.backend.fare.domain.event.FareChargeRequestEventHandler;
 import eu.socialedge.vega.backend.infrastructure.eventbus.cloudstream.config.SpringEventBusConfig;
-
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
-import lombok.val;
 
 @Configuration @Import(SpringEventBusConfig.class)
 public class EventHandlingConfig {

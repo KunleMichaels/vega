@@ -14,14 +14,8 @@
  */
 package eu.socialedge.vega.backend.payment.infrastructure;
 
-import eu.socialedge.vega.backend.payment.domain.Authorization;
-import eu.socialedge.vega.backend.payment.domain.Capture;
-import eu.socialedge.vega.backend.payment.domain.Charge;
-import eu.socialedge.vega.backend.payment.domain.PaymentGateway;
-import eu.socialedge.vega.backend.payment.domain.PaymentGatewayException;
-import eu.socialedge.vega.backend.payment.domain.Token;
+import eu.socialedge.vega.backend.payment.domain.*;
 import eu.socialedge.vega.backend.payment.domain.funding.PaymentMethod;
-
 import org.javamoney.moneta.Money;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,9 +27,7 @@ import javax.money.MonetaryAmount;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FakePaymentGatewayTest {

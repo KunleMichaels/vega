@@ -14,14 +14,14 @@
  */
 package eu.socialedge.vega.backend.boarding.domain;
 
+import eu.socialedge.ddd.event.DomainEventPublisher;
 import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.vega.backend.boarding.domain.event.FareBoardingConfirmationEvent;
 import eu.socialedge.vega.backend.boarding.domain.event.PassBoardingConfirmationEvent;
-import eu.socialedge.vega.backend.fare.domain.event.FareChargeRequestEvent;
-import eu.socialedge.ddd.event.DomainEventPublisher;
-import eu.socialedge.vega.backend.terminal.domain.TerminalId;
-import eu.socialedge.vega.backend.geo.domain.Location;
 import eu.socialedge.vega.backend.fare.domain.FareId;
+import eu.socialedge.vega.backend.fare.domain.event.FareChargeRequestEvent;
+import eu.socialedge.vega.backend.geo.domain.Location;
+import eu.socialedge.vega.backend.terminal.domain.TerminalId;
 import lombok.val;
 import org.apache.commons.lang3.Validate;
 

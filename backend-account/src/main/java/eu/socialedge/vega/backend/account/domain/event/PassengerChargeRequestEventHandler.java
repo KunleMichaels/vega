@@ -14,11 +14,11 @@
  */
 package eu.socialedge.vega.backend.account.domain.event;
 
+import eu.socialedge.ddd.event.DomainEventHandler;
+import eu.socialedge.ddd.event.DomainEventPublisher;
 import eu.socialedge.vega.backend.account.domain.PassengerRepository;
 import eu.socialedge.vega.backend.account.domain.PassengerServiceException;
 import eu.socialedge.vega.backend.boarding.domain.TagId;
-import eu.socialedge.ddd.event.DomainEventHandler;
-import eu.socialedge.ddd.event.DomainEventPublisher;
 import eu.socialedge.vega.backend.fare.domain.FareId;
 import eu.socialedge.vega.backend.fare.domain.event.BookFarePaymentRequestEvent;
 import eu.socialedge.vega.backend.payment.domain.Token;

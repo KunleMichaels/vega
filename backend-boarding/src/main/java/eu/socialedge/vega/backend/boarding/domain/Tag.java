@@ -14,8 +14,8 @@
  */
 package eu.socialedge.vega.backend.boarding.domain;
 
-import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.ddd.domain.AggregateRoot;
+import eu.socialedge.vega.backend.account.domain.PassengerId;
 import lombok.*;
 import lombok.experimental.Accessors;
 

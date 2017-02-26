@@ -14,12 +14,12 @@
  */
 package eu.socialedge.vega.backend.payment.domain;
 
-import javax.money.MonetaryAmount;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+
+import javax.money.MonetaryAmount;
 
 import static org.apache.commons.lang3.Validate.notNull;
 

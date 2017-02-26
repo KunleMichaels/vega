@@ -14,11 +14,10 @@
  */
 package eu.socialedge.vega.backend.terminal.application.config;
 
-import eu.socialedge.vega.backend.application.rest.RepositoryRestConfiguration;
-
+import eu.socialedge.vega.backend.application.api.config.RestSupportConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-@Configuration @Import(RepositoryRestConfiguration.class)
+@Configuration @Import(RestSupportConfig.class)
 public class WebContextConfig {
 }

@@ -10,9 +10,7 @@ dependencies {
     compile libraries.persistence.h2Driver
     compile libraries.persistence.dddSupportSpringRepositories
 
-    compile libraries.application.springBoot
-    compile libraries.application.springBootWeb
-    compile libraries.application.springDataRest
+    compile libraries.application.springBootData
 }
 
 bootRepackage.enabled = false

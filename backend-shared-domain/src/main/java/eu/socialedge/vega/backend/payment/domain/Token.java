@@ -14,6 +14,7 @@
  */
 package eu.socialedge.vega.backend.payment.domain;
 
+import eu.socialedge.ddd.domain.ValueObject;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -25,11 +26,11 @@ import static org.apache.commons.lang3.Validate.notNull;
 
 @Getter
 @ToString
-@EqualsAndHashCode
 @Accessors(fluent = true)
+@EqualsAndHashCode(callSuper = false)
 @Embeddable @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
-public class Token {
+public class Token extends ValueObject {
 
     private final static String DEFAULT_TOKEN_DESC_FORMAT = "Token-%s";
 

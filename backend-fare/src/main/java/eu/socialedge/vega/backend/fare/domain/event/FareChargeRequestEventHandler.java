@@ -14,9 +14,9 @@
  */
 package eu.socialedge.vega.backend.fare.domain.event;
 
-import eu.socialedge.vega.backend.account.domain.event.PassengerFareChargeRequestEvent;
 import eu.socialedge.ddd.event.DomainEventHandler;
 import eu.socialedge.ddd.event.DomainEventPublisher;
+import eu.socialedge.vega.backend.account.domain.event.PassengerFareChargeRequestEvent;
 import eu.socialedge.vega.backend.fare.domain.FareCalculationException;
 import eu.socialedge.vega.backend.fare.domain.FareRepository;
 import lombok.val;

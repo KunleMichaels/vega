@@ -1,9 +1,6 @@
 spring:
   profiles.active: dev
 
-server:
-  contextPath: /api
-
 logging:
   file: vega-fare.log
   level:

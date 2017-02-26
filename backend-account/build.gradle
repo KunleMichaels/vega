@@ -8,12 +8,8 @@ dependencies {
     compile libraries.persistence.hibernateCore
     compile libraries.persistence.postgresDriver
     compile libraries.persistence.h2Driver
-    compile libraries.persistence.dddSupportSpringRepositories
 
-    compile libraries.application.springBoot
     compile libraries.application.springBootData
-    compile libraries.application.springBootWeb
-    compile libraries.application.springDataRest
 
     testCompile libraries.test.mockito
 }

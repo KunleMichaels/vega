@@ -53,7 +53,7 @@ public class Fare extends AggregateRoot<FareId> {
     @CollectionTable(name = "fare_deduction", joinColumns = @JoinColumn(name = "fare_id"))
     private final Set<Deduction> deductions;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "vehicle_types")
     @CollectionTable(name = "fare_vehicle_type", joinColumns = @JoinColumn(name = "fare_id"))
     @Enumerated(EnumType.STRING)
@@ -63,7 +63,7 @@ public class Fare extends AggregateRoot<FareId> {
     @Embedded
     private Zone zone;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "fare_operator", joinColumns = @JoinColumn(name = "fare_id"))
     private final Set<OperatorId> operatorIds;
 
@@ -108,6 +108,10 @@ public class Fare extends AggregateRoot<FareId> {
         return vehicleTypes.remove(vehicleType);
     }
 
+    public void removeVehicleTypes() {
+        vehicleTypes.clear();
+    }
+
     public Set<VehicleType> vehicleTypes() {
         return Collections.unmodifiableSet(vehicleTypes);
     }
@@ -120,7 +124,27 @@ public class Fare extends AggregateRoot<FareId> {
         return operatorIds.remove(operatorId);
     }
 
+    public void removeOperatorIds() {
+        operatorIds.clear();
+    }
+
     public Set<OperatorId> operatorIds() {
         return Collections.unmodifiableSet(operatorIds);
+    }
+
+    public boolean addDeduction(Deduction deduction) {
+        return deductions.add(notNull(deduction));
+    }
+
+    public boolean removeDeduction(Deduction deduction) {
+        return deductions.remove(deduction);
+    }
+
+    public void removeDeductions() {
+        deductions.clear();
+    }
+
+    public Set<Deduction> deductions() {
+        return Collections.unmodifiableSet(deductions);
     }
 }

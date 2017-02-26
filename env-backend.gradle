@@ -21,5 +21,6 @@ repositories {
 
 dependencies {
     compileOnly libraries.gen.lombok
+    testCompileOnly libraries.gen.lombok
     testCompile libraries.test.junit
 }

@@ -29,7 +29,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
-import static org.apache.commons.lang3.Validate.*;
+import static org.apache.commons.lang3.Validate.notBlank;
+import static org.apache.commons.lang3.Validate.notNull;
 
 @Getter
 @ToString
@@ -48,7 +49,7 @@ public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
     @Column(nullable = false)
     private String password;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "passenger_token", joinColumns = @JoinColumn(name = "passenger_id"))
     private final Set<TagId> tagIds;
 
@@ -116,6 +117,10 @@ public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
         return tagIds.remove(tagId);
     }
 
+    public void removeTagIds() {
+        tagIds.clear();
+    }
+
     public Set<TagId> tagIds() {
         return Collections.unmodifiableSet(tagIds);
     }
@@ -131,6 +136,10 @@ public class Passenger extends DeactivatableAggregateRoot<PassengerId> {
 
     public boolean removePaymentToken(Token token) {
         return paymentTokens.remove(token);
+    }
+
+    public void removePaymentTokens() {
+        paymentTokens.clear();
     }
 
     public Set<Token> paymentTokens() {

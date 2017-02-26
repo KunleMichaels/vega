@@ -14,11 +14,12 @@
  */
 package eu.socialedge.vega.backend.history.boarding.domain;
 
-import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.ddd.domain.AggregateRoot;
-import eu.socialedge.vega.backend.terminal.domain.TerminalId;
+import eu.socialedge.vega.backend.account.domain.PassengerId;
 import eu.socialedge.vega.backend.geo.domain.Location;
+import eu.socialedge.vega.backend.terminal.domain.TerminalId;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -27,6 +28,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 
 @Getter
 @ToString
+@Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
 @Entity @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
