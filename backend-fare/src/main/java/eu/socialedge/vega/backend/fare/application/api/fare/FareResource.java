@@ -1,15 +1,24 @@
 package eu.socialedge.vega.backend.fare.application.api.fare;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+
 import eu.socialedge.vega.backend.account.domain.OperatorId;
 import eu.socialedge.vega.backend.fare.domain.FareId;
 import eu.socialedge.vega.backend.fare.domain.VehicleType;
-import eu.socialedge.vega.backend.geo.domain.Location;
-import lombok.*;
-import lombok.experimental.Accessors;
+import eu.socialedge.vega.backend.geo.domain.Zone;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
 import java.util.Set;
+
+import javax.validation.constraints.NotNull;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Builder
 @Getter @Setter
@@ -32,7 +41,8 @@ public class FareResource {
     private Set<VehicleType> vehicleTypes;
 
     @NotEmpty(message = "Zone vertices can not be empty")
-    private Set<Location> vertices;
+    @JsonUnwrapped
+    private Zone zone;
 
     @NotEmpty(message = "Set of operator IDs can not be empty")
     private Set<OperatorId> operatorIds;

@@ -17,16 +17,37 @@ package eu.socialedge.vega.backend.fare.domain;
 import eu.socialedge.ddd.domain.AggregateRoot;
 import eu.socialedge.vega.backend.account.domain.OperatorId;
 import eu.socialedge.vega.backend.geo.domain.Zone;
-import lombok.*;
-import lombok.experimental.Accessors;
+
 import org.apache.commons.lang3.Validate;
 
-import javax.money.MonetaryAmount;
-import javax.persistence.*;
 import java.time.Period;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.money.MonetaryAmount;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.AssociationOverride;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.Validate.notEmpty;
@@ -61,6 +82,8 @@ public class Fare extends AggregateRoot<FareId> {
 
     @Setter
     @Embedded
+    @AssociationOverride(name = "vertices", joinTable = @JoinTable(name = "fare_zone_vertices",
+        joinColumns = @JoinColumn(name = "fare_id")))
     private Zone zone;
 
     @ElementCollection(fetch = FetchType.EAGER)

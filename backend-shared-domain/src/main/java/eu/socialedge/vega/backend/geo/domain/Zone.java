@@ -15,115 +15,90 @@
 package eu.socialedge.vega.backend.geo.domain;
 
 import eu.socialedge.ddd.domain.ValueObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
+
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.val;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import java.awt.geom.Path2D;
-import java.awt.geom.PathIterator;
-import java.util.*;
+import static org.apache.commons.lang3.Validate.notEmpty;
 
 @ToString
 @Accessors(fluent = true)
+@EqualsAndHashCode(callSuper = false)
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PACKAGE)
 public class Zone extends ValueObject {
 
-    @Column(name = "poly_path", nullable = false)
-    private final Path2D polyPath;
+    @ElementCollection
+    private final List<Location> vertices;
 
-    public Zone(List<Location> vertices) {
-        this.polyPath = createPolygonPath(vertices);
+    public Zone(Collection<Location> vertices) {
+        this.vertices = new ArrayList<>(notEmpty(vertices));
     }
 
     public Zone(Location... vertices) {
         this(Arrays.asList(vertices));
     }
 
-    public boolean contains(Location point) {
-        return polyPath.contains(point.latitude(), point.longitude());
+    public List<Location> vertices() {
+        return Collections.unmodifiableList(vertices);
     }
 
-    public Set<Location> vertices() {
-        val pathIter = polyPath.getPathIterator(null);
-        val vertices = new HashSet<Location>();
+    /**
+     * Checks if the given point is contained inside the boundary.
+     *
+     * @see <a href="https://goo.gl/AG5UnC">
+     *     http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html</a>
+     * @see <a href="http://stackoverflow.com/a/23223947/2180005">
+     *     http://stackoverflow.com/a/23223947/2180005</a>
+     *
+     * @param test the point to check
+     * @return true if the point is inside the boundary, false otherwise
+     */
+    public boolean contains(Location test) {
+        boolean contains = false;
 
-        val segment = new double[6];
-        while(!pathIter.isDone()) {
-            val segmentType = pathIter.currentSegment(segment);
+        val testPointX = test.latitude();
+        val testPointY = test.longitude();
 
-            if (segmentType == PathIterator.SEG_MOVETO ||
-                    segmentType == PathIterator.SEG_LINETO) {
-                vertices.add(new Location(segment[0], segment[1]));
-            }
+        Location rayPoint1, rayPoint2;
+        double rayPoint1X, rayPoint1Y,
+               rayPoint2X, rayPoint2Y,
+               intersectionX;
 
-            pathIter.next();
+        for (int i = 0, j = vertices.size() - 1; i < vertices.size(); j = i++) {
+            rayPoint1 = vertices.get(i);
+            rayPoint1X = rayPoint1.latitude();
+            rayPoint1Y = rayPoint1.longitude();
+
+            rayPoint2 = vertices.get(j);
+            rayPoint2X = rayPoint2.latitude();
+            rayPoint2Y = rayPoint2.longitude();
+
+            if ((rayPoint1Y > testPointY) == (rayPoint2Y > testPointY))
+                continue;
+
+            intersectionX =
+                (rayPoint2X - rayPoint1X)
+                    * (testPointY - rayPoint1Y) / (rayPoint2Y - rayPoint1Y)
+                        + rayPoint1X;
+
+            if (testPointX < intersectionX)
+                contains = !contains;
         }
 
-        return vertices;
-    }
-
-    private static Path2D.Double createPolygonPath(List<Location> vertices) {
-        Path2D.Double polyPath = new Path2D.Double();
-        Location pathOrigin = vertices.get(0);
-
-        polyPath.moveTo(pathOrigin.latitude(), pathOrigin.longitude());
-        vertices.stream().skip(1).forEach(vertex -> {
-            polyPath.lineTo(vertex.latitude(), vertex.longitude());
-        });
-        polyPath.closePath();
-
-        return polyPath;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        val actualZone = (Zone) o;
-        val expectedPathIter = this.polyPath.getPathIterator(null);
-        val actualPathIter = actualZone.polyPath.getPathIterator(null);
-
-        val expectedSegment = new double[6];
-        val actualSegment = new double[6];
-        while (!expectedPathIter.isDone()) {
-
-            int expectedSegmentType = expectedPathIter.currentSegment(expectedSegment);
-            int actualSegmentType = actualPathIter.currentSegment(actualSegment);
-
-            if (!Arrays.equals(expectedSegment, actualSegment) ||
-                    expectedSegmentType != actualSegmentType)
-                return false;
-
-            expectedPathIter.next();
-            actualPathIter.next();
-        }
-
-        return actualPathIter.isDone();
-    }
-
-    @Override
-    public int hashCode() {
-        val pathIter = this.polyPath.getPathIterator(null);
-        val hashCodeOperands = new LinkedList<Double>();
-
-        val segment = new double[6];
-        while (!pathIter.isDone()) {
-            val segmentType = pathIter.currentSegment(segment);
-
-            if (segmentType == PathIterator.SEG_MOVETO ||
-                    segmentType == PathIterator.SEG_LINETO) {
-                for(double p : segment) hashCodeOperands.add(p);
-            }
-
-            pathIter.next();
-        }
-
-        return hashCodeOperands.hashCode();
+        return contains;
     }
 }

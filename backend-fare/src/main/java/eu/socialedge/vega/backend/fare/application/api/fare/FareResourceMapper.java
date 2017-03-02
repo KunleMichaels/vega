@@ -4,14 +4,14 @@ import eu.socialedge.vega.backend.application.api.resource.ResourceApplier;
 import eu.socialedge.vega.backend.application.api.resource.ResourceMapper;
 import eu.socialedge.vega.backend.fare.domain.Deduction;
 import eu.socialedge.vega.backend.fare.domain.Fare;
-import eu.socialedge.vega.backend.geo.domain.Zone;
-import lombok.val;
+
 import org.javamoney.moneta.Money;
 import org.springframework.stereotype.Component;
 
 import java.time.Period;
-import java.util.ArrayList;
 import java.util.HashSet;
+
+import lombok.val;
 
 import static java.util.Objects.nonNull;
 
@@ -28,7 +28,7 @@ public class FareResourceMapper
         val validity = entity.validity().toString();
         val deductions = new HashSet<DeductionResource>(deductionResourceMapper.toResources(entity.deductions()));
         val vehicleTypes = entity.vehicleTypes();
-        val vertices = entity.zone().vertices();
+        val vertices = entity.zone();
         val operatorIds = entity.operatorIds();
 
         return FareResource.builder()
@@ -37,7 +37,7 @@ public class FareResourceMapper
             .validity(validity)
             .deductions(deductions)
             .vehicleTypes(vehicleTypes)
-            .vertices(vertices)
+            .zone(vertices)
             .operatorIds(operatorIds)
             .build();
     }
@@ -47,9 +47,9 @@ public class FareResourceMapper
         val price = Money.parse(resource.price());
         val validity = Period.parse(resource.validity());
         val vehicleTypes = resource.vehicleTypes();
-        val vertices = new Zone(new ArrayList<>(resource.vertices()));
+        val vertices = resource.zone();
         val operatorIds = resource.operatorIds();
-    
+
         if (nonNull(resource.deductions())) {
             val deductions = new HashSet<Deduction>(deductionResourceMapper.fromResources(resource.deductions()));
             return new Fare(price, deductions, validity, vehicleTypes, vertices, operatorIds);
@@ -65,7 +65,7 @@ public class FareResourceMapper
         val operatorIds = resource.operatorIds();
 
         if (nonNull(price)) entity.price(Money.parse(price));
-        if (nonNull(resource.vertices())) entity.zone(new Zone(new ArrayList<>(resource.vertices())));
+        if (nonNull(resource.zone())) entity.zone(resource.zone());
         if (nonNull(resource.validity())) entity.validity(Period.parse(resource.validity()));
 
         if (nonNull(deductions)) {

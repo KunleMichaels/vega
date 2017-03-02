@@ -15,24 +15,35 @@
 package eu.socialedge.vega.backend.geo.domain;
 
 import eu.socialedge.ddd.domain.ValueObject;
+
+import org.apache.commons.lang3.Validate;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.apache.commons.lang3.Validate;
 
 @Getter
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode(callSuper = false)
+@Embeddable @Access(AccessType.FIELD)
 @NoArgsConstructor(force = true)
 public class Location extends ValueObject {
 
     private static final double LATITUDE_AMPLITUDE = 90;
     private static final double LONGITUDE_AMPLITUDE = 180;
 
+    @Column(nullable = false)
     private final double latitude;
+
+    @Column(nullable = false)
     private final double longitude;
 
     public Location(double latitude, double longitude) {

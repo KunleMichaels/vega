@@ -21,15 +21,34 @@ import eu.socialedge.vega.backend.fare.domain.VehicleType;
 import eu.socialedge.vega.backend.geo.domain.Location;
 import eu.socialedge.vega.backend.geo.domain.Zone;
 import eu.socialedge.vega.backend.payment.domain.ExpirationDate;
-import lombok.*;
-import lombok.experimental.Accessors;
+
 import org.apache.commons.lang3.Validate;
 
-import javax.persistence.*;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.AssociationOverride;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -51,27 +70,30 @@ public class Pass extends ValueObject {
     @Column(nullable = false)
     private final Instant activation;
 
-    @Id
     @Column(nullable = false)
     private final ExpirationDate expirationDate;
 
     @ElementCollection
     @Column(name = "vehicle_types")
-    @CollectionTable(name = "pass_vehicle_type", joinColumns = {
-            @JoinColumn(name = "fare_id"),
-            @JoinColumn(name = "activation"),
-            @JoinColumn(name = "expirationDate")})
+    @CollectionTable(name = "pass_vehicle_type",
+        joinColumns = {
+            @JoinColumn(name = "pass_fare_id", referencedColumnName = "fare_id"),
+            @JoinColumn(name = "pass_activation", referencedColumnName = "activation")})
     @Enumerated(EnumType.STRING)
     private final Set<VehicleType> vehicleTypes;
 
     @Embedded
+    @AssociationOverride(name = "vertices", joinTable = @JoinTable(name = "pass_zone_vertices",
+        joinColumns = {
+            @JoinColumn(name = "pass_fare_id", referencedColumnName = "fare_id"),
+            @JoinColumn(name = "pass_activation", referencedColumnName = "activation")}))
     private final Zone zone;
 
     @ElementCollection
-    @CollectionTable(name = "pass_operator", joinColumns = {
-            @JoinColumn(name = "fare_id"),
-            @JoinColumn(name = "activation"),
-            @JoinColumn(name = "expirationDate")})
+    @CollectionTable(name = "pass_operator",
+        joinColumns = {
+            @JoinColumn(name = "pass_fare_id", referencedColumnName = "fare_id"),
+            @JoinColumn(name = "pass_activation", referencedColumnName = "activation")})
     private final Set<OperatorId> operatorIds;
 
     public Pass(FareId fareId,
