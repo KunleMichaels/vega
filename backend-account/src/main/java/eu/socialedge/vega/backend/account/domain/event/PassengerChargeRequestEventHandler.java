@@ -14,10 +14,10 @@
  */
 package eu.socialedge.vega.backend.account.domain.event;
 
+import eu.socialedge.ddd.event.DomainEventException;
 import eu.socialedge.ddd.event.DomainEventHandler;
 import eu.socialedge.ddd.event.DomainEventPublisher;
 import eu.socialedge.vega.backend.account.domain.PassengerRepository;
-import eu.socialedge.vega.backend.account.domain.PassengerServiceException;
 import eu.socialedge.vega.backend.boarding.domain.TagId;
 import eu.socialedge.vega.backend.fare.domain.FareId;
 import eu.socialedge.vega.backend.fare.domain.event.BookFarePaymentRequestEvent;
@@ -50,7 +50,7 @@ public class PassengerChargeRequestEventHandler implements DomainEventHandler<Pa
         val price = event.monetaryAmount();
 
         val passenger = passengerRepository.get(passengerId).orElseThrow(()
-                -> new PassengerServiceException("No passenger found by id " + passengerId));
+                -> new DomainEventException("No passenger found by id " + passengerId));
         val paymentToken = passenger.primaryPaymentToken();
 
         val paymentDescription = createPaymentDescription(fareId);

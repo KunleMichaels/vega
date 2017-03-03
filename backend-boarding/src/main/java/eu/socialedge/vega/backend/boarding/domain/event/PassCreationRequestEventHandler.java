@@ -14,6 +14,7 @@
  */
 package eu.socialedge.vega.backend.boarding.domain.event;
 
+import eu.socialedge.ddd.event.DomainEventException;
 import eu.socialedge.ddd.event.DomainEventHandler;
 import eu.socialedge.ddd.event.DomainEventPublisher;
 import eu.socialedge.vega.backend.boarding.domain.Pass;
@@ -49,7 +50,7 @@ public class PassCreationRequestEventHandler implements DomainEventHandler<PassC
         val operatorsIds = event.operatorIds();
 
         val tag = tagRepository.get(tagId).orElseThrow(()
-                -> new IllegalArgumentException("Cant create pass. Not Tag with given id found"));
+                -> new DomainEventException("Cant create pass. Not Tag with given id found"));
 
         val pass = new Pass(fareId, activation, expirationDate, vehicleTypes, zone, operatorsIds);
         tag.addPass(pass);

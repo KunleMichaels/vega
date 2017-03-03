@@ -14,6 +14,7 @@
  */
 package eu.socialedge.vega.backend.fare.domain.event;
 
+import eu.socialedge.ddd.event.DomainEventException;
 import eu.socialedge.ddd.event.DomainEventHandler;
 import eu.socialedge.ddd.event.DomainEventPublisher;
 import eu.socialedge.vega.backend.boarding.domain.event.PassCreationRequestEvent;
@@ -39,7 +40,7 @@ public class BookFarePaymentRequestEventHandler implements DomainEventHandler<Bo
         val tagId = event.tagId();
 
         val fare = fareRepository.get(fareId).orElseThrow(()
-                -> new IllegalArgumentException("No Fare with given id found"));
+                -> new DomainEventException("No Fare with given id found"));
 
         val fareDetailsResponseEvent = PassCreationRequestEvent.builder()
                 .fareId(fare.id())

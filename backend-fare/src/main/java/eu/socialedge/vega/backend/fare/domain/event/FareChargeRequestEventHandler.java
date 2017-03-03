@@ -14,10 +14,10 @@
  */
 package eu.socialedge.vega.backend.fare.domain.event;
 
+import eu.socialedge.ddd.event.DomainEventException;
 import eu.socialedge.ddd.event.DomainEventHandler;
 import eu.socialedge.ddd.event.DomainEventPublisher;
 import eu.socialedge.vega.backend.account.domain.event.PassengerFareChargeRequestEvent;
-import eu.socialedge.vega.backend.fare.domain.FareCalculationException;
 import eu.socialedge.vega.backend.fare.domain.FareRepository;
 import lombok.val;
 
@@ -37,7 +37,7 @@ public class FareChargeRequestEventHandler implements DomainEventHandler<FareCha
     @Override
     public void handleEvent(FareChargeRequestEvent event) {
         val fare = fareRepository.get(event.fareId()).orElseThrow(()
-                -> new FareCalculationException("Failed to find eligible fare for charge request"));
+                -> new DomainEventException("Failed to find eligible fare for charge request"));
 
         val accountChargeRequestEvent = PassengerFareChargeRequestEvent.builder()
                 .tagId(event.tagId())

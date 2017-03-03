@@ -25,6 +25,7 @@ import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
 import static org.apache.commons.lang3.Validate.notBlank;
+import static org.apache.commons.lang3.Validate.notNull;
 
 @ToString
 @Getter
@@ -43,7 +44,7 @@ public class Deduction extends ValueObject {
             throw new IllegalArgumentException("Multiplier can't be negative");
 
         this.description = notBlank(description);
-        this.multiplier = multiplier;
+        this.multiplier = notNull(multiplier);
     }
 
     public Deduction(String description, double multiplier) {
