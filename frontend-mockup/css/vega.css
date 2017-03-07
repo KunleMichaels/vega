@@ -1,0 +1,80 @@
+body {
+    font-size: 16px;
+}
+
+body.bg-city:after {
+    content: "";
+    background: #FFFFFF url('../img/city-background-lite.jpg') no-repeat fixed bottom;
+    opacity: 0.3;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    z-index: -1;
+}
+
+.navbar-brand.navbar-brand-vega {
+    font-family: 'Roboto Slab', serif;
+    font-size: 1.4em;
+}
+
+.navbar-brand.navbar-brand-vega i.material-icons {
+    font-size: 1.7em;
+}
+
+header {
+    margin: 40px 0;
+}
+
+header > .jumbotron h1 {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+header > .jumbotron {
+    background: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    text-align: center;
+}
+
+.page-header h2 {
+    font-weight: 700;
+}
+
+.page-header {
+    border-bottom: 1px solid #d8dadf;
+}
+
+.btn-group-vertical.btn-group-menu {
+    width: 100%;
+    margin: 0;
+    padding:0;
+}
+
+.btn-group-vertical.btn-group-menu > .btn {
+    height: 50px;
+    line-height: 36px;
+    text-align:left;
+}
+
+.panel-heading > .panel-title {
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+form > fieldset > legend {
+    padding-bottom: 0;
+    margin-bottom: -5px;
+}
+
+footer {
+    margin-bottom: 10px;
+}
+
+p.indent {
+    text-indent: 20px;
+}
