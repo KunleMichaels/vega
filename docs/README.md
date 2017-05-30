@@ -61,6 +61,14 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 ## Overview
 Vega is a system designed to be an electronic transit fare system that simplifies transit payments and minimize customer actions, therefore it relies heavily on contactless smart cards and devices. Vega handles passenger check-in and check-out, logging, payment transaction processing and transit pass utilization. Once passenger registered in Vega system, he can attach multiple contactless devices, buy and assign transit passes to them, view transaction via web-interface and use them to pay for transit.
 
+Vega supports both boarding with client-bound identifier (registered passengers) and unbounded identifiers (unregistered users; contactless tickets):
+<p align="center">
+  <img width="800px" src="https://cloud.githubusercontent.com/assets/5632544/26581267/08ad0008-453c-11e7-8244-348a2c7c47f8.png"/>
+</p>
+<p align="center">
+  <img width="700px" src="https://cloud.githubusercontent.com/assets/5632544/26581633/d3ecee4e-453d-11e7-853a-f2aa5c04497f.png"/>
+</p>
+
 The purpose of the software requirement specification section is to list the application’s requirements in a manner that can be easily understood and verified by the operators, yet provide enough details so that the SocialEdge team and contributors can build the application using the details contained herein. It does not address any project issues such as schedule, development methods, development phases, deliverables or testing procedures.
 
 ## Goals and Objectives
